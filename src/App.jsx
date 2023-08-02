@@ -1,15 +1,19 @@
-import MenuAppBar from './components/Layout.jsx';
-import SideBar from './components/Sidebar.jsx';
+
+import Home from './components/HomePage/Homepage.jsx';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import { Layout } from 'antd';
+import { createContext } from 'react';
+export const AuthContext = createContext();
 
 function App() {
   return (
-    <Layout style={{ minHeight: '100vh', width: '100vw' }}>
-      <MenuAppBar />
-      <SideBar />
-      <h1> ngu ngu ngu </h1>
-    </Layout>
+   <div>
+    <AuthContext.Provider>
+    <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </AuthContext.Provider>
+   </div>
   );
 }
 

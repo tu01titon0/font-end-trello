@@ -13,8 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 import { styled } from '@mui/material/styles';
 
-
-const pages = ['Các không gian làm việc', 'Gần đây', 'Đã đánh dấu sao','Mẫu'];
+const pages = ['Các không gian làm việc', 'Gần đây', 'Đã đánh dấu sao', 'Mẫu'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function NavBarHome() {
@@ -32,7 +31,7 @@ function NavBarHome() {
     setAnchorElNav(null);
   };
   const CustomAvatar = styled(Avatar)({
-    borderRadius: 0, 
+    borderRadius: 0,
   });
 
   const handleCloseUserMenu = () => {
@@ -40,16 +39,13 @@ function NavBarHome() {
   };
 
   return (
-    <AppBar position="fixed" sx={{ background: '#808080' }}>
-      <Container maxWidth="l">
-        <Toolbar disableGutters sx={{ pt: 0.5, pb: 1 }}>
-        <Typography
-
->
- <CustomAvatar alt="LOGO" src="./public/logotrello.png"/>
-</Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+    <AppBar sx={{ background: '#808080', height: '60px' }}>
+      <Container maxWidth="0.5">
+        <Toolbar disableGutters style={{ height: '1px' }}>
+          <Typography>
+            <CustomAvatar alt="LOGO" src="./public/logotrello.png" />
+          </Typography>
+          <Box>
             <IconButton
               size=""
               aria-label="account of current user"
@@ -57,48 +53,46 @@ function NavBarHome() {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
-            >
-            </IconButton>
+            ></IconButton>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
+              anchorOrigin={{}}
               keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
+              transformOrigin={{}}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { md: 'none' },
               }}
-            >
-            </Menu>
-          
+            ></Menu>
           </Box>
-          
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-          
             {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{
+                  my: 2,
+                  color: 'white',
+                  textAlign: 'center',
+                }}
               >
                 {page}
               </Button>
-              
             ))}
             <Button
-              
               onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: 'white', display: 'block', backgroundColor:'blue', textAlign:'center' }}
+              sx={{
+                my: 2,
+                color: 'white',
+                display: 'block',
+                backgroundColor: 'blue',
+                textAlign: 'center',
+              }}
             >
-            Tạo mới
+              Tạo mới
             </Button>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
