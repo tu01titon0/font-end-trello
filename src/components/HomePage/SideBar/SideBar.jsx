@@ -67,7 +67,6 @@ const SideBar = () => {
                 marginBottom: "8px",
               }}
               fullWidth
-              alignItems={"center"}
             >
               <DashboardIcon style={{ color: "white", fontSize: "14px" }} />
               <Typography>Boards</Typography>
@@ -80,7 +79,6 @@ const SideBar = () => {
               }}
               fullWidth
               gap={"5px"}
-              alignItems={"center"}
               mb={"10px"}
             >
               <FavoriteBorderOutlinedIcon
@@ -96,7 +94,6 @@ const SideBar = () => {
               }}
               fullWidth
               gap={"5px"}
-              alignItems={"center"}
               mb={"10px"}
             >
               <InterestsOutlinedIcon
@@ -112,7 +109,6 @@ const SideBar = () => {
               }}
               fullWidth
               gap={"5px"}
-              alignItems={"center"}
               mb={"10px"}
             >
               <PeopleAltOutlinedIcon
@@ -124,7 +120,6 @@ const SideBar = () => {
               style={{ justifyContent: "left", gap: "5px" }}
               fullWidth
               gap={"5px"}
-              alignItems={"center"}
               mb={"10px"}
             >
               <SettingsOutlinedIcon

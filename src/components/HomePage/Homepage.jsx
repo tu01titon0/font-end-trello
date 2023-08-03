@@ -4,23 +4,26 @@ import NavBar from "./Navbar/NavBar";
 import { Layout } from "antd";
 import { Stack } from "@mui/material";
 import SideBar from "../HomePage/SideBar/SideBar";
+import BoardDisplay from "../HomePage/BoardDisplay/BoardDisplay";
 
 export default function Home() {
   return (
     <div>
       <Layout
-        style={{ height: "100vh", width: "100vw", backgroundColor: "#1d2125" }}
+        style={{ minHeight: "100vh", minWidth: "100vw", backgroundColor: "#1d2125" }}
       >
         <Stack direction={"column"}>
           <NavBar />
           <Stack
             direction={"row"}
-            style={{ maxWidth: "1200px", margin: "20px auto" }}
+            style={{
+              maxWidth: "1200px",
+              minWidth: "1200px",
+              margin: "20px auto",
+            }}
           >
             <SideBar />
-            <Stack>
-              <h1 style={{ width: "100vw" }}>Ok ok ok</h1>
-            </Stack>
+              <BoardDisplay />
           </Stack>
         </Stack>
       </Layout>
