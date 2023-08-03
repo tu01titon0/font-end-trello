@@ -1,0 +1,48 @@
+container {
+  background-color: #1d2125;
+  width: 100vw;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.navbarBtn:active,
+.navbarBtn:focus,
+.navbarBtn:active.hover {
+  border: none !important;
+}
+
+.MuiButton-root {
+  color: #c7cfd8 !important;
+  text-transform: none !important;
+}
+
+.MuiButton-root:active,
+.MuiButton-root:hover,
+.MuiButton-root:focus {
+  outline: none !important;
+}
+
+.menuItems {
+  margin-top: 10px;
+}
+
+#navbar-search-field {
+  padding: 0 4px;
+  height: 30px;
+  background-color: #22272b;
+  color: white;
+  font-size: 14px;
+}
+
+.MuiInputBase-root {
+  /* background-color: #22272b; */
+  padding-left: 0 !important;
+}
+
+.MuiTypography-root {
+  color: white !important;
+}

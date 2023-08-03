@@ -10,6 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import MenuPopupState from "../HomePage/AddBoardButton";
 
 import { styled } from "@mui/material/styles";
 
@@ -39,7 +40,10 @@ function NavBarHome() {
   };
 
   return (
-    <AppBar sx={{ background: "#808080", height: "60px" }} style={{ position: 'relative', width: '100vw' }}>
+    <AppBar
+      sx={{ background: "#808080", height: "60px" }}
+      style={{ position: "relative", width: "100vw" }}
+    >
       <Toolbar disableGutters style={{ height: "1px" }}>
         <Typography pl={"20px"}>
           <CustomAvatar alt="LOGO" src="./public/logotrello.png" />
@@ -67,7 +71,13 @@ function NavBarHome() {
           ></Menu>
         </Box>
 
-        <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: { xs: "none", md: "flex" },
+            alignItems: "center",
+          }}
+        >
           {pages.map((page) => (
             <Button
               key={page}
@@ -81,22 +91,11 @@ function NavBarHome() {
               {page}
             </Button>
           ))}
-          <Button
-            onClick={handleCloseNavMenu}
-            sx={{
-              my: 2,
-              color: "white",
-              display: "block",
-              backgroundColor: "blue",
-              textAlign: "center",
-            }}
-          >
-            Tạo mới
-          </Button>
+          <MenuPopupState />
         </Box>
-        <Box sx={{ flexGrow: 0}}>
+        <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu} sx={{ mr: '20px' }}>
+            <IconButton onClick={handleOpenUserMenu} sx={{ mr: "20px" }}>
               <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
             </IconButton>
           </Tooltip>

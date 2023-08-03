@@ -1,0 +1,35 @@
+.side-bar-home {
+  width: 300px;
+  min-width: 300px;
+  background-color: #1d2125;
+  padding: 20px;
+}
+
+.sidebar-button {
+  justify-content: left !important;
+  align-items: center !important;
+  gap: 6px;
+  font-size: 16px !important;
+}
+
+.sidebar-dropdown {
+  background-color: #1d2125 !important;
+  margin: 0;
+  padding: 0;
+}
+
+.css-o4b71y-MuiAccordionSummary-content.Mui-expanded {
+  margin: 0 !important;
+}
+
+.css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {
+  min-height: 48px !important;
+}
+
+.css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root {
+  padding: 0 10px !important;
+}
+
+.css-15v22id-MuiAccordionDetails-root {
+  padding: 10px !important;
+}
