@@ -2,6 +2,7 @@ import {
   Alert,
   Box,
   Button,
+  Snackbar,
   Stack,
   TextField,
   Typography,
@@ -18,6 +19,15 @@ const Login = () => {
   const signIn = useSignIn();
   const navigate = useNavigate();
   const [errMessage, setErrMessage] = useState("");
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const signInSchema = Yup.object().shape({
     userName: Yup.string().required("Vui lòng nhập tên đăng nhập"),
@@ -48,7 +58,10 @@ const Login = () => {
               authState: res.data.userData.userName,
             });
             localStorage.setItem("user", JSON.stringify(res.data.userData));
-            navigate("/");
+            setOpen(true);
+            setTimeout(() => {
+              navigate("/");
+            }, 500);
           }
         })
         .catch((err) => {
@@ -59,6 +72,11 @@ const Login = () => {
 
   return (
     <Box className="login-box">
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Đăng nhập thành công!
+        </Alert>
+      </Snackbar>
       <Box
         className="login-field"
         component={"form"}
