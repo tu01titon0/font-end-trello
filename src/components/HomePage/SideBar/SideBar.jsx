@@ -4,6 +4,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Avatar,
   Button,
   Stack,
   Typography,
@@ -23,7 +24,7 @@ const SideBar = () => {
       <Stack gap={"20px"}>
         <Button variant="text" className="sidebar-button">
           <DashboardIcon />
-          <p>Text</p>
+          <p>Boards</p>
         </Button>
         <Button variant="text" className="sidebar-button">
           <BackupTableOutlinedIcon />
@@ -43,7 +44,20 @@ const SideBar = () => {
             id="panel1a-header"
             style={{ margin: 0 }}
           >
-            <Typography>Board Name</Typography>
+            <Stack direction={"row"} alignItems={"center"} gap={"8px"}>
+              <Avatar
+                sx={{
+                  bgcolor: "green",
+                  borderRadius: "10px",
+                  width: "30px",
+                  height: "30px",
+                  fontSize: "12px",
+                }}
+              >
+                BN
+              </Avatar>
+              <Typography>Board Name</Typography>
+            </Stack>
           </AccordionSummary>
           <AccordionDetails style={{ margin: "0" }}>
             <Button

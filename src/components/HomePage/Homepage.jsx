@@ -12,15 +12,15 @@ export default function Home() {
         style={{ height: "100vh", width: "100vw", backgroundColor: "#1d2125" }}
       >
         <Stack direction={"column"}>
-          {/* <NavBarHome /> */}
           <NavBar />
           <Stack
             direction={"row"}
             style={{ maxWidth: "1200px", margin: "20px auto" }}
           >
             <SideBar />
-            {/* <SideBarHome /> */}
-            <h1 style={{ width: "100vw" }}>Ok ok ok</h1>
+            <Stack>
+              <h1 style={{ width: "100vw" }}>Ok ok ok</h1>
+            </Stack>
           </Stack>
         </Stack>
       </Layout>

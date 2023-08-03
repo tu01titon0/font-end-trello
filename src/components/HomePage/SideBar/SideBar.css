@@ -9,7 +9,7 @@
   justify-content: left !important;
   align-items: center !important;
   gap: 6px;
-  font-size: 16px !important;
+  font-size: 14px !important;
 }
 
 .sidebar-dropdown {
@@ -18,7 +18,8 @@
   padding: 0;
 }
 
-.css-o4b71y-MuiAccordionSummary-content.Mui-expanded {
+.css-o4b71y-MuiAccordionSummary-content.Mui-expanded,
+.css-o4b71y-MuiAccordionSummary-content {
   margin: 0 !important;
 }
 

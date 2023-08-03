@@ -166,10 +166,11 @@ const NavBar = () => {
         <Avatar
           sx={{
             bgcolor: "red",
-            fontSize: "16px",
+            fontSize: "12px",
             alignItems: "center",
-            maxWidth: "30px",
-            maxHeight: "30px",
+            width: "30px",
+            height: "30px",
+            marginRight: "20px",
           }}
         >
           OP
