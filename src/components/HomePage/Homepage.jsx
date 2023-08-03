@@ -8,9 +8,9 @@ export default function Home() {
       <Layout style={{ height: "100vh", width: "100%" }}>
         <Stack direction={"column"}>
           <NavBarHome />
-          <Stack direction={'row'}>
+          <Stack direction={"row"}>
             <SideBarHome />
-            <h1>ngu ngu</h1>
+            <h1>Ok ok ok</h1>
           </Stack>
         </Stack>
       </Layout>
