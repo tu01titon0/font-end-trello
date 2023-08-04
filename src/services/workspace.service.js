@@ -27,4 +27,18 @@ export default class WorkspaceService {
           }
       );
   }
+
+    static async getWorkspaceInfo(data) {
+        const authKey = cookieParse()._auth;
+        return await axios.get(
+            `${import.meta.env.VITE_ROOT_DOMAIN}/workspace/${data}`,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    authorization: authKey,
+                },
+            }
+        );
+    }
+
 }
