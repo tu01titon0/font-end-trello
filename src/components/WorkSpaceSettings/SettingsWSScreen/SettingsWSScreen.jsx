@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined";
 import PersonSearchOutlinedIcon from "@mui/icons-material/PersonSearchOutlined";
+import SearchUser from "../SearchUser/SearchUser";
 
 const SettingsWSScreen = () => {
   return (
@@ -85,6 +86,9 @@ const SettingsWSScreen = () => {
               aria-describedby="outlined-weight-helper-text"
             />
           </FormControl>
+
+          <SearchUser />
+
           <p>Danh sách người dùng hiện tại</p>
 
           {/* Map danh sách người dùng ở đây!!! */}
