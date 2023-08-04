@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./SideBar.css";
 import {
   Accordion,
@@ -18,11 +18,23 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import BackupTableOutlinedIcon from "@mui/icons-material/BackupTableOutlined";
 import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
 import AddWorkSpaceModal from "../AddWorkSpaceModal/AddWorkSpaceModal";
+import axios from "axios";
+import WorkspaceService from "../../../services/workspace.service.js";
 
 const SideBar = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [list, setList] = useState([]);
+  useEffect(() => {
+      WorkspaceService.getWorkspaces({userID: JSON.parse(localStorage.getItem("user"))._id})
+          .then((res) => {
+            setList(res.data.workspaces);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+  }, []);
 
   return (
     <div className="side-bar-home">
@@ -58,8 +70,8 @@ const SideBar = () => {
             +
           </button>
         </Stack>
-
-        <Accordion style={{ boxShadow: "none" }} className="sidebar-dropdown">
+        {list.length > 0 && list.map((row) => (
+          <Accordion style={{ boxShadow: "none" }} className="sidebar-dropdown">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}
             aria-controls="panel1a-content"
@@ -69,16 +81,16 @@ const SideBar = () => {
             <Stack direction={"row"} alignItems={"center"} gap={"8px"}>
               <Avatar
                 sx={{
-                  bgcolor: "green",
+                  bgcolor: `#${Math.floor(Math.random()*16777215).toString(16)}`,
                   borderRadius: "10px",
                   width: "30px",
                   height: "30px",
                   fontSize: "12px",
                 }}
               >
-                BN
+                {row.name.toUpperCase().substring(0, 2)}
               </Avatar>
-              <Typography>Board Name</Typography>
+              <Typography>{row.name}</Typography>
             </Stack>
           </AccordionSummary>
           <AccordionDetails style={{ margin: "0" }}>
@@ -151,7 +163,9 @@ const SideBar = () => {
             </Button>
           </AccordionDetails>
         </Accordion>
-      </Stack>
+        ))}
+        </Stack>
+
     </div>
   );
 };

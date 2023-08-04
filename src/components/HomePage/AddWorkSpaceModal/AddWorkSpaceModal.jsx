@@ -31,7 +31,6 @@ const AddWorkSpaceModal = ({ open, handleClose }) => {
     wsname: Yup.string().required("Vui lòng nhập lên workspace"),
     wsbio: Yup.string().required("Vui lòng nhập mô tả cho workspace"),
   });
-
   const formCreateWorkspace = useFormik({
     initialValues: {
       wsname: "",
@@ -42,10 +41,10 @@ const AddWorkSpaceModal = ({ open, handleClose }) => {
       const data = {
         name: val.wsname,
         bio: val.wsbio,
+        userId: JSON.parse(localStorage.getItem("user"))._id,
       };
       WorkspaceService.createWorkspace(data)
         .then((res) => {
-          console.log(res.data.message);
           setMessage(res.data.message);
           setTimeout(() => {
             handleClose();
