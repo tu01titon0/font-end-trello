@@ -40,7 +40,6 @@ const AddWorkSpaceModal = ({ open, handleClose }) => {
         name: val.wsname,
         bio: val.wsbio,
       };
-      console.log("data", data);
       WorkspaceService.createWorkspace(data)
         .then((res) => {
           console.log(res);
