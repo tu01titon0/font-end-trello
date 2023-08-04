@@ -47,7 +47,6 @@ const Login = () => {
       };
       LoginService.userLoggegIn(data)
         .then((res) => {
-          console.log(res);
           if (res.data.message) {
             setErrMessage(res.data.message);
           } else {

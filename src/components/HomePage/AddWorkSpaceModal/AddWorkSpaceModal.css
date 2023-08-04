@@ -1,0 +1,14 @@
+.add-workspace-modal {
+  background-color: #22272b;
+  border-radius: 5px;
+}
+
+.workspace-create-input {
+  color: white;
+  background-color: #22272b;
+  outline: none;
+  height: 38px;
+  border: 1px solid black;
+  padding: 10px;
+  max-width: 100%;
+}

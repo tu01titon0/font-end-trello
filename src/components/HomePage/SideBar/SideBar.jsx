@@ -17,10 +17,16 @@ import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import BackupTableOutlinedIcon from "@mui/icons-material/BackupTableOutlined";
 import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
+import AddWorkSpaceModal from "../AddWorkSpaceModal/AddWorkSpaceModal";
 
 const SideBar = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <div className="side-bar-home">
+      <AddWorkSpaceModal open={open} handleClose={handleClose} />
       <Stack gap={"20px"}>
         <Button variant="text" className="sidebar-button">
           <DashboardIcon />
@@ -36,6 +42,22 @@ const SideBar = () => {
         </Button>
 
         <hr style={{ border: "none", borderBottom: "1px solid #c7cfd8 " }} />
+
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          pl={1}
+        >
+          <p>Workspaces</p>
+          <button
+            type="button"
+            className="add-workspace-btn"
+            onClick={handleOpen}
+          >
+            +
+          </button>
+        </Stack>
 
         <Accordion style={{ boxShadow: "none" }} className="sidebar-dropdown">
           <AccordionSummary
