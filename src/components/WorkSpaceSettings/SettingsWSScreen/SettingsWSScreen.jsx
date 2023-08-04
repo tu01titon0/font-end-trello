@@ -12,7 +12,8 @@ import {
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined";
 import PersonSearchOutlinedIcon from "@mui/icons-material/PersonSearchOutlined";
 
-const SettingsWSScreen = () => {
+const SettingsWSScreen = (props) => {
+  const workSpace = props.workSpace
   return (
     <div style={{ padding: "20px", margin: "0 auto" }}>
       <Stack gap={2}>
@@ -25,10 +26,10 @@ const SettingsWSScreen = () => {
               borderRadius: "10px",
             }}
           >
-            OP
+              {workSpace.name.toUpperCase().substring(0, 2)}
           </Avatar>
           <div>
-            <p>Board Name</p>
+            <p>{workSpace.name}</p>
             <Stack direction={"row"} gap={1} alignItems={"center"}>
               <LockPersonOutlinedIcon sx={{ fontSize: "12px" }} />
               <p style={{ fontSize: "14px" }}>Private</p>
@@ -51,6 +52,7 @@ const SettingsWSScreen = () => {
             name="wsName"
             style={{ height: "38px" }}
             placeholder="Đổi tên Workspace"
+            value={workSpace.name}
           />
           <textarea
             className="ws-setting-input"
@@ -58,6 +60,7 @@ const SettingsWSScreen = () => {
             cols="30"
             rows="10"
             placeholder="Đổi thông tin Workspace"
+            value={workSpace.bio}
           ></textarea>
           <button className="ws-settings-update-btn">
             Cập nhật thông tin Workspace
@@ -70,7 +73,7 @@ const SettingsWSScreen = () => {
             borderBottom: "1px solid #1a1a1a",
           }}
         />
-        <Typography variant="h6">Thay đổi người dùng Workspace</Typography>
+        <Typography variant="h6">Thay đổi người dùng Workspnace</Typography>
         <Stack direction={"column"} gap={2}>
           <p>Tìm người dùng</p>
           <FormControl fullWidth variant="outlined">
@@ -88,33 +91,34 @@ const SettingsWSScreen = () => {
           <p>Danh sách người dùng hiện tại</p>
 
           {/* Map danh sách người dùng ở đây!!! */}
-
-          <Stack direction={"row"} justifyContent={"space-between"}>
-            <Stack direction={"row"} gap={1} alignItems={"center"}>
-              <Avatar
-                sx={{
-                  backgroundColor: "black",
-                  minWidth: "50px",
-                  minHeight: "50px",
-                }}
-              >
-                OP
-              </Avatar>
-              <div>
-                <h3>vanvn</h3>
-                <p style={{ fontSize: "14px" }}>@vanvn123</p>
-              </div>
-            </Stack>
-            <Stack direction={"row"} gap={2} alignItems={"center"}>
-              <p>Admin of 0 board</p>
-              <button className="ws-user-btn" style={{ color: "#32cd32" }}>
-                Admin
-              </button>
-              <button className="ws-user-btn" style={{ color: "#ff2400" }}>
-                Remove User
-              </button>
-            </Stack>
-          </Stack>
+          {workSpace.users && workSpace.users.map((row) => (
+              <Stack direction={"row"} justifyContent={"space-between"}>
+                  <Stack direction={"row"} gap={1} alignItems={"center"}>
+                      <Avatar
+                          sx={{
+                              backgroundColor: "black",
+                              minWidth: "50px",
+                              minHeight: "50px",
+                          }}
+                      >
+                          {row.idUser.fullName.toUpperCase().substring(0, 2)}
+                      </Avatar>
+                      <div>
+                          <h3>{row.idUser.fullName}</h3>
+                          <p style={{ fontSize: "14px" }}>@{row.idUser.userName}</p>
+                      </div>
+                  </Stack>
+                  <Stack direction={"row"} gap={2} alignItems={"center"}>
+                      <p>Admin of 0 board</p>
+                      <button className="ws-user-btn" style={{ color: "#32cd32" }}>
+                          {row.role}
+                      </button>
+                      <button className="ws-user-btn" style={{ color: "#ff2400" }}>
+                          Remove User
+                      </button>
+                  </Stack>
+              </Stack>
+          ))}
           <hr
             style={{
               marginTop: "10px",

@@ -20,6 +20,7 @@ import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
 import AddWorkSpaceModal from "../AddWorkSpaceModal/AddWorkSpaceModal";
 import axios from "axios";
 import WorkspaceService from "../../../services/workspace.service.js";
+import {Link} from "react-router-dom";
 
 const SideBar = () => {
   const [open, setOpen] = React.useState(false);
@@ -135,32 +136,19 @@ const SideBar = () => {
               />
               <Typography>Views</Typography>
             </Button>
-            <Button
-              style={{
-                justifyContent: "left",
-                gap: "5px",
-                marginBottom: "8px",
-              }}
-              fullWidth
-              gap={"5px"}
-              mb={"10px"}
-            >
-              <PeopleAltOutlinedIcon
-                style={{ color: "white", fontSize: "14px" }}
-              />
-              <Typography>Members</Typography>
-            </Button>
-            <Button
-              style={{ justifyContent: "left", gap: "5px" }}
-              fullWidth
-              gap={"5px"}
-              mb={"10px"}
-            >
-              <SettingsOutlinedIcon
-                style={{ color: "white", fontSize: "14px" }}
-              />
-              <Typography>Settings</Typography>
-            </Button>
+            <Link to={`/settings/${row._id}`}>
+              <Button
+                style={{ justifyContent: "left", gap: "5px" }}
+                fullWidth
+                gap={"5px"}
+                mb={"10px"}
+              >
+                <SettingsOutlinedIcon
+                  style={{ color: "white", fontSize: "14px" }}
+                />
+                <Typography>Settings </Typography>
+              </Button>
+            </Link>
           </AccordionDetails>
         </Accordion>
         ))}
