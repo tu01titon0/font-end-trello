@@ -4,10 +4,10 @@ import Sidebar from "../SideBarHome";
 
 const HomePage = () => {
   return (
-    <container>
+    <div className="main-board-container">
       <Sidebar />
       <h1>Home Page</h1>
-    </container>
+    </div>
   );
 };
 
