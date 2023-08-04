@@ -35,7 +35,7 @@ const SearchUser = () => {
   };
 
   return (
-    <div>
+    <div style={{position: 'relative'}}>
       <div className="search-input-wrapper">
         <SearchIcon className="search-input-icons" />
         <input
@@ -47,7 +47,7 @@ const SearchUser = () => {
         />
         <PersonSearchOutlinedIcon className="search-input-icons" />
       </div>
-      <div>
+      <div className="found-users-dpl">
         {users.length > 0 ? users.map((item) => <p>{item.userName}</p>) : null}
       </div>
     </div>
