@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonSearchOutlinedIcon from "@mui/icons-material/PersonSearchOutlined";
 import "./SearchUser.css";
@@ -7,6 +7,11 @@ import AuthService from "../../../services/auth.service";
 const SearchUser = () => {
   const [input, setInput] = useState(undefined);
   const [users, setUsers] = useState([]);
+  const [focus, setFocus] = useState("none");
+
+  const handlerClose = () => {
+    setFocus("none");
+  };
 
   const fetchUserData = (val) => {
     console.log(input);
@@ -26,6 +31,7 @@ const SearchUser = () => {
   };
 
   const handleChange = (val) => {
+    setFocus("block");
     if (val.length > 0) {
       setInput(val);
       fetchUserData(val);
@@ -35,7 +41,7 @@ const SearchUser = () => {
   };
 
   return (
-    <div style={{position: 'relative'}}>
+    <div style={{ position: "relative" }}>
       <div className="search-input-wrapper">
         <SearchIcon className="search-input-icons" />
         <input
@@ -47,7 +53,27 @@ const SearchUser = () => {
         />
         <PersonSearchOutlinedIcon className="search-input-icons" />
       </div>
-      <div className="found-users-dpl">
+      <button
+        className="close-search-btn"
+        style={{
+          display: focus,
+        }}
+        onClick={() => {
+          handlerClose();
+        }}
+      >
+        X
+      </button>
+      <div
+        className="found-users-dpl"
+        id="user-search-result"
+        tabIndex={0}
+        autoFocus={true}
+        style={{ display: focus }}
+        onBlur={() => {
+          handlerClose();
+        }}
+      >
         {users.length > 0 ? users.map((item) => <p>{item.userName}</p>) : null}
       </div>
     </div>
