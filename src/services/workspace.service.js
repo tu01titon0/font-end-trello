@@ -9,7 +9,7 @@ export default class WorkspaceService {
       data,
       {
         headers: {
-          "content-type": "text/json",
+          "Content-Type": "multipart/form-data",
           authorization: authKey,
         },
       }

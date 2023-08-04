@@ -5,9 +5,11 @@ import {
   TextField,
   Stack,
   Button,
+  Snackbar,
+  Alert,
 } from "@mui/material";
-import React from "react";
-import { useFormik } from "formik";
+import React, { useState } from "react";
+import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import "./AddWorkSpaceModal.css";
 import WorkspaceService from "../../../services/workspace.service";
@@ -24,6 +26,7 @@ const style = {
 };
 
 const AddWorkSpaceModal = ({ open, handleClose }) => {
+  const [message, setMessage] = useState(null);
   const createWorkspaceSchema = Yup.object().shape({
     wsname: Yup.string().required("Vui lòng nhập lên workspace"),
     wsbio: Yup.string().required("Vui lòng nhập mô tả cho workspace"),
@@ -42,7 +45,13 @@ const AddWorkSpaceModal = ({ open, handleClose }) => {
       };
       WorkspaceService.createWorkspace(data)
         .then((res) => {
-          console.log(res);
+          console.log(res.data.message);
+          setMessage(res.data.message);
+          setTimeout(() => {
+            handleClose();
+            setMessage(null);
+          }, 500);
+          formCreateWorkspace.resetForm();
         })
         .catch((err) => {
           console.log(err);
@@ -124,12 +133,17 @@ const AddWorkSpaceModal = ({ open, handleClose }) => {
               </Typography>
             )}
           </div>
+          {message && (
+            <Alert variant="filled" severity="success">
+              {message}
+            </Alert>
+          )}
           <Button
             fullWidth
             type="submit"
             variant="contained"
             color="primary"
-            sx={{ height: "38px" }}
+            sx={{ height: "48px" }}
           >
             Create
           </Button>
