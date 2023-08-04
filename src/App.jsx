@@ -1,5 +1,6 @@
 import Home from "./components/HomePage/Homepage.jsx";
 import Login from "./pages/login.jsx";
+import WorkSpaceSettings from "./components/WorkSpaceSettings/WorkSpaceSettings.jsx";
 import SignUp from "./pages/signup.jsx";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
@@ -14,6 +15,7 @@ function App() {
       {auth() ? (
         <>
           <Route path="/" element={<Home />} />
+          <Route path="/settings" element={<WorkSpaceSettings />} />
           <Route path="/login" element={<Home />} />
           <Route path="/signup" element={<Home />} />
         </>

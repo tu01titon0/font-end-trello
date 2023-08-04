@@ -93,7 +93,9 @@ const AddWorkSpaceModal = ({ open, handleClose }) => {
               placeholder="Taco's Co"
             />
             {formCreateWorkspace.errors.wsname ? (
-              <p style={{ fontSize: "12px", color: "#ff4f4b" }} mt={"5px"}>
+              <p
+                style={{ fontSize: "12px", color: "#ff4f4b", marginTop: "5px" }}
+              >
                 {formCreateWorkspace.errors.wsname}
               </p>
             ) : (

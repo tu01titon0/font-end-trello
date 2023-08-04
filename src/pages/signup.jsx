@@ -138,13 +138,17 @@ const SignUp = () => {
           }
           error={formSignIn.errors.password ? formSignIn.errors.password : null}
         />
-        <Button
-          variant="outlined"
+        <button
           type="submit"
-          style={{ width: "100%", marginTop: "20px", borderRadius: "6px" }}
+          style={{
+            width: "100%",
+            marginTop: "20px",
+            borderRadius: "6px",
+            backgroundColor: "#579DFF",
+          }}
         >
           Đăng Ký
-        </Button>
+        </button>
         <hr
           style={{
             marginTop: "40px",
@@ -158,9 +162,9 @@ const SignUp = () => {
             {errMessage}
           </Alert>
         )}
-        <Typography style={{ textAlign: "left", marginTop: "20px" }}>
+        <p style={{ textAlign: "left", marginTop: "20px" }}>
           Bạn đã có tài khoản? <Link to={"/login"}>Đăng nhập</Link> ngay!
-        </Typography>
+        </p>
       </Box>
     </Box>
   );
