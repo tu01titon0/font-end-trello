@@ -71,8 +71,8 @@ const SideBar = () => {
             +
           </button>
         </Stack>
-        {list.length > 0 && list.map((row) => (
-          <Accordion style={{ boxShadow: "none" }} className="sidebar-dropdown">
+        {list.length > 0 && list.map((row, index) => (
+          <Accordion style={{ boxShadow: "none" }} key={index + 1} className="sidebar-dropdown">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}
             aria-controls="panel1a-content"
