@@ -74,7 +74,7 @@ const SettingsWSScreen = (props) => {
             borderBottom: "1px solid #1a1a1a",
           }}
         />
-        <Typography variant="h6">Thay đổi người dùng Workspnace</Typography>
+        <Typography variant="h6">Thay đổi người dùng Workspace</Typography>
         <Stack direction={"column"} gap={2}>
           <p>Tìm người dùng</p>
 
@@ -84,42 +84,50 @@ const SettingsWSScreen = (props) => {
 
           {/* Map danh sách người dùng ở đây!!! */}
           {workSpace.users &&
-            workSpace.users.map((row) => (
-              <Stack direction={"row"} justifyContent={"space-between"}>
-                <Stack direction={"row"} gap={1} alignItems={"center"}>
-                  <Avatar
-                    sx={{
-                      backgroundColor: "black",
-                      minWidth: "50px",
-                      minHeight: "50px",
-                    }}
-                  >
-                    {row.idUser.fullName &&
-                      row.idUser.fullName.toUpperCase().substring(0, 2)}
-                  </Avatar>
-                  <div>
-                    <h3>{row.idUser.fullName}</h3>
-                    <p style={{ fontSize: "14px" }}>@{row.idUser.userName}</p>
-                  </div>
+            workSpace.users.map((row, index) => (
+              <div key={index + 1}>
+                <Stack direction={"row"} justifyContent={"space-between"}>
+                  <Stack direction={"row"} gap={1} alignItems={"center"}>
+                    <Avatar
+                      sx={{
+                        backgroundColor: "black",
+                        minWidth: "50px",
+                        minHeight: "50px",
+                      }}
+                    >
+                      {row.idUser.fullName &&
+                        row.idUser.fullName.toUpperCase().substring(0, 2)}
+                    </Avatar>
+                    <div>
+                      <h3>{row.idUser.fullName}</h3>
+                      <p style={{ fontSize: "14px" }}>@{row.idUser.userName}</p>
+                    </div>
+                  </Stack>
+                  <Stack direction={"row"} gap={2} alignItems={"center"}>
+                    <p>Admin of 0 board</p>
+                    <button
+                      className="ws-user-btn"
+                      style={{ color: "#32cd32" }}
+                    >
+                      {row.role}
+                    </button>
+                    <button
+                      className="ws-user-btn"
+                      style={{ color: "#ff2400" }}
+                    >
+                      Remove User
+                    </button>
+                  </Stack>
                 </Stack>
-                <Stack direction={"row"} gap={2} alignItems={"center"}>
-                  <p>Admin of 0 board</p>
-                  <button className="ws-user-btn" style={{ color: "#32cd32" }}>
-                    {row.role}
-                  </button>
-                  <button className="ws-user-btn" style={{ color: "#ff2400" }}>
-                    Remove User
-                  </button>
-                </Stack>
-              </Stack>
+                <hr
+                  style={{
+                    marginTop: "10px",
+                    border: "none",
+                    borderBottom: "1px solid #1a1a1a",
+                  }}
+                />
+              </div>
             ))}
-          <hr
-            style={{
-              marginTop: "10px",
-              border: "none",
-              borderBottom: "1px solid #1a1a1a",
-            }}
-          />
           {/* Hết map danh sách người dùng!! */}
         </Stack>
       </Stack>

@@ -11,10 +11,8 @@ const WorkSpaceSettings = () => {
   const [workSpace, setWorkSpace] = useState([]);
   const { id } = useParams();
   useEffect(() => {
-    console.log(123);
     WorkspaceService.getWorkspaceInfo(id)
       .then((res) => {
-        console.log(res.data);
         setWorkSpace(res.data.workSpace);
       })
       .catch((err) => {
