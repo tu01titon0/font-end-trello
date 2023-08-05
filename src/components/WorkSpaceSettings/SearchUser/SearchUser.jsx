@@ -15,9 +15,14 @@ const SearchUser = () => {
   const [message, setMessage] = useState("");
   const [errMessage, setErrMessage] = useState("");
   const [open, setOpen] = React.useState(false);
+  const [openErr, setOpenErr] = React.useState(false);
 
   const handleClick = () => {
     setOpen(true);
+  };
+
+  const handleErrClick = () => {
+    setOpenErr(true);
   };
 
   const handleClose = (event, reason) => {
@@ -25,6 +30,7 @@ const SearchUser = () => {
       return;
     }
     setOpen(false);
+    setOpenErr(false);
   };
 
   const handlerClose = () => {
@@ -44,7 +50,7 @@ const SearchUser = () => {
           handleClick();
         } else if (res.data.error) {
           setErrMessage(res.data.error);
-          handleClick();
+          handleErrClick();
         }
       })
       .catch((err) => console.log(err));
@@ -82,7 +88,7 @@ const SearchUser = () => {
           {message}
         </Alert>
       </Snackbar>
-      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+      <Snackbar open={openErr} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="warning" sx={{ width: "100%" }}>
           {errMessage}
         </Alert>
