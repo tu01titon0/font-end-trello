@@ -3,9 +3,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import PersonSearchOutlinedIcon from "@mui/icons-material/PersonSearchOutlined";
 import "./SearchUser.css";
 import AuthService from "../../../services/auth.service";
-import { Alert, Snackbar, Stack } from "@mui/material";
+import { Alert, Snackbar, Stack, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import WorkspaceService from "../../../services/workspace.service";
+import useWorkspace from "../../../store/useWorkspace";
 
 const SearchUser = () => {
   const param = useParams();
@@ -16,6 +17,7 @@ const SearchUser = () => {
   const [errMessage, setErrMessage] = useState("");
   const [open, setOpen] = React.useState(false);
   const [openErr, setOpenErr] = React.useState(false);
+  const { setWorkspace } = useWorkspace();
 
   const handleClick = () => {
     setOpen(true);
@@ -44,9 +46,9 @@ const SearchUser = () => {
     };
     WorkspaceService.addUserToWorkspace(data)
       .then((res) => {
-        console.log(res);
         if (res.data.message) {
           setMessage(res.data.message);
+          setWorkspace(res.data.workspace);
           handleClick();
         } else if (res.data.error) {
           setErrMessage(res.data.error);
@@ -125,25 +127,29 @@ const SearchUser = () => {
           handlerClose();
         }}
       >
-        {users.length > 0
-          ? users.map((item, index) => (
-              <button
-                className="user-list-btn"
-                onClick={() => handlerAddUser(item._id)}
-                key={index + 1}
-              >
-                <Stack direction={"row"} alignItems={"center"} gap={1}>
-                  <img
-                    src={item.avatarUrl}
-                    alt="profile picture"
-                    height={"20px"}
-                    style={{ borderRadius: "50%" }}
-                  />
-                  {item.userName}
-                </Stack>
-              </button>
-            ))
-          : null}
+        {users.length > 0 ? (
+          users.map((item, index) => (
+            <button
+              className="user-list-btn"
+              onClick={() => handlerAddUser(item._id)}
+              key={index + 1}
+            >
+              <Stack direction={"row"} alignItems={"center"} gap={1}>
+                <img
+                  src={item.avatarUrl}
+                  alt="profile picture"
+                  height={"20px"}
+                  style={{ borderRadius: "50%" }}
+                />
+                {item.userName}
+              </Stack>
+            </button>
+          ))
+        ) : (
+          <Typography variant="body2" sx={{ padding: "5px 20px" }}>
+            Không tìm thấy người dùng nào với tên tương tự
+          </Typography>
+        )}
       </div>
     </div>
   );

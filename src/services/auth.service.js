@@ -16,7 +16,6 @@ export default class AuthService {
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          //   "Content-Type": `multipart/form-data; boundary=${data.getBoundary()}`,
           authorization: authKey,
         },
       }

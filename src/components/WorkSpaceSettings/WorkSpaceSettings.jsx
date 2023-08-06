@@ -6,14 +6,16 @@ import SettingsWSScreen from "./SettingsWSScreen/SettingsWSScreen";
 import "./WorkSpaceSettings.css";
 import WorkspaceService from "../../services/workspace.service.js";
 import { useParams } from "react-router-dom";
+import useWorkspace from "../../store/useWorkspace";
+import AlertMessage from "../AlertMessage";
 
 const WorkSpaceSettings = () => {
-  const [workSpace, setWorkSpace] = useState([]);
+  const { setWorkspace } = useWorkspace();
   const { id } = useParams();
   useEffect(() => {
     WorkspaceService.getWorkspaceInfo(id)
       .then((res) => {
-        setWorkSpace(res.data.workSpace);
+        setWorkspace(res.data.workSpace);
       })
       .catch((err) => {
         console.log(err);
@@ -24,7 +26,7 @@ const WorkSpaceSettings = () => {
       <NavBar />
       <Stack direction={"row"}>
         <SideBar />
-        <SettingsWSScreen workSpace={workSpace} />
+        <SettingsWSScreen />
       </Stack>
     </Stack>
   );
