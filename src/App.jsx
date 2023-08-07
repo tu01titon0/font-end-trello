@@ -15,7 +15,7 @@ function App() {
       {auth() ? (
         <>
           <Route path="/" element={<Home />} />
-          <Route path="/settings" element={<WorkSpaceSettings />} />
+          <Route path="/settings/:id" element={<WorkSpaceSettings />} />
           <Route path="/login" element={<Home />} />
           <Route path="/signup" element={<Home />} />
         </>

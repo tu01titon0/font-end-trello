@@ -1,5 +1,7 @@
 .ws-setting-input {
   padding: 10px;
+  font-family: inherit;
+  font-weight: 100;
   background-color: #1d2125;
   box-shadow: none;
   border: 1px solid #1a1a1a;
@@ -39,4 +41,25 @@
 .ws-user-btn {
   background-color: #1d2125;
   border: 1px solid #1a1a1a;
+}
+
+.delete-ws-btn {
+  all: unset;
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: 1px solid #ff2400;
+  height: fit-content;
+}
+
+.delete-ws-btn:hover,
+.delete-ws-btn:active {
+  background-color: #ff2400;
+  border: 1px solid #ff2400;
+  outline: none;
+  color: white !important;
+}
+
+.delete-ws-btn:focus {
+  border: 1px solid #ff2400;
+  outline: none;
 }

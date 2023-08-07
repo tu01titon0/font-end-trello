@@ -1,0 +1,78 @@
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  background-color: #1d2125;
+  border: 1px solid #1a1a1a;
+  padding: 0 10px;
+  border-radius: 3px;
+  gap: 5px;
+}
+
+.search-input-icons {
+  font-size: 18px !important;
+}
+
+.user-search-input {
+  background-color: transparent;
+  border: none;
+  height: 100%;
+  flex-grow: 1;
+}
+
+.user-search-input::placeholder {
+  font-size: 14px;
+}
+
+.user-search-input:active,
+.user-search-input:hover,
+.user-search-input:focus {
+  outline: none;
+  border: none;
+}
+
+.found-users-dpl {
+  position: absolute;
+  background-color: #1d2125;
+  border: 1px solid #1a1a1a;
+  padding: 5px 20px;
+  top: 60px;
+  left: 0px;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: scroll;
+  z-index: 10;
+}
+
+.found-users-dpl::-webkit-scrollbar {
+  width: 2px;
+}
+
+.found-users-dpl::-webkit-scrollbar-thumb {
+  background-color: #1a1a1a;
+  width: 20px;
+}
+
+.close-search-btn {
+  position: absolute;
+  top: 52px;
+  background-color: #1d2125;
+  border: 1px solid white;
+  color: white;
+  left: -10px;
+  padding: 2px 5px;
+  box-shadow: none;
+  font-size: 12px;
+  z-index: 20;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.user-list-btn {
+  width: 100%;
+  background-color: transparent;
+  text-align: left;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 100;
+}
