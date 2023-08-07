@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "./SideBar.css";
 import {
   Accordion,
@@ -20,7 +20,8 @@ import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
 import AddWorkSpaceModal from "../AddWorkSpaceModal/AddWorkSpaceModal";
 import axios from "axios";
 import WorkspaceService from "../../../services/workspace.service.js";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import LogOut from "../LogOut/LogOut";
 import useWorkspaces from "../../../store/useWorkspaces.js";
 
 const SideBar = () => {
@@ -30,13 +31,15 @@ const SideBar = () => {
   const { workspaces, setWorkspaces } = useWorkspaces();
 
   useEffect(() => {
-      WorkspaceService.getWorkspaces({userID: JSON.parse(localStorage.getItem("user"))._id})
-          .then((res) => {
-            setWorkspaces(res.data.workspaces)
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+    WorkspaceService.getWorkspaces({
+      userID: JSON.parse(localStorage.getItem("user"))._id,
+    })
+      .then((res) => {
+        setWorkspaces(res.data.workspaces);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
   return (
     <div className="side-bar-home">
@@ -54,6 +57,7 @@ const SideBar = () => {
           <OtherHousesOutlinedIcon />
           <p>Home</p>
         </Button>
+        <LogOut />
 
         <hr style={{ border: "none", borderBottom: "1px solid #c7cfd8 " }} />
 
