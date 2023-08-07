@@ -20,6 +20,7 @@ const WorkSpaceSettings = () => {
         console.log(err);
       });
   }, [id]);
+
   return (
     <Stack direction={"column"} className="ws-settings-main">
       <NavBar />

@@ -87,7 +87,7 @@ const SideBar = () => {
             <Stack direction={"row"} alignItems={"center"} gap={"8px"}>
               <Avatar
                 sx={{
-                  bgcolor: `#${Math.floor(Math.random()*16777215).toString(16)}`,
+                  bgcolor: `green`,
                   borderRadius: "10px",
                   width: "30px",
                   height: "30px",
