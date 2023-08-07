@@ -39,7 +39,7 @@ const style = {
 
 const SettingsWSScreen = () => {
   const wsId = useParams();
-  const { workspaces, setWorkspaces  } = useWorkspaces();
+  const { workspaces, setWorkspaces } = useWorkspaces();
   const [open, setOpen] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState({
     status: false,
@@ -127,7 +127,7 @@ const SettingsWSScreen = () => {
     },
   });
   return (
-    <div style={{ padding: "20px", margin: "0 auto", maxWidth: "700px" }}>
+    <div style={{ padding: "20px", margin: "0 auto", maxWidth: "1000px" }}>
       <Snackbar
         open={openDltUser.status}
         autoHideDuration={6000}
@@ -286,7 +286,7 @@ const SettingsWSScreen = () => {
               className="ws-setting-input"
               name="bio"
               cols="30"
-              rows="10"
+              rows="5"
               placeholder="Đổi thông tin Workspace"
               defaultValue={workspace.bio}
               onChange={formik.handleChange}
@@ -345,21 +345,6 @@ const SettingsWSScreen = () => {
                     >
                       {row.role}
                     </button>
-
-                    <FormControl sx={{ m: 1, minWidth: 120 }}>
-                      <Select
-                        value=""
-                        displayEmpty
-                        inputProps={{ "aria-label": "Without label" }}
-                      >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
-                      </Select>
-                    </FormControl>
 
                     <button
                       className="ws-user-btn"
