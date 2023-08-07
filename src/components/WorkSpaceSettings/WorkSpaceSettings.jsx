@@ -7,7 +7,6 @@ import "./WorkSpaceSettings.css";
 import WorkspaceService from "../../services/workspace.service.js";
 import { useParams } from "react-router-dom";
 import useWorkspace from "../../store/useWorkspace";
-import AlertMessage from "../AlertMessage";
 
 const WorkSpaceSettings = () => {
   const { setWorkspace } = useWorkspace();

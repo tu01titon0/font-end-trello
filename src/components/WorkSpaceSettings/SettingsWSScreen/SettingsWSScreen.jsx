@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import "./SettingsWSScreen.css";
 import {
   Alert,
@@ -17,6 +17,9 @@ import WorkspaceService from "../../../services/workspace.service";
 import useAlert from "../../../store/useAlert";
 import useWorkspace from "../../../store/useWorkspace";
 import { useParams } from "react-router-dom";
+import * as Yup from "yup";
+import {useFormik} from "formik";
+import useWorkspaces from "../../../store/useWorkspaces.js";
 
 const style = {
   position: "absolute",
@@ -32,18 +35,23 @@ const style = {
 
 const SettingsWSScreen = () => {
   const wsId = useParams();
+  const { workspaces, setWorkspaces  } = useWorkspaces();
+
   const [open, setOpen] = React.useState(false);
-  const [suceesMess, setSuccessMess] = React.useState(null);
   const [openDelete, setOpenDelete] = React.useState({
     status: false,
     name: null,
   });
+
+  const [successMessage, setSuccessMessage] = useState("");
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleClodeDelete = () => setOpenDelete({ status: false });
   const { workspace, setWorkspace } = useWorkspace();
   const workSpace = workspace;
   const navigate = useNavigate();
+
 
   const [openDltUser, setOpenDltUser] = React.useState({ status: false });
 
@@ -53,8 +61,6 @@ const SettingsWSScreen = () => {
     }
     setOpenDltUser({ status: false });
   };
-
-  const { setMessage } = useAlert();
 
   const handleDeleteWS = () => {
     handleOpen();
@@ -85,6 +91,40 @@ const SettingsWSScreen = () => {
     handleClodeDelete();
   };
 
+  const formik = useFormik({
+    initialValues: {
+      name: workSpace.name || "",
+      bio: workSpace.bio || "",
+    },
+    onSubmit: (values) => {
+      const updatedFields = {};
+      if (values.name !== workSpace.name) {
+        updatedFields.name = values.name;
+      }
+      if (values.bio !== workSpace.bio) {
+        updatedFields.bio = values.bio;
+      }
+      if (Object.keys(updatedFields).length === 0) {
+        return;
+      }
+
+      const updatedWorkspace = {
+        ...workSpace,
+        ...updatedFields,
+      };
+      WorkspaceService.updateWorkspace(updatedWorkspace)
+          .then((res) => {
+            setWorkspace(res.data.workspace);
+            const wsIndex = workspaces.findIndex((workspace) => workspace._id === res.data.workspace._id);
+            workspaces[wsIndex] = res.data.workspace;
+            setSuccessMessage(res.data.message);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    }
+  });
+
   return (
     <div style={{ padding: "20px", margin: "0 auto" }}>
       <Snackbar
@@ -96,6 +136,21 @@ const SettingsWSScreen = () => {
           Xóa thành công người dùng khỏi Workspace
         </Alert>
       </Snackbar>
+
+      <Snackbar
+          open={!!successMessage}
+          autoHideDuration={3000}
+          onClose={() => setSuccessMessage("")}
+      >
+        <Alert onClose={() => setSuccessMessage("")} severity="success" sx={{ width: "100%" }}>
+          {successMessage}
+        </Alert>
+      </Snackbar>
+      {/*<Snackbar open={openErr} autoHideDuration={3000} onClose={handleClose}>*/}
+      {/*  <Alert onClose={handleClose} severity="warning" sx={{ width: "100%" }}>*/}
+      {/*    {errMessage}*/}
+      {/*  </Alert>*/}
+      {/*</Snackbar>*/}
       <Modal
         open={openDelete.status}
         onClose={handleClodeDelete}
@@ -211,25 +266,35 @@ const SettingsWSScreen = () => {
         <Typography variant="h6">Thay đổi thông tin Workspace</Typography>
         <Stack direction={"column"} gap={2}>
           <p>Đổi tên Workspace</p>
-          <input
-            className="ws-setting-input"
-            type="text"
-            name="wsName"
-            style={{ height: "38px" }}
-            placeholder="Đổi tên Workspace"
-            value={workSpace.name}
-          />
-          <textarea
-            className="ws-setting-input"
-            name="wsBio"
-            cols="30"
-            rows="10"
-            placeholder="Đổi thông tin Workspace"
-            value={workSpace.bio}
-          ></textarea>
-          <button className="ws-settings-update-btn">
-            Cập nhật thông tin Workspace
-          </button>
+          <form onSubmit={formik.handleSubmit}>
+            <input
+                className="ws-setting-input"
+                type="text"
+                name="name"
+                style={{ height: "38px" }}
+                placeholder="Đổi tên Workspace"
+                defaultValue={workspace.name}
+                onChange={formik.handleChange}
+            />
+
+            <textarea
+                className="ws-setting-input"
+                name="bio"
+                cols="30"
+                rows="10"
+                placeholder="Đổi thông tin Workspace"
+                defaultValue={workspace.bio}
+                onChange={formik.handleChange}
+            ></textarea>
+          <br/>
+            <button
+                type="submit"
+                className="ws-settings-update-btn"
+                // disabled={!formik.dmitirnhty || !formik.isValid}
+            >
+              Cập nhật thông tin Workspace
+            </button>
+          </form>
         </Stack>
         <hr
           style={{

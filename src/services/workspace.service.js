@@ -81,4 +81,18 @@ export default class WorkspaceService {
       }
     );
   }
+
+    static async updateWorkspace(data) {
+        const authKey = cookieParse()._auth;
+        return await axios.post(
+            `${import.meta.env.VITE_ROOT_DOMAIN}/workspace/${data._id}`,
+            data,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    authorization: authKey,
+                },
+            }
+        );
+    }
 }
