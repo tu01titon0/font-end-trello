@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from 'react';
 import "./Navbar.css";
 import {
   Avatar,
@@ -18,7 +19,10 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 
 const NavBar = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const [userName, setUserName] = useState('')
+  const [anchorEl, setAnchorEl] =useState(null);
+  
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -169,7 +173,7 @@ const NavBar = () => {
             height: "30px",
           }}
         >
-          OP
+            {userName}
         </Avatar>
       </Stack>
     </div>

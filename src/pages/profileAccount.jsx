@@ -68,6 +68,8 @@ export default function Profile() {
               label="Full Name"
               name="fullName"
               defaultValue={formik.values.fullName}
+ onChange={formik.handleChange}
+
               placeholder="Nhập đầy đủ họ tên"
             />
          
@@ -76,6 +78,8 @@ export default function Profile() {
               required
               label="bio"
               name="bio"
+  onChange={formik.handleChange}
+
               defaultValue={formik.values.bio}
               placeholder="Nhập Bio"
             />
@@ -84,6 +88,8 @@ export default function Profile() {
               required
               label="JobTitle"
               name="jobTitle"
+  onChange={formik.handleChange}
+
               defaultValue={formik.values.jobTitle}
               placeholder="Nhập JobTitle"
             />
@@ -92,14 +98,14 @@ export default function Profile() {
               className="login-input"
               required
               label="Email"
+  onChange={formik.handleChange}
+
               name="email"
               defaultValue={formik.values.email}
               placeholder="Nhập email"
             />
                <input
           type="file"
-          // value={formik.values.image}
-          // onChange={(e) => uploadFile(e.target.files[0])}
         />
         <br />
         <img src={formik.values.image} alt="" width={100} height={100} />
