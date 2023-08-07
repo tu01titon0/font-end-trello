@@ -21,22 +21,23 @@ import AddWorkSpaceModal from "../AddWorkSpaceModal/AddWorkSpaceModal";
 import axios from "axios";
 import WorkspaceService from "../../../services/workspace.service.js";
 import {Link} from "react-router-dom";
+import useWorkspaces from "../../../store/useWorkspaces.js";
 
 const SideBar = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [list, setList] = useState([]);
+  const { workspaces, setWorkspaces } = useWorkspaces();
+
   useEffect(() => {
       WorkspaceService.getWorkspaces({userID: JSON.parse(localStorage.getItem("user"))._id})
           .then((res) => {
-            setList(res.data.workspaces);
+            setWorkspaces(res.data.workspaces)
           })
           .catch((err) => {
             console.log(err);
           });
   }, []);
-
   return (
     <div className="side-bar-home">
       <AddWorkSpaceModal open={open} handleClose={handleClose} />
@@ -71,7 +72,7 @@ const SideBar = () => {
             +
           </button>
         </Stack>
-        {list.length > 0 && list.map((row, index) => (
+        {workspaces.length > 0 && workspaces.map((row, index) => (
           <Accordion style={{ boxShadow: "none" }} key={index + 1} className="sidebar-dropdown">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon style={{ color: "white" }} />}
@@ -89,7 +90,7 @@ const SideBar = () => {
                   fontSize: "12px",
                 }}
               >
-                {row.name.toUpperCase().substring(0, 2)}
+                {row.name && row.name.toUpperCase().substring(0, 2)}
               </Avatar>
               <Typography>{row.name}</Typography>
             </Stack>
