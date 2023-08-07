@@ -35,7 +35,7 @@ const SideBar = () => {
       userID: JSON.parse(localStorage.getItem("user"))._id,
     })
       .then((res) => {
-        setList(res.data.workspaces);
+        setWorkspaces(res.data.workspaces);
       })
       .catch((err) => {
         console.log(err);
