@@ -13,6 +13,7 @@ import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import "./AddWorkSpaceModal.css";
 import WorkspaceService from "../../../services/workspace.service";
+import useWorkspaces from "../../../store/useWorkspaces.js";
 
 const style = {
   position: "absolute",
@@ -27,6 +28,7 @@ const style = {
 
 const AddWorkSpaceModal = ({ open, handleClose }) => {
   const [message, setMessage] = useState(null);
+  const { workspaces, setWorkspaces } = useWorkspaces();
   const createWorkspaceSchema = Yup.object().shape({
     wsname: Yup.string().required("Vui lòng nhập lên workspace"),
     wsbio: Yup.string().required("Vui lòng nhập mô tả cho workspace"),
@@ -46,11 +48,16 @@ const AddWorkSpaceModal = ({ open, handleClose }) => {
       WorkspaceService.createWorkspace(data)
         .then((res) => {
           setMessage(res.data.message);
+          const newWorkspace = res.data.workSpace;
+          workspaces.push(newWorkspace)
+          setWorkspaces(workspaces)
           setTimeout(() => {
             handleClose();
             setMessage(null);
           }, 500);
+
           formCreateWorkspace.resetForm();
+
         })
         .catch((err) => {
           console.log(err);
