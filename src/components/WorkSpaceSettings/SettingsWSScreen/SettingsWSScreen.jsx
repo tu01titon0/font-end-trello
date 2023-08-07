@@ -94,16 +94,6 @@ const SettingsWSScreen = () => {
     },
     onSubmit: (values) => {
       const updatedFields = {};
-      if (values.name !== workSpace.name) {
-        updatedFields.name = values.name;
-      }
-      if (values.bio !== workSpace.bio) {
-        updatedFields.bio = values.bio;
-      }
-      if (Object.keys(updatedFields).length === 0) {
-        return;
-      }
-
       const updatedWorkspace = {
         ...workSpace,
         ...updatedFields,
