@@ -13,12 +13,10 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import InterestsOutlinedIcon from "@mui/icons-material/InterestsOutlined";
-import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import BackupTableOutlinedIcon from "@mui/icons-material/BackupTableOutlined";
 import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
 import AddWorkSpaceModal from "../AddWorkSpaceModal/AddWorkSpaceModal";
-import axios from "axios";
 import WorkspaceService from "../../../services/workspace.service.js";
 import { Link } from "react-router-dom";
 import LogOut from "../LogOut/LogOut";
@@ -41,6 +39,7 @@ const SideBar = () => {
         console.log(err);
       });
   }, []);
+    
   return (
     <div className="side-bar-home">
       <AddWorkSpaceModal open={open} handleClose={handleClose} />

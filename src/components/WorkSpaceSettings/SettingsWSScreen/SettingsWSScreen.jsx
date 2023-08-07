@@ -1,11 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "./SettingsWSScreen.css";
 import {
   Alert,
   Avatar,
   Box,
   Button,
+  FormControl,
+  FormHelperText,
+  MenuItem,
   Modal,
+  Select,
   Snackbar,
   Stack,
   Typography,
@@ -18,7 +22,7 @@ import useAlert from "../../../store/useAlert";
 import useWorkspace from "../../../store/useWorkspace";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
-import {useFormik} from "formik";
+import { useFormik } from "formik";
 import useWorkspaces from "../../../store/useWorkspaces.js";
 
 const style = {
@@ -35,7 +39,7 @@ const style = {
 
 const SettingsWSScreen = () => {
   const wsId = useParams();
-  const { workspaces, setWorkspaces  } = useWorkspaces();
+  const { workspaces, setWorkspaces } = useWorkspaces();
 
   const [open, setOpen] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState({
@@ -51,7 +55,6 @@ const SettingsWSScreen = () => {
   const { workspace, setWorkspace } = useWorkspace();
   const workSpace = workspace;
   const navigate = useNavigate();
-
 
   const [openDltUser, setOpenDltUser] = React.useState({ status: false });
 
@@ -113,16 +116,18 @@ const SettingsWSScreen = () => {
         ...updatedFields,
       };
       WorkspaceService.updateWorkspace(updatedWorkspace)
-          .then((res) => {
-            setWorkspace(res.data.workspace);
-            const wsIndex = workspaces.findIndex((workspace) => workspace._id === res.data.workspace._id);
-            workspaces[wsIndex] = res.data.workspace;
-            setSuccessMessage(res.data.message);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-    }
+        .then((res) => {
+          setWorkspace(res.data.workspace);
+          const wsIndex = workspaces.findIndex(
+            (workspace) => workspace._id === res.data.workspace._id
+          );
+          workspaces[wsIndex] = res.data.workspace;
+          setSuccessMessage(res.data.message);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   });
 
   return (
@@ -138,11 +143,15 @@ const SettingsWSScreen = () => {
       </Snackbar>
 
       <Snackbar
-          open={!!successMessage}
-          autoHideDuration={3000}
-          onClose={() => setSuccessMessage("")}
+        open={!!successMessage}
+        autoHideDuration={3000}
+        onClose={() => setSuccessMessage("")}
       >
-        <Alert onClose={() => setSuccessMessage("")} severity="success" sx={{ width: "100%" }}>
+        <Alert
+          onClose={() => setSuccessMessage("")}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
           {successMessage}
         </Alert>
       </Snackbar>
@@ -268,29 +277,29 @@ const SettingsWSScreen = () => {
           <p>Đổi tên Workspace</p>
           <form onSubmit={formik.handleSubmit}>
             <input
-                className="ws-setting-input"
-                type="text"
-                name="name"
-                style={{ height: "38px" }}
-                placeholder="Đổi tên Workspace"
-                defaultValue={workspace.name}
-                onChange={formik.handleChange}
+              className="ws-setting-input"
+              type="text"
+              name="name"
+              style={{ height: "38px" }}
+              placeholder="Đổi tên Workspace"
+              defaultValue={workspace.name}
+              onChange={formik.handleChange}
             />
 
             <textarea
-                className="ws-setting-input"
-                name="bio"
-                cols="30"
-                rows="10"
-                placeholder="Đổi thông tin Workspace"
-                defaultValue={workspace.bio}
-                onChange={formik.handleChange}
+              className="ws-setting-input"
+              name="bio"
+              cols="30"
+              rows="10"
+              placeholder="Đổi thông tin Workspace"
+              defaultValue={workspace.bio}
+              onChange={formik.handleChange}
             ></textarea>
-          <br/>
+            <br />
             <button
-                type="submit"
-                className="ws-settings-update-btn"
-                // disabled={!formik.dmitirnhty || !formik.isValid}
+              type="submit"
+              className="ws-settings-update-btn"
+              // disabled={!formik.dmitirnhty || !formik.isValid}
             >
               Cập nhật thông tin Workspace
             </button>
@@ -340,6 +349,22 @@ const SettingsWSScreen = () => {
                     >
                       {row.role}
                     </button>
+
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <Select
+                        value=""
+                        displayEmpty
+                        inputProps={{ "aria-label": "Without label" }}
+                      >
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                      </Select>
+                    </FormControl>
+
                     <button
                       className="ws-user-btn"
                       style={{ color: "#ff2400" }}
