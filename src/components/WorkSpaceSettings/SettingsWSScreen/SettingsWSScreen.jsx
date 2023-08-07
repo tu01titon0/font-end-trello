@@ -39,14 +39,13 @@ const style = {
 
 const SettingsWSScreen = () => {
   const wsId = useParams();
-  const { workspaces, setWorkspaces } = useWorkspaces();
-
+  const { workspaces, setWorkspaces  } = useWorkspaces();
   const [open, setOpen] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState({
     status: false,
     name: null,
   });
-
+  const { setMessage } = useAlert();
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleOpen = () => setOpen(true);
@@ -55,9 +54,7 @@ const SettingsWSScreen = () => {
   const { workspace, setWorkspace } = useWorkspace();
   const workSpace = workspace;
   const navigate = useNavigate();
-
   const [openDltUser, setOpenDltUser] = React.useState({ status: false });
-
   const closeDltUser = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -129,9 +126,8 @@ const SettingsWSScreen = () => {
         });
     },
   });
-
   return (
-    <div style={{ padding: "20px", margin: "0 auto" }}>
+    <div style={{ padding: "20px", margin: "0 auto", maxWidth: "700px" }}>
       <Snackbar
         open={openDltUser.status}
         autoHideDuration={6000}
