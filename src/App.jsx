@@ -3,7 +3,8 @@ import Login from "./pages/login.jsx";
 import SignUp from "./pages/signup.jsx";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import { createContext } from "react";
+import Profile from "./pages/profileAccount.jsx";
+// import { createContext } from "react";
 import { useAuthUser } from "react-auth-kit";
 
 function App() {
@@ -14,8 +15,9 @@ function App() {
       {auth() ? (
         <>
           <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Home />} />
-          <Route path="/signup" element={<Home />} />
+          <Route path="/signup" element={<SignUp />} />
         </>
       ) : (
         <>
@@ -27,5 +29,4 @@ function App() {
     </Routes>
   );
 }
-
 export default App;

@@ -9,7 +9,7 @@ import {
   MenuItem,
   OutlinedInput,
   Stack,
-  makeStyles,
+ 
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuPopupState from "../AddBoardButton";
@@ -55,7 +55,7 @@ const NavBar = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem href="/profile" onClick={handleClick}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
@@ -140,6 +140,7 @@ const NavBar = () => {
       <Stack direction={"row"} alignItems={"center"} gap={"10px"}>
         <FormControl
           variant="outlined"
+          onClick
           style={{
             border: "1px solid hsla(213, 10%, 55%, 0.4)",
             borderRadius: "4px",
