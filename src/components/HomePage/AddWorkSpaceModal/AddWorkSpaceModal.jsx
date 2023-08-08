@@ -5,12 +5,15 @@ import {
   TextField,
   Stack,
   Button,
+  Snackbar,
+  Alert,
 } from "@mui/material";
-import React from "react";
-import { useFormik } from "formik";
+import React, { useState } from "react";
+import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import "./AddWorkSpaceModal.css";
 import WorkspaceService from "../../../services/workspace.service";
+import useWorkspaces from "../../../store/useWorkspaces.js";
 
 const style = {
   position: "absolute",
@@ -24,11 +27,12 @@ const style = {
 };
 
 const AddWorkSpaceModal = ({ open, handleClose }) => {
+  const [message, setMessage] = useState(null);
+  const { workspaces, setWorkspaces } = useWorkspaces();
   const createWorkspaceSchema = Yup.object().shape({
     wsname: Yup.string().required("Vui lòng nhập lên workspace"),
     wsbio: Yup.string().required("Vui lòng nhập mô tả cho workspace"),
   });
-
   const formCreateWorkspace = useFormik({
     initialValues: {
       wsname: "",
@@ -39,11 +43,21 @@ const AddWorkSpaceModal = ({ open, handleClose }) => {
       const data = {
         name: val.wsname,
         bio: val.wsbio,
+        userId: JSON.parse(localStorage.getItem("user"))._id,
       };
-      console.log("data", data);
       WorkspaceService.createWorkspace(data)
         .then((res) => {
-          console.log(res);
+          setMessage(res.data.message);
+          const newWorkspace = res.data.workSpace;
+          workspaces.push(newWorkspace)
+          setWorkspaces(workspaces)
+          setTimeout(() => {
+            handleClose();
+            setMessage(null);
+          }, 500);
+
+          formCreateWorkspace.resetForm();
+
         })
         .catch((err) => {
           console.log(err);
@@ -85,7 +99,9 @@ const AddWorkSpaceModal = ({ open, handleClose }) => {
               placeholder="Taco's Co"
             />
             {formCreateWorkspace.errors.wsname ? (
-              <p style={{ fontSize: "12px", color: "#ff4f4b" }} mt={"5px"}>
+              <p
+                style={{ fontSize: "12px", color: "#ff4f4b", marginTop: "5px" }}
+              >
                 {formCreateWorkspace.errors.wsname}
               </p>
             ) : (
@@ -125,12 +141,17 @@ const AddWorkSpaceModal = ({ open, handleClose }) => {
               </Typography>
             )}
           </div>
+          {message && (
+            <Alert variant="filled" severity="success">
+              {message}
+            </Alert>
+          )}
           <Button
             fullWidth
             type="submit"
             variant="contained"
             color="primary"
-            sx={{ height: "38px" }}
+            sx={{ height: "48px" }}
           >
             Create
           </Button>

@@ -13,20 +13,13 @@ import { useSignIn } from "react-auth-kit";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import LoginService from "../services/login.service";
+import useAlert from "../store/useAlert";
 
 const Login = () => {
   const signIn = useSignIn();
   const navigate = useNavigate();
   const [errMessage, setErrMessage] = useState("");
-  const [open, setOpen] = React.useState(false);
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
+  const { setMessage } = useAlert();
 
   const signInSchema = Yup.object().shape({
     userName: Yup.string().required("Vui lòng nhập tên đăng nhập"),
@@ -56,10 +49,8 @@ const Login = () => {
               authState: res.data.userData.userName,
             });
             localStorage.setItem("user", JSON.stringify(res.data.userData));
-            setOpen(true);
-            setTimeout(() => {
-              navigate("/");
-            }, 500);
+            setMessage("Đăng nhập thành công!");
+            navigate("/");
           }
         })
         .catch((err) => {
@@ -70,11 +61,6 @@ const Login = () => {
 
   return (
     <Box className="login-box">
-      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          Đăng nhập thành công!
-        </Alert>
-      </Snackbar>
       <Box
         className="login-field"
         component={"form"}
@@ -115,13 +101,17 @@ const Login = () => {
           }
           error={formSignIn.errors.password ? formSignIn.errors.password : null}
         />
-        <Button
-          variant="outlined"
+        <button
           type="submit"
-          style={{ width: "100%", marginTop: "20px", borderRadius: "6px" }}
+          style={{
+            width: "100%",
+            marginTop: "20px",
+            borderRadius: "6px",
+            backgroundColor: "#579DFF",
+          }}
         >
           Đăng nhập
-        </Button>
+        </button>
         <hr
           style={{
             marginTop: "40px",
@@ -135,9 +125,9 @@ const Login = () => {
             {errMessage}
           </Alert>
         )}
-        <Typography style={{ textAlign: "left", marginTop: "20px" }}>
+        <p style={{ textAlign: "left", marginTop: "20px", color: "black" }}>
           Chưa có tài khoản? <Link to={"/signup"}>Đăng ký</Link> ngay!
-        </Typography>
+        </p>
       </Box>
     </Box>
   );
