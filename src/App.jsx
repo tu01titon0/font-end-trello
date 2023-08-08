@@ -6,6 +6,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import { createContext } from "react";
 import { useAuthUser } from "react-auth-kit";
+import BoardDetail from "./components/BoardDetail/BoardDetail.jsx";
 
 function App() {
   const auth = useAuthUser();
@@ -16,6 +17,7 @@ function App() {
         <>
           <Route path="/" element={<Home />} />
           <Route path="/settings/:id" element={<WorkSpaceSettings />} />
+          <Route path="/boarddetail" element={<BoardDetail />} />
           <Route path="/login" element={<Navigate to={"/"} />} />
           <Route path="/signup" element={<Navigate to={"/"} />} />
         </>
