@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from 'react';
 import "./Navbar.css";
 import {
   Avatar,
@@ -9,7 +10,7 @@ import {
   MenuItem,
   OutlinedInput,
   Stack,
-  makeStyles,
+ 
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuPopupState from "../AddBoardButton";
@@ -19,7 +20,10 @@ import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const [userName, setUserName] = useState('')
+  const [anchorEl, setAnchorEl] =useState(null);
+  
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -58,7 +62,7 @@ const NavBar = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem href="/profile" onClick={handleClick}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
@@ -143,6 +147,7 @@ const NavBar = () => {
       <Stack direction={"row"} alignItems={"center"} gap={"10px"}>
         <FormControl
           variant="outlined"
+          onClick
           style={{
             border: "1px solid hsla(213, 10%, 55%, 0.4)",
             borderRadius: "4px",
@@ -171,7 +176,7 @@ const NavBar = () => {
             height: "30px",
           }}
         >
-          OP
+            {userName}
         </Avatar>
       </Stack>
     </div>

@@ -4,7 +4,8 @@ import WorkSpaceSettings from "./components/WorkSpaceSettings/WorkSpaceSettings.
 import SignUp from "./pages/signup.jsx";
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import { createContext } from "react";
+import Profile from "./pages/profileAccount.jsx";
+// import { createContext } from "react";
 import { useAuthUser } from "react-auth-kit";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <>
           <Route path="/" element={<Home />} />
           <Route path="/settings/:id" element={<WorkSpaceSettings />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Navigate to={"/"} />} />
           <Route path="/signup" element={<Navigate to={"/"} />} />
         </>
@@ -29,5 +31,4 @@ function App() {
     </Routes>
   );
 }
-
 export default App;
