@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
 import "./Navbar.css";
 import {
   Avatar,
@@ -10,7 +9,6 @@ import {
   MenuItem,
   OutlinedInput,
   Stack,
- 
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuPopupState from "../AddBoardButton";
@@ -18,18 +16,41 @@ import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import cookieParse from "../../../services/cookieparse.service";
+import { useSignOut } from "react-auth-kit";
 
 const NavBar = () => {
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    const authType = cookieParse()._auth_type;
+    const authKey = cookieParse()._auth;
+    axios
+      .get("http://localhost:8686/api/user/info", {
+        headers: { authorization: `${authType} ${authKey}` },
+      })
+      .then((res) => {
+        console.log("ádasdasdsa", res);
+        setUserName(res.data.user.userName.slice(0, 2));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-    const [userName, setUserName] = useState('')
-  const [anchorEl, setAnchorEl] =useState(null);
-  
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const signOut = useSignOut();
+
+  const handleSignOut = () => {
+    signOut();
+    
   };
 
   return (
@@ -48,12 +69,12 @@ const NavBar = () => {
             aria-controls={open ? "basic-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
+            // onClick={handleClick}
             endIcon={<KeyboardArrowDownIcon />}
           >
             Dashboard
           </Button>
-          <Menu
+          {/* <Menu
             anchorEl={anchorEl}
             className="menuItems"
             open={open}
@@ -62,10 +83,10 @@ const NavBar = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem href="/profile" onClick={handleClick}>Profile</MenuItem>
+            <MenuItem onClick={handleClick}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>
-          </Menu>
+          </Menu> */}
         </div>
         <div>
           <Button
@@ -73,12 +94,12 @@ const NavBar = () => {
             aria-controls={open ? "basic-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
+            // onClick={handleClick}
             endIcon={<KeyboardArrowDownIcon />}
           >
             Recent
           </Button>
-          <Menu
+          {/* <Menu
             anchorEl={anchorEl}
             className="menuItems"
             open={open}
@@ -90,7 +111,7 @@ const NavBar = () => {
             <MenuItem onClick={handleClose}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>
-          </Menu>
+          </Menu> */}
         </div>
         <div>
           <Button
@@ -98,24 +119,12 @@ const NavBar = () => {
             aria-controls={open ? "basic-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
+            // onClick={handleClick}
             endIcon={<KeyboardArrowDownIcon />}
           >
             Starred
           </Button>
-          <Menu
-            anchorEl={anchorEl}
-            className="menuItems"
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-          >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-          </Menu>
+         
         </div>
         <div>
           <Button
@@ -123,24 +132,11 @@ const NavBar = () => {
             aria-controls={open ? "basic-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
+            // onClick={handleClick}
             endIcon={<KeyboardArrowDownIcon />}
           >
             Template
           </Button>
-          <Menu
-            anchorEl={anchorEl}
-            className="menuItems"
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button",
-            }}
-          >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-          </Menu>
         </div>
         <MenuPopupState />
       </Stack>
@@ -167,17 +163,32 @@ const NavBar = () => {
         </FormControl>
         <NotificationsIcon style={{ color: "#c7cfd8", fontSize: "18px" }} />
         <QuestionMarkIcon style={{ color: "#c7cfd8", fontSize: "18px" }} />
-        <Avatar
-          sx={{
-            bgcolor: "red",
-            fontSize: "12px",
-            alignItems: "center",
-            width: "30px",
-            height: "30px",
-          }}
-        >
+        <div>
+          <Avatar
+            sx={{
+              bgcolor: "red",
+              fontSize: "12px",
+              alignItems: "center",
+              width: "30px",
+              height: "30px",
+            }}
+            onClick={handleClick}
+          >
             {userName}
-        </Avatar>
+          </Avatar>
+          <Menu
+            anchorEl={anchorEl}
+            className="menuItems"
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem  component={Link} to="/profile" onClick={handleClose} >Profile</MenuItem>
+            <MenuItem onClick={handleSignOut}>Logout</MenuItem>
+          </Menu>
+        </div>
       </Stack>
     </div>
   );

@@ -3,29 +3,32 @@ import { Layout, Typography, message } from 'antd';
 import NavBar from '../components/HomePage/Navbar/NavBar';
 import axios from 'axios';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 export default function Profile() {
-  const user = JSON.parse(localStorage.user)
-  console.log(user)
+  const user = JSON.parse(localStorage.user);
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
-          fullName: user.fullName,
-          avataUrl: user.avataUrl,
-          bio: user.bio,
-          jobTitle: user.jobTitle,
-          email: user.email,
-        },
-        
+      fullName: user.fullName,
+      bio: user.bio,
+      jobTitle: user.jobTitle,
+      email: user.email,
+    },
+    
+
     onSubmit: async () => {
       try {
-        await axios.put(
-          `http://localhost:8686/api/user/update`,
-          formik.values
-        );
-        message.success('Update ngon');
+        await axios.put(`http://localhost:8686/api/user/update`,
+         formik.values);
+        message.success('Update thành công ');
+        setTimeout(() => {
+          navigate('/');
+        }, 700);
+
         formik.resetForm();
       } catch (error) {
         console.log(error);
-        message.error('Update ngu');
+        message.error('Update thất bại');
       }
     },
   });
@@ -45,13 +48,15 @@ export default function Profile() {
             style={{
               maxWidth: '1200px',
               minWidth: '1200px',
-              margin: '20px auto',
+             
             }}
           ></Stack>
         </Stack>
         <Box className="login-box">
-          <Box className="login-field" component={'form'}
-           onSubmit={formik.handleSubmit}
+          <Box
+            className="login-field"
+            component={'form'}
+            onSubmit={formik.handleSubmit}
           >
             <img
               src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8c/Trello_logo.svg/1280px-Trello_logo.svg.png"
@@ -61,25 +66,22 @@ export default function Profile() {
             <Typography>
               <b style={{ fontSize: 20 }}> Chỉnh sửa tài khoản</b>
             </Typography>
-
             <TextField
               className="login-input"
               required
               label="Full Name"
               name="fullName"
               defaultValue={formik.values.fullName}
- onChange={formik.handleChange}
-
+              onChange={formik.handleChange}
               placeholder="Nhập đầy đủ họ tên"
             />
-         
+
             <TextField
               className="login-input"
               required
               label="bio"
               name="bio"
-  onChange={formik.handleChange}
-
+              onChange={formik.handleChange}
               defaultValue={formik.values.bio}
               placeholder="Nhập Bio"
             />
@@ -88,8 +90,7 @@ export default function Profile() {
               required
               label="JobTitle"
               name="jobTitle"
-  onChange={formik.handleChange}
-
+              onChange={formik.handleChange}
               defaultValue={formik.values.jobTitle}
               placeholder="Nhập JobTitle"
             />
@@ -98,17 +99,12 @@ export default function Profile() {
               className="login-input"
               required
               label="Email"
-  onChange={formik.handleChange}
-
-              name="email"
+              onChange={formik.handleChange}
+name="email"
               defaultValue={formik.values.email}
               placeholder="Nhập email"
             />
-               <input
-          type="file"
-        />
-        <br />
-        <img src={formik.values.image} alt="" width={100} height={100} />
+            <br />
 
             <Button
               variant="contained"
@@ -116,7 +112,7 @@ export default function Profile() {
               color="success"
               sx={{ width: '100%', marginTop: '20px', borderRadius: '6px' }}
             >
-              <b style={{ fontSize: 20 }}>Update</b>
+              UPDATE
             </Button>
             <hr
               style={{
