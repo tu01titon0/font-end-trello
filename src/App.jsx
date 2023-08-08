@@ -4,7 +4,7 @@ import WorkSpaceSettings from "./components/WorkSpaceSettings/WorkSpaceSettings.
 import SignUp from "./pages/signup.jsx";
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import Profile from "./pages/profileAccount.jsx";
+import Profile from "./pages/Profile.jsx";
 // import { createContext } from "react";
 import { useAuthUser } from "react-auth-kit";
 
