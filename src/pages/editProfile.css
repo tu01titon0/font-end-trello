@@ -1,0 +1,7 @@
+.edit-field{
+    max-width: 500px;
+    margin: 40px auto;
+  background-color: #1a1a1a;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 40px;
+}

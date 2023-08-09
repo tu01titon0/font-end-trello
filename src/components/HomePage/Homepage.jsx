@@ -1,5 +1,4 @@
-import SideBarHome from "./SideBarHome";
-import NavBarHome from "./HeaderPage";
+
 import NavBar from "./Navbar/NavBar";
 import { Layout } from "antd";
 import { Stack } from "@mui/material";

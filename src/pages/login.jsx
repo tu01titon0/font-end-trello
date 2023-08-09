@@ -1,24 +1,28 @@
 import {
   Alert,
   Box,
-  Button,
-  Snackbar,
-  Stack,
+ 
+  IconButton,
+ 
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import  { useState } from "react";
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignIn } from "react-auth-kit";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import LoginService from "../services/login.service";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+
 import useAlert from "../store/useAlert";
 
 const Login = () => {
   const signIn = useSignIn();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
   const [errMessage, setErrMessage] = useState("");
   const { setMessage } = useAlert();
 
@@ -91,7 +95,7 @@ const Login = () => {
           className="login-input"
           id="outlined-password-input"
           label="Password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           name="password"
           onChange={formSignIn.handleChange}
           value={formSignIn.values.password}
@@ -101,6 +105,17 @@ const Login = () => {
             formSignIn.errors.password ? formSignIn.errors.password : null
           }
           error={formSignIn.errors.password ? formSignIn.errors.password : null}
+          style={{ padding: "0", width: "100%", height: "auto" }}
+          InputProps={{
+    endAdornment: (
+      <IconButton
+        onClick={() => setShowPassword(!showPassword)} // Bật/tắt hiển thị mật khẩu
+        edge="end"
+      >
+        {showPassword ? <Visibility fontSize="small" /> : <VisibilityOff fontSize="small" />}
+      </IconButton>
+    ),
+  }}
         />
         <button
           type="submit"

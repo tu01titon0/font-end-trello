@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import "./SideBar.css";
 import {
   Accordion,
@@ -19,7 +19,6 @@ import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
 import AddWorkSpaceModal from "../AddWorkSpaceModal/AddWorkSpaceModal";
 import WorkspaceService from "../../../services/workspace.service.js";
 import { Link } from "react-router-dom";
-import LogOut from "../LogOut/LogOut";
 import useWorkspaces from "../../../store/useWorkspaces.js";
 
 const SideBar = () => {
@@ -56,7 +55,7 @@ const SideBar = () => {
           <OtherHousesOutlinedIcon />
           <p>Home</p>
         </Button>
-        <LogOut />
+       
 
         <hr style={{ border: "none", borderBottom: "1px solid #c7cfd8 " }} />
 
