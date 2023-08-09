@@ -1,0 +1,22 @@
+.column-container {
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid aquamarine;
+  color: black;
+  width: 200px;
+}
+
+.column-name-container {
+  padding: 8px;
+}
+
+.task-container {
+  padding: 8px;
+}
+
+.tasks-display {
+  display: flex;
+  flex-direction: row;
+}
