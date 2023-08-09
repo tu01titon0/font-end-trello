@@ -5,7 +5,6 @@
   width: 300px;
   padding: 8px;
   background-color: purple;
-  justify-content: center;
 }
 
 .board-container {
@@ -13,5 +12,5 @@
   flex-direction: row;
   margin-top: 20px;
   gap: 20px;
-  justify-content: center;
+  /* justify-content: center; */
 }

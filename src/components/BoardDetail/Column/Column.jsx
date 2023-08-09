@@ -16,7 +16,7 @@ const Column = ({ props }) => {
             <h3 isDragging={snapshot.isDragging} {...provided.dragHandleProps}>
               {props.title}
             </h3>
-            <Droppable droppableId="column" type="task" direction="vertical">
+            <Droppable droppableId={props.id} type="task" direction="vertical">
               {(provided) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   {props.tasks.map((item, index) => (
@@ -32,5 +32,6 @@ const Column = ({ props }) => {
     </Draggable>
   );
 };
+
 
 export default Column;
