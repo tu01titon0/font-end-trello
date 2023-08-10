@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./AddTaskInput.css";
 import "../AddColumnInput/AddColumnInput.css";
 import { Stack } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 const inputStyle = (state) => ({
   display: state ? "block" : "none",
@@ -50,10 +51,15 @@ const AddTaskInput = ({ props }) => {
           </button>
         </Stack>
       </div>
-      <button style={inputButton(open)} className="add-tasks-btn">
-        <p className="white-text" onClick={() => handleOpenInput()}>
-          Add Task to {props}
-        </p>
+      <button
+        style={inputButton(open)}
+        onClick={() => handleOpenInput()}
+        className="add-tasks-btn"
+      >
+        <Stack direction={"row"} alignItems={"center"} gap={1}>
+          <AddIcon style={{ fontSize: "16px" }} />
+          <p className="white-text">Add Task to {props}</p>
+        </Stack>
       </button>
     </>
   );
