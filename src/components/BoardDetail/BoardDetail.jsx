@@ -7,6 +7,7 @@ import AddColumnBtn from "./AddColumnInput/AddColumnInput";
 import NavBar from "../HomePage/Navbar/NavBar";
 import { Stack } from "@mui/material";
 import SideBar from "../HomePage/SideBar/SideBar";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 const handleAddColumn = () => {
   console.log("In add Column");
@@ -64,29 +65,47 @@ const BoardDetail = () => {
       <NavBar />
       <Stack className="main-board-container">
         <SideBar />
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <Droppable droppableId="root" type="column" direction="horizontal">
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                className="board-container"
+        <ScrollContainer
+          vertical={false}
+          ignoreElements="p, button, input, Draggable"
+          className="scroll-container"
+        >
+          <Stack direction={"column"} height={"100%"}>
+            <h1 className="board-nav-bar">HELLO Board navbar goes here!</h1>
+            <DragDropContext onDragEnd={handleDragEnd} style={{ flexGrow: 1 }}>
+              <Droppable
+                droppableId="root"
+                type="column"
+                direction="horizontal"
               >
-                {store.map((item, index) => (
-                  <Column props={item} key={item.id} index={index} />
-                ))}
-                {provided.placeholder}
-                {/* <button
+                {(provided) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    className="board-container"
+                  >
+                    {store.map((item, index) => (
+                      <Column
+                        props={item}
+                        key={item.id}
+                        index={index}
+                        data={{ store, setStore }}
+                      />
+                    ))}
+                    {provided.placeholder}
+                    {/* <button
                 className="add-column-btn"
                 onClick={() => handleAddColumn()}
               >
                 Add another Column +
                           </button> */}
-                <AddColumnBtn />
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+                    <AddColumnBtn props={{ store, setStore }} />
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </Stack>
+        </ScrollContainer>
       </Stack>
     </>
   );

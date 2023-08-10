@@ -48,8 +48,23 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
-export default function AddColumnBtn() {
+export default function AddColumnBtn({ props }) {
   const [expanded, setExpanded] = React.useState("panel1");
+  const [columnName, setColumnName] = React.useState();
+  const data = [...props.store];
+
+  console.log(data);
+
+  const addColumnToBoard = () => {
+    // mock dữ liệu
+    const columnToAdd = {
+      id: `column-${data.length + 1}`,
+      title: columnName,
+      tasks: [],
+    };
+    data.push(columnToAdd);
+    props.setStore(data);
+  };
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -70,9 +85,15 @@ export default function AddColumnBtn() {
                 "aria-label": "weight",
               }}
               style={{ color: "white" }}
+              onChange={(e) => setColumnName(e.target.value)}
             />
           </FormControl>
-          <button style={{ width: "50%", marginTop: "15px" }}>Add</button>
+          <button
+            onClick={() => addColumnToBoard()}
+            style={{ width: "50%", marginTop: "15px" }}
+          >
+            Add
+          </button>
         </AccordionDetails>
       </Accordion>
     </div>

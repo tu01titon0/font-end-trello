@@ -17,10 +17,9 @@ const AddTaskInput = ({ props }) => {
   const [input, setInput] = useState("");
 
   const handleOpenInput = () => {
-      setOpen(true);
-      
-    //   Viết logic add thêm task vào DB ở đây !!!!
+    setOpen(true);
 
+    //   Viết logic add thêm task vào DB ở đây !!!!
   };
 
   const handleClodeInput = () => {
@@ -31,6 +30,20 @@ const AddTaskInput = ({ props }) => {
     setInput(val);
   };
 
+  const addNewTaskToColumn = () => {
+    console.log(props);
+    // console.log(props);
+    const data = [...props.data.store];
+    const columnArray = data.findIndex((item) => item.id === props.props.id);
+    const taskContent = {
+      id: `${props.props.title}-${columnArray.length}`,
+      taskTitle: input,
+    };
+    data[columnArray].tasks.push(taskContent);
+    props.data.setStore(data);
+    setInput('');
+  };
+
   return (
     <>
       <div style={inputStyle(open)}>
@@ -38,6 +51,7 @@ const AddTaskInput = ({ props }) => {
           type="text"
           className="input-field"
           placeholder="Add new task..."
+          value={input}
           onChange={(e) => handleInput(e.target.value)}
         />
         <Stack
@@ -45,7 +59,12 @@ const AddTaskInput = ({ props }) => {
           justifyContent={"space-between"}
           alignItems={"center"}
         >
-          <button className="add-tasks-item">Add</button>
+          <button
+            className="add-tasks-item"
+            onClick={() => addNewTaskToColumn()}
+          >
+            Add
+          </button>
           <button
             className="close-input-btn"
             onClick={() => handleClodeInput()}
