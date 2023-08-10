@@ -60,7 +60,6 @@ const BoardDetail = () => {
               ref={provided.innerRef}
               {...provided.droppableProps}
               className="board-container"
-              style={{ backgroundColor: "red", padding: "10px" }}
             >
               {store.map((item, index) => (
                 <Column props={item} key={item.id} index={index} />

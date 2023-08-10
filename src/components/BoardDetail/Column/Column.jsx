@@ -12,17 +12,29 @@ const Column = ({ props, index }) => {
           {...provided.draggableProps}
           className="column-display"
         >
-          <div isDragging={snapshot.isDragging} style={{height: '100%', minHeight: '100%'}}>
-            <h3 isDragging={snapshot.isDragging} {...provided.dragHandleProps}>
+          <div
+            isDragging={snapshot.isDragging}
+            style={{ height: "100%", minHeight: "100%" }}
+          >
+            <h3
+              className="column-title"
+              isDragging={snapshot.isDragging}
+              {...provided.dragHandleProps}
+            >
               {props.title}
             </h3>
             <Droppable droppableId={props.id} type="task" direction="vertical">
               {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps} style={{minHeight: '100%'}}>
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  style={{ minHeight: "100%" }}
+                >
                   {props.tasks.map((item, index) => (
                     <Tasks props={{ item, index }} key={item.id} />
                   ))}
                   {provided.placeholder}
+                  <button className="add-task-btn">Thêm thẻ mới +</button>
                 </div>
               )}
             </Droppable>
