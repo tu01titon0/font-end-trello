@@ -30,6 +30,7 @@
   flex-direction: column;
   gap: 30px;
   width: 300px;
+  height: 100%;
   padding: 10px 8px;
   background-color: #101204;
   border-radius: 10px;
@@ -44,4 +45,11 @@
   text-align: left;
   padding: 8px;
   margin-top: 6px;
+}
+
+.add-task-btn:hover,
+.add-task-btn:active,
+.add-task-btn:focus {
+  border: 1px solid #101204;
+  outline: none;
 }

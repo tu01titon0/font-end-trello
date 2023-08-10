@@ -12,7 +12,7 @@ const Tasks = ({ props }) => {
             {...provided.draggableProps}
             className="tasks-display"
           >
-            <div isDragging={snapshot.isDragging}>
+            <div isDragging={snapshot.isDragging} style={{ flexGrow: 1 }}>
               <h3
                 isDragging={snapshot.isDragging}
                 {...provided.dragHandleProps}
@@ -22,8 +22,8 @@ const Tasks = ({ props }) => {
             </div>
           </div>
         )}
-          </Draggable>
-              </>
+      </Draggable>
+    </>
   );
 };
 

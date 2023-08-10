@@ -65,6 +65,7 @@ const BoardDetail = () => {
                 <Column props={item} key={item.id} index={index} />
               ))}
               {provided.placeholder}
+              <button className="add-column-btn">Add another Column +</button>
             </div>
           )}
         </Droppable>
