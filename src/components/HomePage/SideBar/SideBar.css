@@ -3,6 +3,11 @@
   min-width: 300px;
   background-color: #1d2125;
   padding: 20px;
+  overflow-y: scroll;
+}
+
+.side-bar-home::-webkit-scrollbar {
+  width: 0;
 }
 
 .sidebar-button {
