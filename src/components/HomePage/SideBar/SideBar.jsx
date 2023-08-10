@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import "./SideBar.css";
 import {
   Accordion,
@@ -55,7 +55,6 @@ const SideBar = () => {
           <OtherHousesOutlinedIcon />
           <p>Home</p>
         </Button>
-       
 
         <hr style={{ border: "none", borderBottom: "1px solid #c7cfd8 " }} />
 
