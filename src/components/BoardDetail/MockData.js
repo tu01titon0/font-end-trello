@@ -56,6 +56,25 @@ const data2 = [
       },
     ],
   },
+  {
+    id: "column-4",
+    title: "Reviewing",
+    index: 3,
+    tasks: [
+      {
+        id: "Review-1",
+        taskTitle: "Review 1",
+      },
+      {
+        id: "Review-2",
+        taskTitle: "Review 2",
+      },
+      {
+        id: "Review-3",
+        taskTitle: "Review 3",
+      },
+    ],
+  },
 ];
 
 export default data2;

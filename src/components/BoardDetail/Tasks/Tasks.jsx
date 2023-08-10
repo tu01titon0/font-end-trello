@@ -3,7 +3,10 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 
 const Tasks = ({ props }) => {
   return (
-    <Draggable draggableId={props.item.id} index={props.index}>
+    <Draggable
+      draggableId={props.item.id}
+      index={props.index}
+    >
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}

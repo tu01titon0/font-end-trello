@@ -31,25 +31,39 @@ const BoardDetail = () => {
       "\n"
     );
     if (typeOfItem === "column") {
-      const removedData = store.splice(startingIndex, 1);
-      const newData = store.splice(endingIndex, 0, removedData[0]);
-      setStore(store);
-      console.log(data2);
+      const newData = [...store];
+      const [removedData] = newData.splice(startingIndex, 1);
+      newData.splice(endingIndex, 0, removedData);
+      setStore(newData);
+    } else if (typeOfItem === "task") {
+      const newData = [...store];
+      const startedColumn = newData.findIndex(
+        (item) => item.id === startingCol
+      );
+      const endedColumn = newData.findIndex((item) => item.id === endingCol);
+      const [removed] = newData[startedColumn].tasks.splice(startingIndex, 1);
+      if (newData[endedColumn].tasks.length === 0) {
+        newData[endedColumn].tasks.push(removed);
+      } else {
+        newData[endedColumn].tasks.splice(endingIndex, 0, removed);
+      }
+      setStore(newData);
     }
   };
 
   return (
     <>
       <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="board" type="column" direction="horizontal">
+        <Droppable droppableId="root" type="column" direction="horizontal">
           {(provided) => (
             <div
               ref={provided.innerRef}
               {...provided.droppableProps}
               className="board-container"
+              style={{ backgroundColor: "red", padding: "10px" }}
             >
               {store.map((item, index) => (
-                <Column props={item} key={item.id} />
+                <Column props={item} key={item.id} index={index} />
               ))}
               {provided.placeholder}
             </div>
