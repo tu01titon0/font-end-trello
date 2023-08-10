@@ -1,0 +1,47 @@
+.column-container {
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid aquamarine;
+  color: black;
+  width: 200px;
+}
+
+.column-name-container {
+  padding: 8px;
+}
+
+.task-container {
+  padding: 8px;
+}
+
+.tasks-display {
+  display: flex;
+  flex-direction: row;
+  background-color: #22272b;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+
+.column-display {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 300px;
+  padding: 10px 8px;
+  background-color: #101204;
+  border-radius: 10px;
+}
+
+.column-title {
+  padding: 8px;
+}
+
+.add-task-btn {
+  width: 100%;
+  text-align: left;
+  padding: 8px;
+  margin-top: 6px;
+}

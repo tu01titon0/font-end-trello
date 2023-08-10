@@ -7,6 +7,7 @@ import "./App.css";
 import Profile from "./pages/Profile.jsx";
 // import { createContext } from "react";
 import { useAuthUser } from "react-auth-kit";
+import BoardDetail from "./components/BoardDetail/BoardDetail.jsx";
 
 function App() {
   const auth = useAuthUser();
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/settings/:id" element={<WorkSpaceSettings />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/boarddetail" element={<BoardDetail />} />
           <Route path="/login" element={<Navigate to={"/"} />} />
           <Route path="/signup" element={<Navigate to={"/"} />} />
         </>
