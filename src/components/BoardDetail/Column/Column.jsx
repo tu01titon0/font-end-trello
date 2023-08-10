@@ -3,6 +3,11 @@ import "./Column.css";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import Tasks from "../Tasks/Tasks";
 
+const handleAddTask = (val) => {
+    // console.log("in button");
+    console.log("Column ID: ",val);
+};
+
 const Column = ({ props, index }) => {
   return (
     <Draggable draggableId={props.id} index={index}>
@@ -34,7 +39,12 @@ const Column = ({ props, index }) => {
                     <Tasks props={{ item, index }} key={item.id} />
                   ))}
                   {provided.placeholder}
-                  <button className="add-task-btn">Thêm thẻ mới +</button>
+                  <button
+                    className="add-task-btn"
+                    onClick={() => handleAddTask(props.id)}
+                  >
+                    Thêm thẻ mới +
+                  </button>
                 </div>
               )}
             </Droppable>

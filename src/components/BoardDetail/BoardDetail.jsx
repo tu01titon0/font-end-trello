@@ -4,6 +4,10 @@ import data2 from "./MockData";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./BoardDetail.css";
 
+const handleAddColumn = () => {
+  console.log("In add Column");
+};
+
 const BoardDetail = () => {
   const [store, setStore] = useState(data2);
 
@@ -65,7 +69,12 @@ const BoardDetail = () => {
                 <Column props={item} key={item.id} index={index} />
               ))}
               {provided.placeholder}
-              <button className="add-column-btn">Add another Column +</button>
+              <button
+                className="add-column-btn"
+                onClick={() => handleAddColumn()}
+              >
+                Add another Column +
+              </button>
             </div>
           )}
         </Droppable>
