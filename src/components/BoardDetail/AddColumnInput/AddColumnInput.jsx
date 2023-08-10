@@ -53,8 +53,6 @@ export default function AddColumnBtn({ props }) {
   const [columnName, setColumnName] = React.useState();
   const data = [...props.store];
 
-  console.log(data);
-
   const addColumnToBoard = () => {
     // mock dữ liệu
     const columnToAdd = {
@@ -64,6 +62,7 @@ export default function AddColumnBtn({ props }) {
     };
     data.push(columnToAdd);
     props.setStore(data);
+    setColumnName('');
   };
 
   const handleChange = (panel) => (event, newExpanded) => {
@@ -84,6 +83,7 @@ export default function AddColumnBtn({ props }) {
               inputProps={{
                 "aria-label": "weight",
               }}
+              value={columnName}
               style={{ color: "white" }}
               onChange={(e) => setColumnName(e.target.value)}
             />

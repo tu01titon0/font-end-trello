@@ -71,7 +71,7 @@ const BoardDetail = () => {
           className="scroll-container"
         >
           <Stack direction={"column"} height={"100%"}>
-            <h1 className="board-nav-bar">HELLO Board navbar goes here!</h1>
+            <h1 className="board-nav-bar">Board Title!</h1>
             <DragDropContext onDragEnd={handleDragEnd} style={{ flexGrow: 1 }}>
               <Droppable
                 droppableId="root"
