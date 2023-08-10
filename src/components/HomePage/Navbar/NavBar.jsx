@@ -23,19 +23,24 @@ import { useSignOut } from "react-auth-kit";
 const NavBar = () => {
   const [userName, setUserName] = useState("");
   useEffect(() => {
-    const authType = cookieParse()._auth_type;
-    const authKey = cookieParse()._auth;
-    axios
-      .get("http://localhost:8686/api/user/info", {
-        headers: { authorization: `${authType} ${authKey}` },
-      })
-      .then((res) => {
-        console.log("ádasdasdsa", res);
-        setUserName(res.data.user.userName.slice(0, 2));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const userInfo = JSON.parse(localStorage.getItem('user'));
+    setUserName(userInfo.userName.slice(0, 2));
+    // const authType = cookieParse()._auth_type;
+    // const authKey = cookieParse()._auth;
+    // axios
+    //   .get("http://localhost:8686/api/user/info", {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //       authorization: authKey,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log("ádasdasdsa", res);
+    //     setUserName(res.data.user.userName.slice(0, 2));
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   }, []);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -143,7 +148,6 @@ const NavBar = () => {
       <Stack direction={"row"} alignItems={"center"} gap={"10px"}>
         <FormControl
           variant="outlined"
-          onClick
           style={{
             border: "1px solid hsla(213, 10%, 55%, 0.4)",
             borderRadius: "4px",
@@ -171,6 +175,7 @@ const NavBar = () => {
               alignItems: "center",
               width: "30px",
               height: "30px",
+              textTransform: 'uppercase'
             }}
             onClick={handleClick}
           >
