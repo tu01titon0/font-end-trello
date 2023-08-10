@@ -17,7 +17,10 @@ const AddTaskInput = ({ props }) => {
   const [input, setInput] = useState("");
 
   const handleOpenInput = () => {
-    setOpen(true);
+      setOpen(true);
+      
+    //   Viết logic add thêm task vào DB ở đây !!!!
+
   };
 
   const handleClodeInput = () => {
@@ -58,7 +61,7 @@ const AddTaskInput = ({ props }) => {
       >
         <Stack direction={"row"} alignItems={"center"} gap={1}>
           <AddIcon style={{ fontSize: "16px" }} />
-          <p className="white-text">Add Task to {props}</p>
+          <p className="white-text">Add new task...</p>
         </Stack>
       </button>
     </>

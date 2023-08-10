@@ -3,7 +3,10 @@ import Column from "./Column/Column";
 import data2 from "./MockData";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./BoardDetail.css";
-import AddColumnBtn from "./AddColumnInput/AddColumnInput"
+import AddColumnBtn from "./AddColumnInput/AddColumnInput";
+import NavBar from "../HomePage/Navbar/NavBar";
+import { Stack } from "@mui/material";
+import SideBar from "../HomePage/SideBar/SideBar";
 
 const handleAddColumn = () => {
   console.log("In add Column");
@@ -58,29 +61,33 @@ const BoardDetail = () => {
 
   return (
     <>
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="root" type="column" direction="horizontal">
-          {(provided) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              className="board-container"
-            >
-              {store.map((item, index) => (
-                <Column props={item} key={item.id} index={index} />
-              ))}
-              {provided.placeholder}
-              {/* <button
+      <NavBar />
+      <Stack className="main-board-container">
+        <SideBar />
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="root" type="column" direction="horizontal">
+            {(provided) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                className="board-container"
+              >
+                {store.map((item, index) => (
+                  <Column props={item} key={item.id} index={index} />
+                ))}
+                {provided.placeholder}
+                {/* <button
                 className="add-column-btn"
                 onClick={() => handleAddColumn()}
               >
                 Add another Column +
                           </button> */}
-                          <AddColumnBtn />
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+                <AddColumnBtn />
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </Stack>
     </>
   );
 };

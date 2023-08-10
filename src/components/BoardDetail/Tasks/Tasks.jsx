@@ -20,7 +20,7 @@ const Tasks = ({ props }) => {
             className="tasks-display"
           >
             <div isDragging={snapshot.isDragging} style={{ flexGrow: 1 }}>
-              <h3
+              <p
                 isDragging={snapshot.isDragging}
                 {...provided.dragHandleProps}
                 style={dragStyle(
@@ -29,7 +29,7 @@ const Tasks = ({ props }) => {
                 )}
               >
                 {props.item.taskTitle}
-              </h3>
+              </p>
             </div>
           </div>
         )}
