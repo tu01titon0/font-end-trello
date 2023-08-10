@@ -5,3 +5,17 @@
   gap: 20px;
   justify-content: center;
 }
+
+.add-column-btn {
+  width: 300px;
+  text-align: left;
+  background-color: #10120428 !important;
+  border-radius: 10px;
+}
+
+.add-column-btn:hover,
+.add-column-btn:active,
+.add-column-btn:focus {
+  outline: none;
+  border: 1px solid #101204;
+}

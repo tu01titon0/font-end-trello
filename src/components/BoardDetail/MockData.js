@@ -2,7 +2,6 @@ const data2 = [
   {
     id: "column-1",
     title: "To do",
-    index: 0,
     tasks: [
       {
         id: "todo-1",
@@ -21,7 +20,6 @@ const data2 = [
   {
     id: "column-2",
     title: "Doing",
-    index: 1,
     tasks: [
       {
         id: "doing-1",
@@ -40,7 +38,6 @@ const data2 = [
   {
     id: "column-3",
     title: "Done",
-    index: 2,
     tasks: [
       {
         id: "Done-1",
@@ -59,7 +56,6 @@ const data2 = [
   {
     id: "column-4",
     title: "Reviewing",
-    index: 3,
     tasks: [
       {
         id: "Review-1",

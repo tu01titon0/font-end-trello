@@ -3,6 +3,11 @@ import Column from "./Column/Column";
 import data2 from "./MockData";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./BoardDetail.css";
+import AddColumnBtn from "./AddColumnInput/AddColumnInput"
+
+const handleAddColumn = () => {
+  console.log("In add Column");
+};
 
 const BoardDetail = () => {
   const [store, setStore] = useState(data2);
@@ -13,23 +18,23 @@ const BoardDetail = () => {
     const typeOfItem = res.type;
     const endingIndex = res.destination.index;
     const endingCol = res.destination.droppableId;
-    console.log(
-      "Starting Index: ",
-      startingIndex,
-      "\n",
-      "Starting Column: ",
-      startingCol,
-      "\n",
-      "Type: ",
-      typeOfItem,
-      "\n",
-      "Ending Index: ",
-      endingIndex,
-      "\n",
-      "Ending Col: ",
-      endingCol,
-      "\n"
-    );
+    // console.log(
+    //   "Starting Index: ",
+    //   startingIndex,
+    //   "\n",
+    //   "Starting Column: ",
+    //   startingCol,
+    //   "\n",
+    //   "Type: ",
+    //   typeOfItem,
+    //   "\n",
+    //   "Ending Index: ",
+    //   endingIndex,
+    //   "\n",
+    //   "Ending Col: ",
+    //   endingCol,
+    //   "\n"
+    // );
     if (typeOfItem === "column") {
       const newData = [...store];
       const [removedData] = newData.splice(startingIndex, 1);
@@ -65,6 +70,13 @@ const BoardDetail = () => {
                 <Column props={item} key={item.id} index={index} />
               ))}
               {provided.placeholder}
+              {/* <button
+                className="add-column-btn"
+                onClick={() => handleAddColumn()}
+              >
+                Add another Column +
+                          </button> */}
+                          <AddColumnBtn />
             </div>
           )}
         </Droppable>
