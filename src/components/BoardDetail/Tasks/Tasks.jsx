@@ -2,6 +2,13 @@ import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import "../Column/Column.css";
 
+const dragStyle = (isDragging, draggableStyle) => ({
+  transform: isDragging ? "rotate(3deg)" : null,
+  backgroundColor: "#1a1a1a",
+  padding: "8px",
+  borderRadius: "6px",
+});
+
 const Tasks = ({ props }) => {
   return (
     <>
@@ -16,6 +23,10 @@ const Tasks = ({ props }) => {
               <h3
                 isDragging={snapshot.isDragging}
                 {...provided.dragHandleProps}
+                style={dragStyle(
+                  snapshot.isDragging,
+                  provided.draggableProps.style
+                )}
               >
                 {props.item.taskTitle}
               </h3>

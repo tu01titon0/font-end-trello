@@ -19,8 +19,6 @@
 .tasks-display {
   display: flex;
   flex-direction: row;
-  background-color: #22272b;
-  padding: 8px;
   border-radius: 6px;
   margin-bottom: 6px;
 }
