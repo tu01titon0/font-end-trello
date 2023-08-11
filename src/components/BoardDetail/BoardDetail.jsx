@@ -21,6 +21,7 @@ const BoardDetail = () => {
   const boardId = useParams().id;
 
   useEffect(() => {
+    console.log(board)
     BoardService.getBoardDetail(boardId)
       .then((res) => {
         setBoard(res.data.board);
@@ -29,6 +30,10 @@ const BoardDetail = () => {
         console.log(err);
       });
   }, []);
+
+  const backgroundStyle = (board) => ({
+    backgroundImage: board ? `url("../../../public/${board.backgroundImage}")` : 'none'
+  })
 
   const handleDragEnd = (res) => {
     const startingIndex = res.source.index;
@@ -77,7 +82,7 @@ const BoardDetail = () => {
   return (
     <>
       <NavBar />
-      <Stack className="main-board-container">
+      <Stack className="main-board-container" style={backgroundStyle(board)}>
         <SideBar />
         <ScrollContainer
           vertical={false}
