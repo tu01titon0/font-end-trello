@@ -4,6 +4,7 @@ import WorkSpaceSettings from "./components/WorkSpaceSettings/WorkSpaceSettings.
 import SignUp from "./pages/signup.jsx";
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
+import ResetPassWord from "./pages/ResetPassword.jsx";
 import Profile from "./pages/Profile.jsx";
 // import { createContext } from "react";
 import { useAuthUser } from "react-auth-kit";
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/settings/:id" element={<WorkSpaceSettings />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/updatePassword" element={<ResetPassWord />} />
           <Route path="/login" element={<Navigate to={"/"} />} />
           <Route path="/signup" element={<Navigate to={"/"} />} />
         </>
