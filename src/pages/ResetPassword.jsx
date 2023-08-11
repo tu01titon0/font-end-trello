@@ -33,7 +33,6 @@ export default function ResetPassWord() {
     newpassword: Yup.string().required("Vui lòng nhập mật khẩu mới"),
     confirmpassword: Yup.string().required("Vui lòng nhập lại mật khẩu mới"),
   });
-
   const formik = useFormik({
     initialValues: {
       password: "",
@@ -63,7 +62,6 @@ export default function ResetPassWord() {
       }
     },
   });
-
   return (
     <>
       <Layout
@@ -152,7 +150,6 @@ export default function ResetPassWord() {
                 !!formik.errors.confirmpassword
               }
             />
-
             <Button
               variant="contained"
               type="submit"

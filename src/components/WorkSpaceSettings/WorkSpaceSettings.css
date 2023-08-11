@@ -2,3 +2,10 @@
   min-height: 100vh;
   background-color: #1d2125;
 }
+
+.board-card-title {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  text-decoration: none;
+  color: white;
+}

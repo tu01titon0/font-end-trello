@@ -1,5 +1,8 @@
 .nav-bar-container {
   background-color: #1d2125;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   width: 100vw;
   height: 48px;
   display: flex;

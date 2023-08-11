@@ -42,7 +42,7 @@ const Login = () => {
         userName: values.userName,
         password: values.password,
       };
-      LoginService.userLoggegIn(data)
+      LoginService.userLogIn(data)
         .then((res) => {
           if (res.data.message) {
             setErrMessage(res.data.message);
