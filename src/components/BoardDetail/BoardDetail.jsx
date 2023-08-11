@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Column from "./Column/Column";
 import data2 from "./MockData";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
@@ -8,13 +8,27 @@ import NavBar from "../HomePage/Navbar/NavBar";
 import { Stack } from "@mui/material";
 import SideBar from "../HomePage/SideBar/SideBar";
 import ScrollContainer from "react-indiana-drag-scroll";
+import { useParams } from "react-router";
+import BoardService from "../../services/board.service";
 
-const handleAddColumn = () => {
-  console.log("In add Column");
-};
+// const handleAddColumn = () => {
+//   console.log("In add Column");
+// };
 
 const BoardDetail = () => {
   const [store, setStore] = useState(data2);
+  const [board, setBoard] = useState();
+  const boardId = useParams().id;
+
+  useEffect(() => {
+    BoardService.getBoardDetail(boardId)
+      .then((res) => {
+        setBoard(res.data.board);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleDragEnd = (res) => {
     const startingIndex = res.source.index;
@@ -71,7 +85,7 @@ const BoardDetail = () => {
           className="scroll-container"
         >
           <Stack direction={"column"} height={"100%"}>
-            <h1 className="board-nav-bar">Board Title!</h1>
+            <h1 className="board-nav-bar">{ board && board.title ? board.title : null }</h1>
             <DragDropContext onDragEnd={handleDragEnd} style={{ flexGrow: 1 }}>
               <Droppable
                 droppableId="root"

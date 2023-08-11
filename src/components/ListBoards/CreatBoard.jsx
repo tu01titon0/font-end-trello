@@ -58,6 +58,7 @@ const CreatBoard = ({ open, anchorEl, handleClose}) => {
                 backgroundImage: backgroundBroad,
                 userId: JSON.parse(localStorage.getItem("user"))._id
             };
+            console.log(data);
             WorkspaceService.createBoard(data)
                 .then((res) => {
                     if (res.data.board) {
@@ -132,7 +133,7 @@ const CreatBoard = ({ open, anchorEl, handleClose}) => {
                             <div style={{paddingLeft: "5px"}}>
                                 <Grid container spacing={1} columns={12}>
                                     {IMAGE_BG.map ( (url, index) =>
-                                        <Grid xs={3} key={index}>
+                                        <Grid key={index}>
                                             <label>
                                                 <input type="radio" name="images" className="chose-img" defaultChecked={index === 0} value={url} />
                                                 <img className="backgound-img" src={"/"+url}  onClick={() => handleChange(url)} />
@@ -142,7 +143,7 @@ const CreatBoard = ({ open, anchorEl, handleClose}) => {
                                 </Grid>
                                 <Grid container spacing={1} columns={12}>
                                     {COLORS_BG.map ( (url, index) =>
-                                        <Grid xs={2} key={index}>
+                                        <Grid key={index}>
                                             <label>
                                                 <input type="radio" name="images" className="chose-img" />
                                                 <img className="backgound-img bg-color" src={"/"+url} onClick={() => handleChange(url)}/>
