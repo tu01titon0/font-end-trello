@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect} from "react";
 import "./SideBar.css";
 import {
   Accordion,
@@ -55,6 +55,7 @@ const SideBar = () => {
           <OtherHousesOutlinedIcon />
           <p>Home</p>
         </Button>
+       
 
         <hr style={{ border: "none", borderBottom: "1px solid #c7cfd8 " }} />
 
@@ -102,17 +103,20 @@ const SideBar = () => {
                 </Stack>
               </AccordionSummary>
               <AccordionDetails style={{ margin: "0" }}>
-                <Button
-                  style={{
-                    justifyContent: "left",
-                    gap: "5px",
-                    marginBottom: "8px",
-                  }}
-                  fullWidth
-                >
-                  <DashboardIcon style={{ color: "white", fontSize: "14px" }} />
-                  <Typography>Boards</Typography>
-                </Button>
+                <Link to={`/boards/${row._id}`}>
+
+                  <Button
+                    style={{
+                      justifyContent: "left",
+                      gap: "5px",
+                      marginBottom: "8px",
+                    }}
+                    fullWidth
+                  >
+                    <DashboardIcon style={{ color: "white", fontSize: "14px" }} />
+                    <Typography>Boards</Typography>
+                  </Button>
+                </Link>
                 <Button
                   style={{
                     justifyContent: "left",

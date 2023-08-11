@@ -95,4 +95,18 @@ export default class WorkspaceService {
             }
         );
     }
+
+    static  async createBoard(data){
+        const authKey = cookieParse()._auth;
+        return await axios.post(
+            `${import.meta.env.VITE_ROOT_DOMAIN}/board`,
+            data,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    authorization: authKey,
+                },
+            }
+        );
+    }
 }
