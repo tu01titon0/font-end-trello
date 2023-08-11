@@ -21,7 +21,7 @@ function App() {
           <Route path="/settings/:id" element={<WorkSpaceSettings />} />
           <Route path="/boards/:id" element={<ListBoards />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/boarddetail" element={<BoardDetail />} />
+          <Route path="/b/:id" element={<BoardDetail />} />
           <Route path="/login" element={<Navigate to={"/"} />} />
           <Route path="/signup" element={<Navigate to={"/"} />} />
         </>
