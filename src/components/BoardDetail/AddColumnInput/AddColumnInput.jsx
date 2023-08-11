@@ -55,14 +55,16 @@ export default function AddColumnBtn({ props }) {
 
   const addColumnToBoard = () => {
     // mock dữ liệu
-    const columnToAdd = {
-      id: `column-${data.length + 1}`,
-      title: columnName,
-      tasks: [],
-    };
-    data.push(columnToAdd);
-    props.setStore(data);
-    setColumnName('');
+    if (columnName) {
+      const columnToAdd = {
+        id: `column-${data.length + 1}`,
+        title: columnName,
+        tasks: [],
+      };
+      data.push(columnToAdd);
+      props.setStore(data);
+      setColumnName("");
+    }
   };
 
   const handleChange = (panel) => (event, newExpanded) => {

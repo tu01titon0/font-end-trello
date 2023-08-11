@@ -31,15 +31,17 @@ const AddTaskInput = ({ props }) => {
   };
 
   const addNewTaskToColumn = () => {
-    const data = [...props.data.store];
-    const columnArray = data.findIndex((item) => item.id === props.props.id);
-    const taskContent = {
-      id: `${props.props.title}-${data[columnArray].tasks.length + 1}`,
-      taskTitle: input,
-    };
-    data[columnArray].tasks.push(taskContent);
-    props.data.setStore(data);
-    setInput("");
+    if (input) {
+      const data = [...props.data.store];
+      const columnArray = data.findIndex((item) => item.id === props.props.id);
+      const taskContent = {
+        id: `${props.props.title}-${data[columnArray].tasks.length + 1}`,
+        taskTitle: input,
+      };
+      data[columnArray].tasks.push(taskContent);
+      props.data.setStore(data);
+      setInput("");
+    }
   };
 
   return (
