@@ -40,10 +40,10 @@ const BoardDetail = () => {
   }, [boardId]);
 
   const backgroundStyle = (board) => ({
-    backgroundImage: board
-      ? `url("../../../public/${board.backgroundImage}")`
-      : "none",
-  });
+    backgroundImage: board ? `url("../../../public/${board.backgroundImage}")` : 'none',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover'
+  })
 
   const handleDragEnd = (res) => {
     const startingIndex = res.source.index;
