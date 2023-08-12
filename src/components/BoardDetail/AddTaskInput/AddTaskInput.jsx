@@ -45,8 +45,6 @@ const AddTaskInput = ({ props }) => {
 
       BoardService.addTaskToCol(taskContent)
         .then((res) => {
-          console.log(res.data.board);
-          console.log(data[columnArray].tasks);
           data[columnArray].tasks.push(res.data.data);
           props.data.setColumn(res.data.board.columns);
           setBoard(res.data.board);
