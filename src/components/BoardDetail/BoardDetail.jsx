@@ -58,6 +58,8 @@ const BoardDetail = () => {
       const [removedCol] = boardColData.splice(startingIndex, 1);
       boardColData.splice(endingIndex, 0, removedCol);
       setColumn(boardColData);
+      console.log(startingIndex)
+      console.log(endingIndex)
       const dataToBe = [...boardColData.map((item) => item._id)];
       const dataToSend = {
         board: boardRef.current._id,
@@ -65,6 +67,7 @@ const BoardDetail = () => {
       };
       BoardService.updateDragDrop(dataToSend)
         .then((res) => {
+          console.log(res);
           setBoard(res.data.board);
         })
         .catch((err) => {

@@ -6,7 +6,7 @@ import AddTaskInput from "../AddTaskInput/AddTaskInput";
 
 const Column = ({ props, index, data, board }) => {
   return (
-    <Draggable draggableId={props._id} index={index+1}>
+    <Draggable draggableId={props._id} index={index}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
