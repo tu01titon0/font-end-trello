@@ -11,13 +11,14 @@ const handleAddTask = (val) => {
 
 const Column = ({ props, index, data }) => {
   return (
-      <Draggable draggableId={props.id} index={index}>
+    <Draggable draggableId={props._id} index={index}>
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
             {...provided.draggableProps}
             className="column-display"
-          >
+        >
+          {console.log(props)}
             <div
               isDragging={snapshot.isDragging}
               style={{ height: "100%", minHeight: "100%" }}
@@ -30,7 +31,7 @@ const Column = ({ props, index, data }) => {
                 {props.title}
               </h3>
               <Droppable
-                droppableId={props.id}
+                droppableId={props._id}
                 type="task"
                 direction="vertical"
               >
@@ -40,8 +41,9 @@ const Column = ({ props, index, data }) => {
                     {...provided.droppableProps}
                     style={{ minHeight: "100%" }}
                   >
-                    {props.tasks.map((item, index) => (
-                      <Tasks props={{ item, index }} key={item.id} />
+                  {props.tasks && props.tasks.map((item, index) => (
+                      a
+                      // <Tasks props={{ item, index }} key={item._id} />
                     ))}
                     {provided.placeholder}
                     {/* <button

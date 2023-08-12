@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
+import BoardService from "../../../services/board.service";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import "./AddColumnInput.css";
 import {
@@ -51,20 +52,38 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 export default function AddColumnBtn({ props }) {
   const [expanded, setExpanded] = React.useState("panel1");
   const [columnName, setColumnName] = React.useState();
-  const data = [...props.store];
+  // const data = [...props.store];
+  console.log(props);
 
   const addColumnToBoard = () => {
-    // mock dữ liệu
     if (columnName) {
-      const columnToAdd = {
-        id: `column-${data.length + 1}`,
-        title: columnName,
-        tasks: [],
+      const boardId = props.board._id;
+      const data = {
+        board: boardId,
+        column: columnName,
       };
-      data.push(columnToAdd);
-      props.setStore(data);
-      setColumnName("");
+
+      BoardService.addColumnToBoard(data)
+        .then((res) => {
+          console.log(res.data.data);
+          props.setBoard(res.data.data);
+          setColumnName("");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
+    // mock dữ liệu
+    // if (columnName) {
+    //   const columnToAdd = {
+    //     id: `column-${data.length + 1}`,
+    //     title: columnName,
+    //     tasks: [],
+    //   };
+    //   data.push(columnToAdd);
+    //   props.setStore(data);
+    //   setColumnName("");
+    // }
   };
 
   const handleChange = (panel) => (event, newExpanded) => {

@@ -11,4 +11,18 @@ export default class BoardService {
       },
     });
   }
+
+  static async addColumnToBoard(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.post(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/addColumn`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
 }

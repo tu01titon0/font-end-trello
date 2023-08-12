@@ -11,17 +11,12 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import { useParams } from "react-router";
 import BoardService from "../../services/board.service";
 
-// const handleAddColumn = () => {
-//   console.log("In add Column");
-// };
-
 const BoardDetail = () => {
   const [store, setStore] = useState(data2);
   const [board, setBoard] = useState();
   const boardId = useParams().id;
 
   useEffect(() => {
-    console.log(board)
     BoardService.getBoardDetail(boardId)
       .then((res) => {
         setBoard(res.data.board);
@@ -31,11 +26,15 @@ const BoardDetail = () => {
       });
   }, []);
 
+console.log(board);
+
   const backgroundStyle = (board) => ({
-    backgroundImage: board ? `url("../../../public/${board.backgroundImage}")` : 'none',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover'
-  })
+    backgroundImage: board
+      ? `url("../../../public/${board.backgroundImage}")`
+      : "none",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+  });
 
   const handleDragEnd = (res) => {
     const startingIndex = res.source.index;
@@ -61,10 +60,13 @@ const BoardDetail = () => {
     //   "\n"
     // );
     if (typeOfItem === "column") {
-      const newData = [...store];
+      const newData = [...board.columns];
       const [removedData] = newData.splice(startingIndex, 1);
       newData.splice(endingIndex, 0, removedData);
-      setStore(newData);
+      // const idArray = newData.map(item => item._id);
+      console.log(idArray);
+      // console.log('data', newData);
+      console.log('Board ID', board._id);
     } else if (typeOfItem === "task") {
       const newData = [...store];
       const startedColumn = newData.findIndex(
@@ -92,7 +94,9 @@ const BoardDetail = () => {
           className="scroll-container"
         >
           <Stack direction={"column"} height={"100%"}>
-            <h1 className="board-nav-bar">{ board && board.title ? board.title : null }</h1>
+            <h1 className="board-nav-bar">
+              {board && board.title ? board.title : null}
+            </h1>
             <DragDropContext onDragEnd={handleDragEnd} style={{ flexGrow: 1 }}>
               <Droppable
                 droppableId="root"
@@ -105,22 +109,16 @@ const BoardDetail = () => {
                     {...provided.droppableProps}
                     className="board-container"
                   >
-                    {store.map((item, index) => (
+                    {board && board.columns ? board.columns.map((item, index) => (
                       <Column
                         props={item}
-                        key={item.id}
+                        key={item._id}
                         index={index}
-                        data={{ store, setStore }}
+                        data={{ board, setBoard }}
                       />
-                    ))}
+                    )) : null}
                     {provided.placeholder}
-                    {/* <button
-                className="add-column-btn"
-                onClick={() => handleAddColumn()}
-              >
-                Add another Column +
-                          </button> */}
-                    <AddColumnBtn props={{ store, setStore }} />
+                    <AddColumnBtn props={{ board, setBoard }} />
                   </div>
                 )}
               </Droppable>
