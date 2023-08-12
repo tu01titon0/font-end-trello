@@ -5,7 +5,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./BoardDetail.css";
 import AddColumnBtn from "./AddColumnInput/AddColumnInput";
 import NavBar from "../HomePage/Navbar/NavBar";
-import { Stack } from "@mui/material";
+import { CircularProgress, Stack } from "@mui/material";
 import SideBar from "../HomePage/SideBar/SideBar";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { useParams } from "react-router";
@@ -14,10 +14,10 @@ import useBoard from "../../store/useBoard";
 
 const BoardDetail = () => {
   const [store, setStore] = useState(data2);
-  // const [board, setBoard] = useState();
   const { board, setBoard } = useBoard();
   const [column, setColumn] = useState();
   const boardId = useParams().id;
+  const [loading, setLoading] = useState(true);
 
   const boardRef = useRef(board);
   const columnRef = useRef(column);
@@ -32,11 +32,12 @@ const BoardDetail = () => {
       .then((res) => {
         setBoard(res.data.board);
         setColumn(res.data.board.columns);
+        setLoading(true);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [boardId, board, column]);
+  }, [boardId]);
 
   const backgroundStyle = (board) => ({
     backgroundImage: board
@@ -50,13 +51,14 @@ const BoardDetail = () => {
     const typeOfItem = res.type;
     const endingIndex = res.destination.index;
     const endingCol = res.destination.droppableId;
+    setLoading(false);
 
     if (typeOfItem === "column") {
       const boardColData = [...board.columns];
       const [removedCol] = boardColData.splice(startingIndex, 1);
       boardColData.splice(endingIndex, 0, removedCol);
       setColumn(boardColData);
-      const dataToBe = boardColData.map((item) => item._id);
+      const dataToBe = [...boardColData.map((item) => item._id)];
       const dataToSend = {
         board: boardRef.current._id,
         array: dataToBe,
@@ -68,19 +70,49 @@ const BoardDetail = () => {
         .catch((err) => {
           console.log(err);
         });
+      setLoading(true);
     } else if (typeOfItem === "task") {
-      const newData = [...store];
-      const startedColumn = newData.findIndex(
-        (item) => item.id === startingCol
+      const boardColData = [...board.columns];
+      const startedColIndex = boardColData.findIndex(
+        (item) => item._id === startingCol
       );
-      const endedColumn = newData.findIndex((item) => item.id === endingCol);
-      const [removed] = newData[startedColumn].tasks.splice(startingIndex, 1);
-      if (newData[endedColumn].tasks.length === 0) {
-        newData[endedColumn].tasks.push(removed);
+      const endedColIndex = boardColData.findIndex(
+        (item) => item._id === endingCol
+      );
+      // console.log("data array", boardColData);
+      // console.log("starting index in col", startingIndex);
+      // console.log("starting col index", startedColIndex);
+      // console.log("ended index of col", endedColIndex);
+      // console.log("ended index in col", endingIndex);
+      const [removedTask] = boardColData[startedColIndex].tasks.splice(
+        startingIndex,
+        1
+      );
+
+      if (boardColData[endedColIndex].tasks.length === 0) {
+        boardColData[endedColIndex].tasks.push(removedTask);
       } else {
-        newData[endedColumn].tasks.splice(endingIndex, 0, removed);
+        boardColData[endedColIndex].tasks.splice(endingIndex, 0, removedTask);
       }
-      setStore(newData);
+
+      const dataToBE = {
+        removedItemId: removedTask._id,
+        startingColId: boardColData[startedColIndex]._id,
+        endingColId: boardColData[endedColIndex]._id,
+        startedIndex: startingIndex,
+        endedIndex: endingIndex,
+        boardId: boardId,
+      };
+
+      // setStore(newData);
+      setColumn(boardColData);
+      BoardService.updateDragDropTask(dataToBE)
+        .then((res) => {
+          setBoard(res.data.board);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
@@ -94,46 +126,39 @@ const BoardDetail = () => {
           ignoreElements="p, button, input, Draggable"
           className="scroll-container"
         >
-          {board && column && board.title ? (
-            <Stack direction={"column"} height={"100%"}>
-              <h1 className="board-nav-bar">
-                {board && board.title ? board.title : null}
-              </h1>
-              <DragDropContext
-                onDragEnd={handleDragEnd}
-                style={{ flexGrow: 1 }}
+          <Stack direction={"column"} height={"100%"}>
+            <h1 className="board-nav-bar">
+              {board && board.title ? board.title : null}
+            </h1>
+            <DragDropContext onDragEnd={handleDragEnd} style={{ flexGrow: 1 }}>
+              <Droppable
+                droppableId="root"
+                type="column"
+                direction="horizontal"
               >
-                <Droppable
-                  droppableId="root"
-                  type="column"
-                  direction="horizontal"
-                >
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className="board-container"
-                    >
-                      {column && column.length
-                        ? column.map((item, index) => (
-                            <Column
-                              props={item}
-                              key={item._id}
-                              index={index}
-                              data={{ column, setColumn }}
-                            />
-                          ))
-                        : null}
-                      {provided.placeholder}
-                      <AddColumnBtn column={{ column, setColumn, boardId }} />
-                    </div>
-                  )}
-                </Droppable>
-              </DragDropContext>
-            </Stack>
-          ) : (
-            "loading"
-          )}
+                {(provided) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    className="board-container"
+                  >
+                    {column && column.length
+                      ? column.map((item, index) => (
+                          <Column
+                            props={item}
+                            key={item._id}
+                            index={index}
+                            data={{ column, setColumn }}
+                          />
+                        ))
+                      : "Test"}
+                    {provided.placeholder}
+                    <AddColumnBtn column={{ column, setColumn, boardId }} />
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </Stack>
         </ScrollContainer>
       </Stack>
     </>

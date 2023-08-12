@@ -23,7 +23,8 @@ const Column = ({ props, index, data }) => {
               {...provided.dragHandleProps}
               key={props._id}
             >
-              {props.title}
+              {props && props.title ? props.title : "None"}
+              {/* Xử lý bất đồng bộ tại đây */}
             </h3>
             <Droppable droppableId={props._id} type="task" direction="vertical">
               {(provided) => (

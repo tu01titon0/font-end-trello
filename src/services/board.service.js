@@ -53,4 +53,18 @@ export default class BoardService {
       }
     );
   }
+
+  static async updateDragDropTask(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.patch(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/updateDragTask`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
 }
