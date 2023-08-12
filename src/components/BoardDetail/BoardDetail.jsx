@@ -149,9 +149,10 @@ const BoardDetail = () => {
                             key={item._id}
                             index={index}
                             data={{ column, setColumn }}
+                            board={{ boardId }}
                           />
                         ))
-                      : "Test"}
+                      : null}
                     {provided.placeholder}
                     <AddColumnBtn column={{ column, setColumn, boardId }} />
                   </div>

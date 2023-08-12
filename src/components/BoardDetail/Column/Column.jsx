@@ -4,9 +4,9 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 import Tasks from "../Tasks/Tasks";
 import AddTaskInput from "../AddTaskInput/AddTaskInput";
 
-const Column = ({ props, index, data }) => {
+const Column = ({ props, index, data, board }) => {
   return (
-    <Draggable draggableId={props._id} index={index}>
+    <Draggable draggableId={props._id} index={index+1}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
@@ -38,7 +38,7 @@ const Column = ({ props, index, data }) => {
                       <Tasks props={{ item, index }} key={index + 1} />
                     ))}
                   {provided.placeholder}
-                  <AddTaskInput props={{ props, data }} />
+                  <AddTaskInput props={{ props, data, board }} />
                 </div>
               )}
             </Droppable>

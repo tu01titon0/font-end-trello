@@ -4,6 +4,7 @@ import "../AddColumnInput/AddColumnInput.css";
 import { Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import BoardService from "../../../services/board.service";
+import useBoard from "../../../store/useBoard";
 
 const inputStyle = (state) => ({
   display: state ? "block" : "none",
@@ -14,6 +15,7 @@ const inputButton = (state) => ({
 });
 
 const AddTaskInput = ({ props }) => {
+  const { board, setBoard } = useBoard();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
 
@@ -38,12 +40,16 @@ const AddTaskInput = ({ props }) => {
       const taskContent = {
         taskTitle: input,
         columnId: data[columnArray]._id,
+        boardId: props.board.boardId,
       };
 
       BoardService.addTaskToCol(taskContent)
         .then((res) => {
+          console.log(res.data.board);
+          console.log(data[columnArray].tasks);
           data[columnArray].tasks.push(res.data.data);
-          props.data.setColumn(data);
+          props.data.setColumn(res.data.board.columns);
+          setBoard(res.data.board);
         })
         .catch((err) => {
           console.log(err);
