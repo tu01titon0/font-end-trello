@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import "../Column/Column.css";
 
@@ -10,9 +10,15 @@ const dragStyle = (isDragging, draggableStyle) => ({
 });
 
 const Tasks = ({ props }) => {
+
+  const id = useId();
+
   return (
     <>
-      <Draggable draggableId={props.item.id} index={props.index}>
+      <Draggable
+        draggableId={props && props.item ? props.item._id : id}
+        index={props.index}
+      >
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
@@ -28,7 +34,7 @@ const Tasks = ({ props }) => {
                   provided.draggableProps.style
                 )}
               >
-                {props.item.taskTitle}
+                {props.item.content}
               </p>
             </div>
           </div>

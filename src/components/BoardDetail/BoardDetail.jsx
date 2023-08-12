@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Column from "./Column/Column";
 import data2 from "./MockData";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
@@ -10,30 +10,39 @@ import SideBar from "../HomePage/SideBar/SideBar";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { useParams } from "react-router";
 import BoardService from "../../services/board.service";
-
-// const handleAddColumn = () => {
-//   console.log("In add Column");
-// };
+import useBoard from "../../store/useBoard";
 
 const BoardDetail = () => {
   const [store, setStore] = useState(data2);
-  const [board, setBoard] = useState();
+  // const [board, setBoard] = useState();
+  const { board, setBoard } = useBoard();
+  const [column, setColumn] = useState();
   const boardId = useParams().id;
 
+  const boardRef = useRef(board);
+  const columnRef = useRef(column);
+
   useEffect(() => {
-    console.log(board)
+    boardRef.current = board;
+    columnRef.current = column;
+  }, [board, column]);
+
+  useEffect(() => {
     BoardService.getBoardDetail(boardId)
       .then((res) => {
         setBoard(res.data.board);
+        setColumn(res.data.board.columns);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [boardId]);
 
   const backgroundStyle = (board) => ({
-    backgroundImage: board ? `url("../../../public/${board.backgroundImage}")` : 'none'
-  })
+    backgroundImage: board
+      ? `url("../../../public/${board.backgroundImage}")`
+      : "none",
+  });
 
   const handleDragEnd = (res) => {
     const startingIndex = res.source.index;
@@ -41,28 +50,24 @@ const BoardDetail = () => {
     const typeOfItem = res.type;
     const endingIndex = res.destination.index;
     const endingCol = res.destination.droppableId;
-    // console.log(
-    //   "Starting Index: ",
-    //   startingIndex,
-    //   "\n",
-    //   "Starting Column: ",
-    //   startingCol,
-    //   "\n",
-    //   "Type: ",
-    //   typeOfItem,
-    //   "\n",
-    //   "Ending Index: ",
-    //   endingIndex,
-    //   "\n",
-    //   "Ending Col: ",
-    //   endingCol,
-    //   "\n"
-    // );
+
     if (typeOfItem === "column") {
-      const newData = [...store];
-      const [removedData] = newData.splice(startingIndex, 1);
-      newData.splice(endingIndex, 0, removedData);
-      setStore(newData);
+      const boardColData = [...board.columns];
+      const [removedCol] = boardColData.splice(startingIndex, 1);
+      boardColData.splice(endingIndex, 0, removedCol);
+      setColumn(boardColData);
+      const dataToBe = boardColData.map((item) => item._id);
+      const dataToSend = {
+        board: boardRef.current._id,
+        array: dataToBe,
+      };
+      BoardService.updateDragDrop(dataToSend)
+        .then((res) => {
+          setBoard(res.data.board);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else if (typeOfItem === "task") {
       const newData = [...store];
       const startedColumn = newData.findIndex(
@@ -89,41 +94,46 @@ const BoardDetail = () => {
           ignoreElements="p, button, input, Draggable"
           className="scroll-container"
         >
-          <Stack direction={"column"} height={"100%"}>
-            <h1 className="board-nav-bar">{ board && board.title ? board.title : null }</h1>
-            <DragDropContext onDragEnd={handleDragEnd} style={{ flexGrow: 1 }}>
-              <Droppable
-                droppableId="root"
-                type="column"
-                direction="horizontal"
+          {board && column && board.title ? (
+            <Stack direction={"column"} height={"100%"}>
+              <h1 className="board-nav-bar">
+                {board && board.title ? board.title : null}
+              </h1>
+              <DragDropContext
+                onDragEnd={handleDragEnd}
+                style={{ flexGrow: 1 }}
               >
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    className="board-container"
-                  >
-                    {store.map((item, index) => (
-                      <Column
-                        props={item}
-                        key={item.id}
-                        index={index}
-                        data={{ store, setStore }}
-                      />
-                    ))}
-                    {provided.placeholder}
-                    {/* <button
-                className="add-column-btn"
-                onClick={() => handleAddColumn()}
-              >
-                Add another Column +
-                          </button> */}
-                    <AddColumnBtn props={{ store, setStore }} />
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          </Stack>
+                <Droppable
+                  droppableId="root"
+                  type="column"
+                  direction="horizontal"
+                >
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      className="board-container"
+                    >
+                      {column && column.length
+                        ? column.map((item, index) => (
+                            <Column
+                              props={item}
+                              key={item._id}
+                              index={index}
+                              data={{ column, setColumn }}
+                            />
+                          ))
+                        : null}
+                      {provided.placeholder}
+                      <AddColumnBtn column={{ column, setColumn, boardId }} />
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </Stack>
+          ) : (
+            "loading"
+          )}
         </ScrollContainer>
       </Stack>
     </>
