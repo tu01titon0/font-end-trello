@@ -24,9 +24,7 @@ const BoardDetail = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
-
-console.log(board);
+  }, [board, boardId]);
 
   const backgroundStyle = (board) => ({
     backgroundImage: board
@@ -42,31 +40,25 @@ console.log(board);
     const typeOfItem = res.type;
     const endingIndex = res.destination.index;
     const endingCol = res.destination.droppableId;
-    // console.log(
-    //   "Starting Index: ",
-    //   startingIndex,
-    //   "\n",
-    //   "Starting Column: ",
-    //   startingCol,
-    //   "\n",
-    //   "Type: ",
-    //   typeOfItem,
-    //   "\n",
-    //   "Ending Index: ",
-    //   endingIndex,
-    //   "\n",
-    //   "Ending Col: ",
-    //   endingCol,
-    //   "\n"
-    // );
+
     if (typeOfItem === "column") {
       const newData = [...board.columns];
       const [removedData] = newData.splice(startingIndex, 1);
       newData.splice(endingIndex, 0, removedData);
-      // const idArray = newData.map(item => item._id);
-      console.log(idArray);
-      // console.log('data', newData);
-      console.log('Board ID', board._id);
+      const idArray = newData.map((item) => item._id);
+      const updatedData = {
+        array: idArray,
+        board: board._id,
+      };
+      BoardService.updateDragDrop(updatedData)
+        .then((res) => {
+          console.log(res.data.board);
+          console.log(board);
+          setBoard(res.data.board);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else if (typeOfItem === "task") {
       const newData = [...store];
       const startedColumn = newData.findIndex(
@@ -109,14 +101,16 @@ console.log(board);
                     {...provided.droppableProps}
                     className="board-container"
                   >
-                    {board && board.columns ? board.columns.map((item, index) => (
-                      <Column
-                        props={item}
-                        key={item._id}
-                        index={index}
-                        data={{ board, setBoard }}
-                      />
-                    )) : null}
+                    {board && board.columns
+                      ? board.columns.map((item, index) => (
+                          <Column
+                            props={item}
+                            key={item._id}
+                            index={index}
+                            data={{ board, setBoard }}
+                          />
+                        ))
+                      : null}
                     {provided.placeholder}
                     <AddColumnBtn props={{ board, setBoard }} />
                   </div>

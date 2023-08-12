@@ -18,7 +18,7 @@ const Column = ({ props, index, data }) => {
             {...provided.draggableProps}
             className="column-display"
         >
-          {console.log(props)}
+          {/* {console.log(props)} */}
             <div
               isDragging={snapshot.isDragging}
               style={{ height: "100%", minHeight: "100%" }}
