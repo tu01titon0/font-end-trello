@@ -192,6 +192,7 @@ const NavBar = () => {
           >
             <MenuItem  component={Link} to="/profile" onClick={handleClose} >Profile</MenuItem>
             <MenuItem onClick={handleSignOut}>Logout</MenuItem>
+            <MenuItem component={Link} to="/updatePassword" onClick={handleClose}>Reset Password</MenuItem>
           </Menu>
         </div>
       </Stack>

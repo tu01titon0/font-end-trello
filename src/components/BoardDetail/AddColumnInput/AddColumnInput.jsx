@@ -5,6 +5,7 @@ import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import BoardService from "../../../services/board.service";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import BoardService from "../../../services/board.service";
 import "./AddColumnInput.css";
 import {
   FormControl,
@@ -49,41 +50,29 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
-export default function AddColumnBtn({ props }) {
+export default function AddColumnBtn({ column }) {
   const [expanded, setExpanded] = React.useState("panel1");
   const [columnName, setColumnName] = React.useState();
   // const data = [...props.store];
-//   console.log(props);
+
+  if (column & column.column) {
+    const columnToAdd = [...column.column];
+  }
 
   const addColumnToBoard = () => {
-    if (columnName) {
-      const boardId = props.board._id;
-      const data = {
-        board: boardId,
-        column: columnName,
-      };
+    const dataToBe = {
+      board: column.boardId,
+      column: columnName,
+    };
 
-      BoardService.addColumnToBoard(data)
-        .then((res) => {
-          console.log(res.data.data);
-          props.setBoard(res.data.data);
-          setColumnName("");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-    // mock dữ liệu
-    // if (columnName) {
-    //   const columnToAdd = {
-    //     id: `column-${data.length + 1}`,
-    //     title: columnName,
-    //     tasks: [],
-    //   };
-    //   data.push(columnToAdd);
-    //   props.setStore(data);
-    //   setColumnName("");
-    // }
+    BoardService.addColumnToBoard(dataToBe)
+      .then((res) => {
+        column.setColumn(res.data.data.columns);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setColumnName("");
   };
 
   const handleChange = (panel) => (event, newExpanded) => {

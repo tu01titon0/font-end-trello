@@ -3,6 +3,8 @@ import "./AddTaskInput.css";
 import "../AddColumnInput/AddColumnInput.css";
 import { Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import BoardService from "../../../services/board.service";
+import useBoard from "../../../store/useBoard";
 
 const inputStyle = (state) => ({
   display: state ? "block" : "none",
@@ -13,6 +15,7 @@ const inputButton = (state) => ({
 });
 
 const AddTaskInput = ({ props }) => {
+  const { board, setBoard } = useBoard();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
 
@@ -20,8 +23,6 @@ const AddTaskInput = ({ props }) => {
 
   const handleOpenInput = () => {
     setOpen(true);
-
-    //   Viết logic add thêm task vào DB ở đây !!!!
   };
 
   const handleClodeInput = () => {
@@ -34,14 +35,25 @@ const AddTaskInput = ({ props }) => {
 
   const addNewTaskToColumn = () => {
     if (input) {
-      const data = [...props.data.store];
-      const columnArray = data.findIndex((item) => item.id === props.props.id);
+      const data = [...props.data.column];
+      const columnArray = data.findIndex(
+        (item) => item._id === props.props._id
+      );
       const taskContent = {
-        id: `${props.props.title}-${data[columnArray].tasks.length + 1}`,
         taskTitle: input,
+        columnId: data[columnArray]._id,
+        boardId: props.board.boardId,
       };
-      data[columnArray].tasks.push(taskContent);
-      props.data.setStore(data);
+
+      BoardService.addTaskToCol(taskContent)
+        .then((res) => {
+          data[columnArray].tasks.push(res.data.data);
+          props.data.setColumn(res.data.board.columns);
+          setBoard(res.data.board);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       setInput("");
     }
   };

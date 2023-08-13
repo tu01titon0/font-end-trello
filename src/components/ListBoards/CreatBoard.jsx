@@ -58,7 +58,6 @@ const CreatBoard = ({ open, anchorEl, handleClose}) => {
                 backgroundImage: backgroundBroad,
                 userId: JSON.parse(localStorage.getItem("user"))._id
             };
-            console.log(data);
             WorkspaceService.createBoard(data)
                 .then((res) => {
                     if (res.data.board) {
