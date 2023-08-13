@@ -17,8 +17,7 @@ const Column = ({ props, index, data }) => {
             ref={provided.innerRef}
             {...provided.draggableProps}
             className="column-display"
-        >
-          {console.log(props)}
+              >
             <div
               isDragging={snapshot.isDragging}
               style={{ height: "100%", minHeight: "100%" }}
@@ -31,7 +30,7 @@ const Column = ({ props, index, data }) => {
                 {props.title}
               </h3>
               <Droppable
-                droppableId={props._id}
+                droppableId={props ? props._id : null}
                 type="task"
                 direction="vertical"
               >

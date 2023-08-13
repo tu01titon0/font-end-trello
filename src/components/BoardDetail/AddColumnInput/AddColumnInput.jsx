@@ -53,7 +53,7 @@ export default function AddColumnBtn({ props }) {
   const [expanded, setExpanded] = React.useState("panel1");
   const [columnName, setColumnName] = React.useState();
   // const data = [...props.store];
-  console.log(props);
+//   console.log(props);
 
   const addColumnToBoard = () => {
     if (columnName) {

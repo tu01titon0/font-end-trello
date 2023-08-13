@@ -24,9 +24,9 @@ const BoardDetail = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [board]);
 
-console.log(board);
+// console.log(board);
 
   const backgroundStyle = (board) => ({
     backgroundImage: board
