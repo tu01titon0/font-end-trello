@@ -37,10 +37,9 @@ export default function TaskEditor({ setDisplayEditor, taskId, boardId }) {
       };
       BoardService.updateTaskDescription(data)
         .then((res) => {
-          console.log(res.data.board);
           setBoard(res.data.board);
           setColumn(res.data.board.columns);
-          setDisplayEditor(false)
+          setDisplayEditor(false);
         })
         .catch((err) => console.log(err));
     }

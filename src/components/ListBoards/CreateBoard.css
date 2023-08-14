@@ -1,67 +1,74 @@
 input[type="radio"] {
-    display: none;
+  display: none;
 }
 .backgound-img {
-    padding: 4px;
-    max-width: 64px;
-    max-height: 40px;
+  padding: 4px;
+  max-width: 64px;
+  max-height: 40px;
 }
 .bg-color {
-    max-width: 40px !important;
-    max-height: 32px !important;
+  max-width: 40px !important;
+  max-height: 32px !important;
 }
 
 input[type="radio"]:checked + img {
-    background-color: #aaa;
+  background-color: #aaa;
 }
-.label-name{
-    color: #44546f;
-    display: block;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 16px;
-    margin-bottom: 6px;
-    margin-top: 12px;
-
+.label-name {
+  color: #44546f;
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  margin-bottom: 6px;
+  margin-top: 12px;
 }
 .title {
-    text-align: center;
-    color: #44546f;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: -0.003em;
-    line-height: 40px;
-    display: block;
-    position: relative;
-    height: 40px;
-    margin: 0;
-    overflow: hidden;
-    padding: 0 32px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    grid-column: 1 / span 3;
-    grid-row: 1;
+  text-align: center;
+  color: #44546f;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.003em;
+  line-height: 40px;
+  display: block;
+  position: relative;
+  height: 40px;
+  margin: 0;
+  overflow: hidden;
+  padding: 0 32px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  grid-column: 1 / span 3;
+  grid-row: 1;
 }
-.require{
-    color: red
+.require {
+  color: red;
 }
 
 #demo-positioned-menu {
-    position: absolute;
-    z-index: 1001;
+  position: absolute;
+  z-index: 1001;
 }
 
 .footer {
-    color: #44546F;
-    max-width: 250px;
-    text-align: left;
-    font-size: 12px;
-    line-height: 16px;
+  color: #44546f;
+  max-width: 250px;
+  text-align: left;
+  font-size: 12px;
+  line-height: 16px;
 }
-.preview-img{
-    width: 200px;
-    height: 120px;
-    display: inherit;
-    margin-left: auto;
-    margin-right: auto;
+.preview-img {
+  width: 200px;
+  height: 120px;
+  display: inherit;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.css-6hp17o-MuiList-root-MuiMenu-list {
+  padding: 0 !important;
+}
+
+.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+    background-color: transparent !important;
 }
