@@ -36,10 +36,12 @@
   font-size: 16px;
   background-color: transparent;
   border: 1px solid #3f3f3f;
+  color: white;
 }
 
 .add-tasks-item {
   background-color: transparent;
   border: 1px solid #3f3f3f;
   padding: 8px 40px;
+  color: white;
 }
