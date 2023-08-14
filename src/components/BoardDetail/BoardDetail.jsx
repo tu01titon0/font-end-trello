@@ -41,7 +41,7 @@ const BoardDetail = () => {
 
   const backgroundStyle = (board) => ({
     backgroundImage: board
-      ? `url("../../../public/${board.backgroundImage}")`
+      ? `url("../../../${board.backgroundImage}")`
       : "none",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
@@ -125,7 +125,7 @@ const BoardDetail = () => {
         <SideBar />
         <ScrollContainer
           vertical={false}
-          ignoreElements="p, button, input, Draggable"
+          ignoreElements="p, button, input, section, Draggable"
           className="scroll-container"
         >
           <Stack direction={"column"} height={"100%"}>
