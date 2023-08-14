@@ -77,7 +77,7 @@ const ListBoards = () => {
               mb={"20px"}
             >
               <PeopleOutlineIcon />
-              <h6 style={{ fontSize: "24px" }}>All boards in this Workspace</h6>
+              <h6 style={{ fontSize: "24px", color:'white' }}>All boards in this Workspace</h6>
             </Stack>
             <Stack direction={"row"} gap={"20px"} flexWrap={"wrap"}>
               {workspace.boards &&

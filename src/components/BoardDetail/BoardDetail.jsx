@@ -129,7 +129,7 @@ const BoardDetail = () => {
           className="scroll-container"
         >
           <Stack direction={"column"} height={"100%"}>
-            <h1 className="board-nav-bar">
+            <h1 className="board-nav-bar" style={{color: 'white'}}>
               {board && board.title ? board.title : null}
             </h1>
             <DragDropContext onDragEnd={handleDragEnd} style={{ flexGrow: 1 }}>
