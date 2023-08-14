@@ -10,7 +10,6 @@ const dragStyle = (isDragging, draggableStyle) => ({
 });
 
 const Tasks = ({ props }) => {
-
   const id = useId();
 
   return (
@@ -27,6 +26,7 @@ const Tasks = ({ props }) => {
           >
             <div isDragging={snapshot.isDragging} style={{ flexGrow: 1 }}>
               <p
+                className="task-title"
                 isDragging={snapshot.isDragging}
                 {...provided.dragHandleProps}
                 style={dragStyle(

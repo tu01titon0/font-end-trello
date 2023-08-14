@@ -52,3 +52,7 @@
   border: 1px solid #101204;
   outline: none;
 }
+
+.task-title {
+    color: 'white';
+}
