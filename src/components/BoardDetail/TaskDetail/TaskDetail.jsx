@@ -23,6 +23,9 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import TaskEditor from "./TaskEditor/TaskEditor";
 import DoDisturbOnOutlinedIcon from "@mui/icons-material/DoDisturbOnOutlined";
 import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBulletedOutlined";
+import BoardService from "../../../services/board.service";
+import useBoard from "../../../store/useBoard";
+import useColumn from "../../../store/useColumn";
 
 const style = {
   position: "absolute",
@@ -75,11 +78,36 @@ export default function TaskDetail({ props }) {
   const [displayEditor, setDisplayEditor] = React.useState(false);
   const [taskName, setTaskName] = React.useState("");
   const [taskTitle, setTaskTitle] = React.useState({ showButton: false });
+  const { setBoard } = useBoard();
+  const { setColumn } = useColumn();
+
+  const columnId = props.props.columnId;
+  // console.log("set column", props.props.data.setColumn);
 
   const userName = JSON.parse(localStorage.getItem("user")).userName;
 
   const handleEditTask = () => {
-    console.log(taskTitle.title);
+    if (taskTitle.title) {
+      // console.log(taskTitle.title);
+      // console.log(props.props.item._id);
+      const originalValue = props.props.item.content;
+      const boardId = props.props.board.boardId;
+      const taskId = props.props.item._id;
+
+      const data = {
+        boardId: boardId,
+        columnId: columnId,
+        taskId: taskId,
+        title: taskTitle.title,
+      };
+
+      BoardService.updateTaskTitle(data)
+        .then((res) => {
+          setBoard(res.data.board);
+          setColumn(res.data.board.columns);
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   const openTaskEditor = () => {
@@ -109,6 +137,7 @@ export default function TaskDetail({ props }) {
                   className="change-task-title"
                   type="text"
                   placeholder={props.props.item.content}
+                  value={taskTitle.title}
                   style={{ all: "unset" }}
                   onChange={(e) =>
                     setTaskTitle({ title: e.target.value, showButton: true })
@@ -123,7 +152,12 @@ export default function TaskDetail({ props }) {
                     />
                     <DoDisturbOnOutlinedIcon
                       style={{ color: "white", fontSize: "18px" }}
-                      onClick={() => setTaskTitle({ showButton: false })}
+                      onClick={() =>
+                        setTaskTitle({
+                          title: props.props.item.content,
+                          showButton: false,
+                        })
+                      }
                     />
                   </Stack>
                 )}

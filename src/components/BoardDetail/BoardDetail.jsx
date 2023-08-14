@@ -11,11 +11,12 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import { useParams } from "react-router";
 import BoardService from "../../services/board.service";
 import useBoard from "../../store/useBoard";
+import useColumn from "../../store/useColumn";
 
 const BoardDetail = () => {
   const [store, setStore] = useState(data2);
   const { board, setBoard } = useBoard();
-  const [column, setColumn] = useState();
+  const { column, setColumn } = useColumn();
   const boardId = useParams().id;
   const [loading, setLoading] = useState(true);
 
@@ -53,8 +54,10 @@ const BoardDetail = () => {
     const startingIndex = res.source.index;
     const startingCol = res.source.droppableId;
     const typeOfItem = res.type;
-    const endingIndex = res.destination.index;
-    const endingCol = res.destination.droppableId;
+    const endingIndex = res.destination
+      ? res.destination.index
+      : board.columns.length;
+    const endingCol = res.destination ? res.destination.droppableId : "root";
     setLoading(false);
 
     if (typeOfItem === "column") {
@@ -83,11 +86,7 @@ const BoardDetail = () => {
       const endedColIndex = boardColData.findIndex(
         (item) => item._id === endingCol
       );
-      // console.log("data array", boardColData);
-      // console.log("starting index in col", startingIndex);
-      // console.log("starting col index", startedColIndex);
-      // console.log("ended index of col", endedColIndex);
-      // console.log("ended index in col", endingIndex);
+
       const [removedTask] = boardColData[startedColIndex].tasks.splice(
         startingIndex,
         1
