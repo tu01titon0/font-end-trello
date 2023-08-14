@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import "./resetPassword.css";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 
 export default function ResetPassWord() {
   const [currentPasswordValid, setCurrentPasswordValid] = useState(true);
@@ -42,11 +42,11 @@ export default function ResetPassWord() {
     validationSchema: UpdatePassSchema,
     onSubmit: async (values) => {
       if (!currentPasswordValid) {
-        return; // Không thực hiện submit nếu mật khẩu hiện tại không đúng
+        return; 
       }
 
       try {
-        // Thực hiện cập nhật mật khẩu ở đây
+      
         const response = await fetch("/api/user/password", {
           method: "POST",
           headers: {
@@ -56,7 +56,7 @@ export default function ResetPassWord() {
         });
 
         const data = await response.json();
-        console.log(data.message); // In ra thông báo từ phía backend
+        console.log(data.message); 
       } catch (error) {
         console.error(error);
       }
