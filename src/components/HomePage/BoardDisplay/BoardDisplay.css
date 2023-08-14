@@ -1,0 +1,24 @@
+.board-display-home {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.recent-board-card {
+  /* max-width: 25%; */
+  max-width: 25%;
+  height: 100px;
+  min-width: 190px;
+  /* background-color: gr; */
+  background-image: url("https://images.unsplash.com/photo-1691030133693-84d7bbec65a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80");
+  display: flex;
+  align-items: baseline;
+  color: white;
+  text-align: left;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  flex: 0 0 23%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}

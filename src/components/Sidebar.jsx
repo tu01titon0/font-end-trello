@@ -5,10 +5,8 @@ import {
   VideoCameraOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
-
 const { Sider } = Layout;
 const { SubMenu } = Menu;
-
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
 

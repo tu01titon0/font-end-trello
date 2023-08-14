@@ -1,0 +1,58 @@
+.side-bar-home {
+  width: 300px;
+  min-width: 300px;
+  background-color: #1d2125;
+  padding: 20px;
+  overflow-y: scroll;
+  max-height: calc(100vh - 48px);
+}
+
+.side-bar-home::-webkit-scrollbar {
+  width: 0;
+}
+
+.sidebar-button {
+  justify-content: left !important;
+  align-items: center !important;
+  gap: 6px;
+  font-size: 14px !important;
+}
+
+.sidebar-dropdown {
+  background-color: #1d2125 !important;
+  margin: 0;
+  padding: 0;
+}
+
+.css-o4b71y-MuiAccordionSummary-content.Mui-expanded,
+.css-o4b71y-MuiAccordionSummary-content {
+  margin: 0 !important;
+}
+
+.css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {
+  min-height: 48px !important;
+}
+
+.css-1elwnq4-MuiPaper-root-MuiAccordion-root.Mui-expanded {
+  margin: 0 !important;
+}
+
+.css-sh22l5-MuiButtonBase-root-MuiAccordionSummary-root {
+  padding: 0 10px !important;
+}
+
+.css-15v22id-MuiAccordionDetails-root {
+  padding: 10px !important;
+}
+
+.add-workspace-btn {
+  outline: none;
+  background-color: #1d2125;
+}
+
+.add-workspace-btn:active,
+.add-workspace-btn:hover,
+.add-workspace-btn:focus {
+  outline: none;
+  border: 1px solid rgb(26, 26, 26);
+}

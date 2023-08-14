@@ -1,61 +1,65 @@
 import {
   Alert,
   Box,
- 
   IconButton,
- 
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
-import  { useState } from "react";
 import "./login.css";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
-import { useSignIn } from "react-auth-kit";
+// import { useSignIn } from "react-auth-kit";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import LoginService from "../services/login.service";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import React, { useState } from "react";
+import AuthService from "../services/auth.service.js";
 
-import useAlert from "../store/useAlert";
-
-const Login = () => {
-  const signIn = useSignIn();
+const SignUp = () => {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
-
   const [errMessage, setErrMessage] = useState("");
-  const { setMessage } = useAlert();
 
-  const signInSchema = Yup.object().shape({
+  const signUpSchema = Yup.object().shape({
     userName: Yup.string().required("Vui lòng nhập tên đăng nhập"),
     password: Yup.string().required("Vui lòng nhập mật khẩu"),
+    fullName: Yup.string().required("Vui lòng nhập full name"),
+    email: Yup.string().required("Vui lòng nhập Email"),
   });
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [open, setOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   const formSignIn = useFormik({
     initialValues: {
       userName: "",
+      fullName: "",
+      email: "",
       password: "",
     },
-    validationSchema: signInSchema,
+    validationSchema: signUpSchema,
     onSubmit: (values) => {
       const data = {
         userName: values.userName,
         password: values.password,
+        fullName: values.fullName,
+        email: values.email,
       };
-      LoginService.userLogIn(data)
+      AuthService.createUser(data)
         .then((res) => {
+          console.log(res);
           if (res.data.message) {
             setErrMessage(res.data.message);
-          } else {
-            signIn({
-              token: res.data.accessToken,
-              expiresIn: 60,
-              toenType: "Bearer",
-              authState: res.data.userData.userName,
-            });
-            localStorage.setItem("user", JSON.stringify(res.data.userData));
-            setMessage("Đăng nhập thành công!");
-            navigate("/");
+          } else if (res.data.success) {
+            setOpen(true);
+            setTimeout(() => {
+              navigate("/login");
+            }, 700);
           }
         })
         .catch((err) => {
@@ -66,6 +70,11 @@ const Login = () => {
 
   return (
     <Box className="login-box">
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Đăng ký thành công!
+        </Alert>
+      </Snackbar>
       <Box
         className="login-field"
         component={"form"}
@@ -76,12 +85,11 @@ const Login = () => {
           alt="Login Logo"
           height={"30px"}
         />
-        <Typography>Đăng nhập để sử dụng dịch vụ</Typography>
+        <Typography>Đăng Ký Tài Khoản</Typography>
         <TextField
           className="login-input"
           required
-          id="outlined-required"
-          label="Username"
+          label="User Name"
           name="userName"
           onChange={formSignIn.handleChange}
           value={formSignIn.values.userName}
@@ -90,6 +98,33 @@ const Login = () => {
             formSignIn.errors.userName ? formSignIn.errors.userName : null
           }
           error={formSignIn.errors.userName ? formSignIn.errors.userName : null}
+        />
+
+        <TextField
+          className="login-input"
+          required
+          label="Full Name"
+          name="fullName"
+          onChange={formSignIn.handleChange}
+          value={formSignIn.values.fullName}
+          placeholder="Nhập tên của bạn"
+          helperText={
+            formSignIn.errors.fullName ? formSignIn.errors.fullName : null
+          }
+          error={formSignIn.errors.fullName ? formSignIn.errors.fullName : null}
+        />
+        <TextField
+          className="login-input"
+          required
+          id="outlined-required"
+          label="Email"
+          name="email"
+          type="email"
+          onChange={formSignIn.handleChange}
+          value={formSignIn.values.email}
+          placeholder="Nhập tên của bạn"
+          helperText={formSignIn.errors.email ? formSignIn.errors.email : null}
+          error={formSignIn.errors.email ? formSignIn.errors.email : null}
         />
         <TextField
           className="login-input"
@@ -116,6 +151,7 @@ const Login = () => {
       </IconButton>
     ),
   }}
+
         />
         <button
           type="submit"
@@ -126,7 +162,7 @@ const Login = () => {
             backgroundColor: "#579DFF",
           }}
         >
-          Đăng nhập
+          Đăng Ký
         </button>
         <hr
           style={{
@@ -141,12 +177,12 @@ const Login = () => {
             {errMessage}
           </Alert>
         )}
-        <p style={{ textAlign: "left", marginTop: "20px", color: "black" }}>
-          Chưa có tài khoản? <Link to={"/signup"}>Đăng ký</Link> ngay!
+        <p style={{ textAlign: "left", marginTop: "20px" }}>
+          Bạn đã có tài khoản? <Link to={"/login"}>Đăng nhập</Link> ngay!
         </p>
       </Box>
     </Box>
   );
 };
 
-export default Login;
+export default SignUp;
