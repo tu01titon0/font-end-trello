@@ -13,7 +13,7 @@ const Column = ({ props, index, data, board }) => {
           {...provided.draggableProps}
           className="column-display"
         >
-          <div
+          <section
             isDragging={snapshot.isDragging}
             style={{ height: "100%", minHeight: "100%" }}
           >
@@ -42,7 +42,7 @@ const Column = ({ props, index, data, board }) => {
                 </div>
               )}
             </Droppable>
-          </div>
+          </section>
         </div>
       )}
     </Draggable>

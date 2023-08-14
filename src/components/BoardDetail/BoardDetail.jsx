@@ -125,7 +125,7 @@ const BoardDetail = () => {
         <SideBar />
         <ScrollContainer
           vertical={false}
-          ignoreElements="p, button, input, Draggable"
+          ignoreElements="p, button, input, section, Draggable"
           className="scroll-container"
         >
           <Stack direction={"column"} height={"100%"}>

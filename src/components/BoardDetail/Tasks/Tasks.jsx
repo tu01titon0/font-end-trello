@@ -20,7 +20,7 @@ const Tasks = ({ props }) => {
         index={props.index}
       >
         {(provided, snapshot) => (
-          <div
+          <section
             ref={provided.innerRef}
             {...provided.draggableProps}
             className="tasks-display"
@@ -37,7 +37,7 @@ const Tasks = ({ props }) => {
                 {props.item.content}
               </p>
             </div>
-          </div>
+          </section>
         )}
       </Draggable>
     </>
