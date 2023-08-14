@@ -1,13 +1,14 @@
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { Layout, Typography, message } from "antd";
 import NavBar from "../components/HomePage/Navbar/NavBar";
-import axios from "axios";
+import UpdateService from "../services/user.sevice"
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 export default function Profile() {
   
   const user = JSON.parse(localStorage.user);
   const navigate = useNavigate();
+  const token = user.token;
   const formik = useFormik({
     initialValues: {
       fullName: user.fullName,
@@ -17,21 +18,21 @@ export default function Profile() {
     },
 
     onSubmit: async () => {
-      try {
-        await axios.put(`http://localhost:8686/api/user/update`, formik.values);
-        message.success("Update thành công ");
-        const updatedUser = { ...user, ...formik.values };
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-       formik.resetForm()
+     UpdateService.userUpdate(formik.values,token)
+        .then (() => {
+          const updatedUser = { ...user, ...formik.values };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        message.success("Update thành công");
+        formik.resetForm();
         setTimeout(() => {
           navigate("/");
         }, 700);
-        
-      } catch (error) {
-        console.log(error);
-        message.error("Update thất bại");
-      }
-    },
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    }
+  
   });
   return (
     <>
