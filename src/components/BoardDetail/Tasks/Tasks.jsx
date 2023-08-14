@@ -2,6 +2,7 @@ import React, { useId, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import "../Column/Column.css";
 import TaskDetail from "../TaskDetail/TaskDetail";
+import StackedBarChartOutlinedIcon from "@mui/icons-material/StackedBarChartOutlined";
 
 const dragStyle = (isDragging, draggableStyle) => ({
   transform: isDragging ? "rotate(3deg)" : null,
@@ -39,6 +40,11 @@ const Tasks = ({ props }) => {
                 )}
               >
                 {props.item.content}
+                {props.item.description ? (
+                  <div style={{ marginTop: "4px" }}>
+                    <StackedBarChartOutlinedIcon sx={{ fontSize: "16px" }} />
+                  </div>
+                ) : null}
               </p>
             </div>
           </section>
