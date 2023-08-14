@@ -1,0 +1,15 @@
+.task-editor-save-btn {
+  background-color: #579dff;
+  text-align: left;
+  padding: 6px 14px;
+  width: fit-content;
+}
+
+.task-editor-cancel-btn {
+  background-color: transparent;
+}
+
+.tox-tinymce {
+    border: none;
+    border-radius: 2px;
+  }

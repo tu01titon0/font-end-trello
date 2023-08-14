@@ -1,6 +1,7 @@
-import React, { useId } from "react";
+import React, { useId, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import "../Column/Column.css";
+import TaskDetail from "../TaskDetail/TaskDetail";
 
 const dragStyle = (isDragging, draggableStyle) => ({
   transform: isDragging ? "rotate(3deg)" : null,
@@ -10,7 +11,9 @@ const dragStyle = (isDragging, draggableStyle) => ({
 });
 
 const Tasks = ({ props }) => {
+  const [openModal, setOpenModal] = useState(false);
   const id = useId();
+  const boardUrl = `/b/${props.board.boardId}`;
 
   return (
     <>
@@ -27,6 +30,7 @@ const Tasks = ({ props }) => {
             <div isDragging={snapshot.isDragging} style={{ flexGrow: 1 }}>
               <p
                 className="task-title"
+                onClick={() => setOpenModal(true)}
                 isDragging={snapshot.isDragging}
                 {...provided.dragHandleProps}
                 style={dragStyle(
@@ -40,6 +44,7 @@ const Tasks = ({ props }) => {
           </section>
         )}
       </Draggable>
+      <TaskDetail props={{ openModal, setOpenModal, props, boardUrl }} />
     </>
   );
 };

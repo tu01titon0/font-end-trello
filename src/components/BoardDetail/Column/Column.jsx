@@ -35,7 +35,7 @@ const Column = ({ props, index, data, board }) => {
                 >
                   {props.tasks &&
                     props.tasks.map((item, index) => (
-                      <Tasks props={{ item, index }} key={index + 1} />
+                      <Tasks props={{ item, index, board }} key={index + 1} />
                     ))}
                   {provided.placeholder}
                   <AddTaskInput props={{ props, data, board }} />
