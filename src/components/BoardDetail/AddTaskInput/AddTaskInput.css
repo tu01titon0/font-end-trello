@@ -3,6 +3,7 @@
   margin-top: 10px;
   text-align: left;
   border-radius: 6px;
+  background-color: rgb(26, 26, 26);
 }
 
 .add-tasks-btn:focus,
