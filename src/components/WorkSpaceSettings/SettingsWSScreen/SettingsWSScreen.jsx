@@ -37,6 +37,8 @@ const style = {
   p: 4,
 };
 
+
+
 const SettingsWSScreen = () => {
   const wsId = useParams();
   const { workspaces, setWorkspaces } = useWorkspaces();
@@ -61,6 +63,16 @@ const SettingsWSScreen = () => {
     }
     setOpenDltUser({ status: false });
   };
+  let userToFind = "undefined";
+  try {
+  const userr = JSON.parse(localStorage.getItem("user"))._id;
+  if(workSpace.users != []) {
+     userToFind = workSpace.users.find(user => user.idUser._id === userr);
+  }
+  } catch (error) {
+    console.log(error);
+  }
+  
 
   const handleDeleteWS = () => {
     handleOpen();
@@ -89,6 +101,16 @@ const SettingsWSScreen = () => {
       })
       .catch((err) => console.log(err));
     handleClodeDelete();
+  };
+
+  const updateUserPermisstion = (user, event) => {
+    const newRole = event.target.value;
+    console.log(newRole);
+    WorkspaceService.changeUserPermission(user, wsId.id,newRole )
+      .then((res) => {
+        setWorkspace(res.data.workspace);
+      })
+      .catch((err) => console.log(err));
   };
 
   const formik = useFormik({
@@ -329,12 +351,24 @@ const SettingsWSScreen = () => {
                   </Stack>
                   <Stack direction={"row"} gap={2} alignItems={"center"}>
                     <p>Admin of 0 board</p>
-                    <button
-                      className="ws-user-btn"
-                      style={{ color: "#32cd32" }}
-                    >
-                      {row.role}
-                    </button>
+                    { userToFind.role == "admin" ? 
+                    <select className="ws-user-btn" style={{ color: "#32cd32", fontSize: "1em", padding: "10px", borderRadius: "5px"}} 
+                    id="roleSelect"
+                    value={row.role}
+                    onChange={(event) => {
+                      updateUserPermisstion(row.idUser._id, event)
+                    }}
+                  >
+                    <option  value="admin">Admin</option>
+                    <option  value="member">Member</option>
+                  </select>
+                    :  <button
+                    className="ws-user-btn"
+                    style={{ color: "#32cd32" }}
+                  >
+                    {row.role}
+                  </button>}
+                    
 
                     <button
                       className="ws-user-btn"
