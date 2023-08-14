@@ -25,7 +25,6 @@ const Column = ({ props, index, data, board }) => {
               key={props._id}
             >
               {props && props.title ? props.title : "None"}
-              {/* Xử lý bất đồng bộ tại đây */}
             </h3>
             <Droppable droppableId={props._id} type="task" direction="vertical">
               {(provided) => (

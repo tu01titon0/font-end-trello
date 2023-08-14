@@ -5,7 +5,7 @@ import TaskDetail from "../TaskDetail/TaskDetail";
 
 const dragStyle = (isDragging, draggableStyle) => ({
   transform: isDragging ? "rotate(3deg)" : null,
-  backgroundColor: "#1a1a1a",
+  backgroundColor: "#111111",
   padding: "8px",
   borderRadius: "6px",
 });

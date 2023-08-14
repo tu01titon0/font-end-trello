@@ -76,20 +76,20 @@ export default function TaskDetail({ props }) {
   const handleOpen = () => props.setOpenModal(true);
   const handleClose = () => props.setOpenModal(false);
   const [displayEditor, setDisplayEditor] = React.useState(false);
-  const [taskName, setTaskName] = React.useState("");
   const [taskTitle, setTaskTitle] = React.useState({ showButton: false });
   const { setBoard } = useBoard();
   const { setColumn } = useColumn();
+  // const [task, setTask] = React.useState();
+
+  // React.useEffect(() => {}, []);
+
+  const des = props.props.item.description;
 
   const columnId = props.props.columnId;
-  // console.log("set column", props.props.data.setColumn);
-
   const userName = JSON.parse(localStorage.getItem("user")).userName;
 
   const handleEditTask = () => {
     if (taskTitle.title) {
-      // console.log(taskTitle.title);
-      // console.log(props.props.item._id);
       const originalValue = props.props.item.content;
       const boardId = props.props.board.boardId;
       const taskId = props.props.item._id;
@@ -175,15 +175,30 @@ export default function TaskDetail({ props }) {
                 <MenuIcon />
                 <Stack style={{ flexGrow: 1 }} gap={1}>
                   <Typography>Description</Typography>
-                  <input
-                    style={{ display: displayEditor ? "none" : null }}
-                    className="task-description-box"
-                    type="text"
-                    placeholder="Add a more detailed description…"
-                    onClick={() => setDisplayEditor(true)}
-                  />
+
+                  {des ? (
+                    <>
+                      <div
+                        dangerouslySetInnerHTML={{ __html: des }}
+                        onClick={() => setDisplayEditor(true)}
+                        style={{ display: displayEditor ? "none" : null, paddingTop: '10px' }}
+                      />
+                    </>
+                  ) : (
+                    <input
+                      style={{ display: displayEditor ? "none" : null }}
+                      className="task-description-box"
+                      type="text"
+                      placeholder="Add a more detailed description…"
+                      onClick={() => setDisplayEditor(true)}
+                    />
+                  )}
                   <div style={{ display: displayEditor ? null : "none" }}>
-                    <TaskEditor setDisplayEditor={setDisplayEditor} />
+                    <TaskEditor
+                      setDisplayEditor={setDisplayEditor}
+                      taskId={props.props.item._id}
+                      boardId={props.props.board.boardId}
+                    />
                   </div>
                 </Stack>
               </Stack>

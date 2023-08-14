@@ -81,4 +81,32 @@ export default class BoardService {
       }
     );
   }
+
+  static async getTaskInfo(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.post(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/getTaskInfo`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
+
+  static async updateTaskDescription(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.post(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/updateTaskDescription`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
 }
