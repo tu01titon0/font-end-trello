@@ -54,7 +54,7 @@ const Login = () => {
             signIn({
               token: res.data.accessToken,
               expiresIn: 60,
-              tokenType: "Bearer",
+              toenType: "Bearer",
               authState: res.data.userData.userName,
             });
             localStorage.setItem("user", JSON.stringify(res.data.userData));
