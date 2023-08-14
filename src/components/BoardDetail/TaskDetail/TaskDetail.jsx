@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { Stack } from "@mui/material";
+import { Avatar, Stack } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
 import "./TaskDetail.css";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -22,21 +22,52 @@ import AutoDeleteOutlinedIcon from "@mui/icons-material/AutoDeleteOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import TaskEditor from "./TaskEditor/TaskEditor";
 import DoDisturbOnOutlinedIcon from "@mui/icons-material/DoDisturbOnOutlined";
+import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBulletedOutlined";
 
 const style = {
   position: "absolute",
-  top: "50%",
+  top: "5%",
   left: "50%",
-  transform: "translate(-50%, -50%)",
+  transform: "translate(-50%, 0)",
   width: "40%",
   minWidth: "700px",
-  bgcolor: "#1a1a1a",
-  boxShadow: 24,
-  border: "none",
+  bgcolor: "rgb(36 40 47 / 50%)",
+  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",
+  backdropFilter: "blur(5px)",
+  border: "1px solid rgba(9, 30, 66, 0.2)",
   p: "20px",
   outline: "none",
-  borderRadius: "4px",
+  borderRadius: "10px",
 };
+
+function stringToColor(string) {
+  let hash = 0;
+  let i;
+
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = "#";
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
+
+function stringAvatar(name) {
+  return {
+    sx: {
+      bgcolor: stringToColor(name.userName),
+    },
+    children: `${name.userName.slice(0, 2)}`,
+  };
+}
 
 export default function TaskDetail({ props }) {
   const handleOpen = () => props.setOpenModal(true);
@@ -44,6 +75,8 @@ export default function TaskDetail({ props }) {
   const [displayEditor, setDisplayEditor] = React.useState(false);
   const [taskName, setTaskName] = React.useState("");
   const [taskTitle, setTaskTitle] = React.useState({ showButton: false });
+
+  const userName = JSON.parse(localStorage.getItem("user")).userName;
 
   const handleEditTask = () => {
     console.log(taskTitle.title);
@@ -57,6 +90,7 @@ export default function TaskDetail({ props }) {
     <div>
       <Modal
         open={props.openModal}
+        style={{ overflow: "scroll" }}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -94,35 +128,44 @@ export default function TaskDetail({ props }) {
                   </Stack>
                 )}
               </Stack>
-              <p style={{ fontSize: "14px" }}>
+              <p style={{ fontSize: "16px" }}>
                 in list{" "}
-                <Link to={props.boardUrl} style={{ textDecoration: "auto" }}>
-                  {props.props.board.boardTitle}
-                </Link>
+                <Link to={props.boardUrl}>{props.props.board.boardTitle}</Link>
               </p>
             </div>
           </Stack>
           {/* Kết thúc Header của task detail */}
           <Stack direction={"row"} gap={2}>
-            <Stack
-              sx={{ flexGrow: 1 }}
-              direction={"row"}
-              gap={2}
-              alignItems={"flex-start"}
-            >
-              <MenuIcon />
-              <Stack style={{ flexGrow: 1 }} gap={1}>
-                <Typography>Description</Typography>
+            <Stack direction={"column"} gap={2} flexGrow={1}>
+              <Stack direction={"row"} gap={2} alignItems={"flex-start"}>
+                <MenuIcon />
+                <Stack style={{ flexGrow: 1 }} gap={1}>
+                  <Typography>Description</Typography>
+                  <input
+                    style={{ display: displayEditor ? "none" : null }}
+                    className="task-description-box"
+                    type="text"
+                    placeholder="Add a more detailed description…"
+                    onClick={() => setDisplayEditor(true)}
+                  />
+                  <div style={{ display: displayEditor ? null : "none" }}>
+                    <TaskEditor setDisplayEditor={setDisplayEditor} />
+                  </div>
+                </Stack>
+              </Stack>
+              {/* Activity header text */}
+              <Stack direction={"row"} gap={2} alignItems={"center"}>
+                <FormatListBulletedOutlinedIcon />
+                <Typography>Activity</Typography>
+              </Stack>
+              {/* Comment section */}
+              <Stack direction={"row"} gap={2} alignItems={"center"}>
+                <Avatar {...stringAvatar({ userName })} />
                 <input
-                  style={{ display: displayEditor ? "none" : null }}
-                  className="task-description-box"
+                  className="task-description-box comment-input"
                   type="text"
-                  placeholder="Add a more detailed description…"
-                  onClick={() => setDisplayEditor(true)}
+                  placeholder="Write a comment..."
                 />
-                <div style={{ display: displayEditor ? null : "none" }}>
-                  <TaskEditor setDisplayEditor={setDisplayEditor} />
-                </div>
               </Stack>
             </Stack>
             <Stack dirrection="column" gap={2}>
