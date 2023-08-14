@@ -40,10 +40,12 @@ const BoardDetail = () => {
   }, [boardId]);
 
   const backgroundStyle = (board) => ({
-    backgroundImage: board ? `url("../../../public/${board.backgroundImage}")` : 'none',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover'
-  })
+    backgroundImage: board
+      ? `url("../../../public/${board.backgroundImage}")`
+      : "none",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+  });
 
   const handleDragEnd = (res) => {
     const startingIndex = res.source.index;
@@ -127,7 +129,7 @@ const BoardDetail = () => {
           className="scroll-container"
         >
           <Stack direction={"column"} height={"100%"}>
-            <h1 className="board-nav-bar">
+            <h1 className="board-nav-bar" style={{color: 'white'}}>
               {board && board.title ? board.title : null}
             </h1>
             <DragDropContext onDragEnd={handleDragEnd} style={{ flexGrow: 1 }}>

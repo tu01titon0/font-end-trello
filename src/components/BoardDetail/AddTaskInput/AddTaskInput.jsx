@@ -19,6 +19,8 @@ const AddTaskInput = ({ props }) => {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
 
+  // console.log(props);
+
   const handleOpenInput = () => {
     setOpen(true);
   };
