@@ -118,11 +118,11 @@ export default function TaskDetail({ props }) {
                 {taskTitle.showButton && (
                   <Stack direction={"row"} gap={1} alignItems={"center"}>
                     <CreateIcon
-                      style={{ color: "green", fontSize: "18px" }}
+                      style={{ color: "white", fontSize: "18px" }}
                       onClick={() => handleEditTask()}
                     />
                     <DoDisturbOnOutlinedIcon
-                      style={{ color: "red", fontSize: "18px" }}
+                      style={{ color: "white", fontSize: "18px" }}
                       onClick={() => setTaskTitle({ showButton: false })}
                     />
                   </Stack>
