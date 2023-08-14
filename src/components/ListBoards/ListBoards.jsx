@@ -77,18 +77,22 @@ const ListBoards = () => {
               mb={"20px"}
             >
               <PeopleOutlineIcon />
-              <h6 style={{ fontSize: "24px", color:'white' }}>All boards in this Workspace</h6>
+              <h6 style={{ fontSize: "24px", color: "white" }}>
+                All boards in this Workspace
+              </h6>
             </Stack>
             <Stack direction={"row"} gap={"20px"} flexWrap={"wrap"}>
               {workspace.boards &&
                 workspace.boards.map((board, index) => (
-                    <button
-                        key={index + 1}
+                  <button
+                    key={index + 1}
                     className="recent-board-card"
                     style={{
-                      backgroundImage: `url(/${board.board.backgroundImage})`,
+                      backgroundImage: `
+                      linear-gradient(to bottom, rgb(0 0 0 / 65%), rgb(255 255 255 / 0%)),
+                      url(/${board.board.backgroundImage})`,
                     }}
-                    >
+                  >
                     <Link to={`/b/${board.board._id}`}>
                       <p className="board-card-title">
                         {board.board.title} | {workspace.name}

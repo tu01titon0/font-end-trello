@@ -21,6 +21,7 @@ import BrandingWatermarkOutlinedIcon from "@mui/icons-material/BrandingWatermark
 import AutoDeleteOutlinedIcon from "@mui/icons-material/AutoDeleteOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import TaskEditor from "./TaskEditor/TaskEditor";
+import DoDisturbOnOutlinedIcon from "@mui/icons-material/DoDisturbOnOutlined";
 
 const style = {
   position: "absolute",
@@ -37,15 +38,16 @@ const style = {
   borderRadius: "4px",
 };
 
-const handleEditTask = () => {
-  console.log("Bổ sung update task name!");
-};
-
 export default function TaskDetail({ props }) {
   const handleOpen = () => props.setOpenModal(true);
   const handleClose = () => props.setOpenModal(false);
   const [displayEditor, setDisplayEditor] = React.useState(false);
   const [taskName, setTaskName] = React.useState("");
+  const [taskTitle, setTaskTitle] = React.useState({ showButton: false });
+
+  const handleEditTask = () => {
+    console.log(taskTitle.title);
+  };
 
   const openTaskEditor = () => {
     setDisplayEditor(true);
@@ -74,11 +76,23 @@ export default function TaskDetail({ props }) {
                   type="text"
                   placeholder={props.props.item.content}
                   style={{ all: "unset" }}
+                  onChange={(e) =>
+                    setTaskTitle({ title: e.target.value, showButton: true })
+                  }
+                  onClick={() => setTaskTitle({ showButton: true })}
                 />
-                <CreateIcon
-                  style={{ color: "white" }}
-                  onClick={() => handleEditTask()}
-                />
+                {taskTitle.showButton && (
+                  <Stack direction={"row"} gap={1} alignItems={"center"}>
+                    <CreateIcon
+                      style={{ color: "green", fontSize: "18px" }}
+                      onClick={() => handleEditTask()}
+                    />
+                    <DoDisturbOnOutlinedIcon
+                      style={{ color: "red", fontSize: "18px" }}
+                      onClick={() => setTaskTitle({ showButton: false })}
+                    />
+                  </Stack>
+                )}
               </Stack>
               <p style={{ fontSize: "14px" }}>
                 in list{" "}
