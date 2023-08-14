@@ -11,11 +11,12 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import { useParams } from "react-router";
 import BoardService from "../../services/board.service";
 import useBoard from "../../store/useBoard";
+import useColumn from "../../store/useColumn";
 
 const BoardDetail = () => {
   const [store, setStore] = useState(data2);
   const { board, setBoard } = useBoard();
-  const [column, setColumn] = useState();
+  const { column, setColumn } = useColumn();
   const boardId = useParams().id;
   const [loading, setLoading] = useState(true);
 

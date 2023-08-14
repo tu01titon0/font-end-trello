@@ -5,6 +5,7 @@ import Tasks from "../Tasks/Tasks";
 import AddTaskInput from "../AddTaskInput/AddTaskInput";
 
 const Column = ({ props, index, data, board }) => {
+  const columnId = props._id;
   return (
     <Draggable type="column" draggableId={props._id} index={index} key={props._id}>
       {(provided, snapshot) => (
@@ -35,7 +36,7 @@ const Column = ({ props, index, data, board }) => {
                 >
                   {props.tasks &&
                     props.tasks.map((item, index) => (
-                      <Tasks props={{ item, index, board }} key={item._id} />
+                      <Tasks props={{ item, index, board, data, columnId }} key={item._id} />
                     ))}
                   {provided.placeholder}
                   <AddTaskInput props={{ props, data, board }} />
