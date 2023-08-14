@@ -41,7 +41,7 @@ const BoardDetail = () => {
 
   const backgroundStyle = (board) => ({
     backgroundImage: board
-      ? `url("../../../public/${board.backgroundImage}")`
+      ? `url("../../../${board.backgroundImage}")`
       : "none",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
