@@ -31,6 +31,7 @@
   gap: 10px;
   flex-direction: column;
   width: 100%;
+  min-width: 160px;
 }
 
 .right-col-detail button {
@@ -46,4 +47,9 @@
   flex-direction: row;
   gap: 6px;
   align-items: center;
+}
+
+.comment-input {
+  background-color: #22272b;
+  width: 100%;
 }
