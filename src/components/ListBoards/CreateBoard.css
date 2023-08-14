@@ -23,6 +23,11 @@ input[type="radio"]:checked + img {
   margin-bottom: 6px;
   margin-top: 12px;
 }
+
+.input-plcholder::placeholder {
+    color: rgba(0, 0, 0, 0.575) !important;
+}
+
 .title {
   text-align: center;
   color: #44546f;

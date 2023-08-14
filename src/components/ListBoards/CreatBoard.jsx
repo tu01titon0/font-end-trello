@@ -122,10 +122,10 @@ const CreatBoard = ({ open, anchorEl, handleClose }) => {
           vertical: "center",
           horizontal: "left",
         }}
-        style={{ margin: "5px"}}
+        style={{ margin: "5px" }}
       >
         <div style={{ backgroundColor: "#1a1a1a", padding: "20px 10px" }}>
-          <Typography variant="h4" className="title">
+          <Typography variant="h4" className="title" style={{ color: "white" }}>
             Create board
           </Typography>
           <div>
@@ -140,7 +140,7 @@ const CreatBoard = ({ open, anchorEl, handleClose }) => {
               <Typography
                 variant="h5"
                 className="label-name"
-                style={{ marginBottom: "10px" }}
+                style={{ marginBottom: "10px", color: "white" }}
               >
                 Backgound
               </Typography>
@@ -184,11 +184,16 @@ const CreatBoard = ({ open, anchorEl, handleClose }) => {
                   ))}
                 </Grid>
               </div>
-              <Typography variant="h5" className="label-name">
+              <Typography
+                variant="h5"
+                style={{ color: "white" }}
+                className="label-name"
+              >
                 Board Title
                 <span className="require">*</span>
               </Typography>
               <Input
+                className="input-plcholder"
                 placeholder="Title"
                 name="title"
                 onChange={formCreateBoard.handleChange}
@@ -201,7 +206,11 @@ const CreatBoard = ({ open, anchorEl, handleClose }) => {
               >
                 {formCreateBoard.errors.title}
               </Typography>
-              <Typography variant="h5" className="label-name">
+              <Typography
+                variant="h5"
+                style={{ color: "white" }}
+                className="label-name"
+              >
                 Workspace
               </Typography>
               <Space wrap>
@@ -217,7 +226,11 @@ const CreatBoard = ({ open, anchorEl, handleClose }) => {
                 />
               </Space>
 
-              <Typography variant="h5" className="label-name">
+              <Typography
+                variant="h5"
+                style={{ color: "white" }}
+                className="label-name"
+              >
                 Visibility
               </Typography>
               <Space wrap>
@@ -242,6 +255,7 @@ const CreatBoard = ({ open, anchorEl, handleClose }) => {
                   width: "250px",
                   margin: "15px 0 15px 0",
                   display: "inherit",
+                  color: "white",
                 }}
               >
                 Create
