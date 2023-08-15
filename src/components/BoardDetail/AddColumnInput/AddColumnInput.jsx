@@ -13,6 +13,7 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import useColumn from "../../../store/useColumn";
+import useBoard from "../../../store/useBoard";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -53,7 +54,8 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 export default function AddColumnBtn({ column }) {
   const [expanded, setExpanded] = React.useState("panel1");
   const [columnName, setColumnName] = React.useState();
-  const {setColumn} = useColumn();
+  const { setColumn } = useColumn();
+  const { setBoard } = useBoard();
 
   if (column & column.column) {
     const columnToAdd = [...column.column];
@@ -67,6 +69,7 @@ export default function AddColumnBtn({ column }) {
 
     BoardService.addColumnToBoard(dataToBe)
       .then((res) => {
+        setBoard(res.data.data);
         setColumn(res.data.data.columns);
       })
       .catch((err) => {
