@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./SettingsWSScreen.css";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Alert,
   Avatar,
   Box,
@@ -14,8 +17,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined";
 import SearchUser from "../SearchUser/SearchUser";
+import ModalAccess from "../../ModalWorkspaces/UpdateAccess";
 import { useNavigate } from "react-router-dom";
 import WorkspaceService from "../../../services/workspace.service";
 import useAlert from "../../../store/useAlert";
@@ -24,6 +27,7 @@ import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import useWorkspaces from "../../../store/useWorkspaces.js";
+
 
 const style = {
   position: "absolute",
@@ -253,13 +257,12 @@ const SettingsWSScreen = () => {
             >
               {workSpace.name && workSpace.name.toUpperCase().substring(0, 2)}
             </Avatar>
+            
             <div>
-              <p style={{ color: "white" }}>{workSpace.name}</p>
+              <p style={{ color: "white"  }}>{workSpace.name}</p>
               <Stack direction={"row"} gap={1} alignItems={"center"}>
-                <LockPersonOutlinedIcon
-                  sx={{ fontSize: "12px", color: "white" }}
-                />
-                <p style={{ fontSize: "14px", color: "white" }}>Private</p>
+              <ModalAccess/>
+
               </Stack>
             </div>
           </Stack>
