@@ -82,7 +82,7 @@ const ListBoards = () => {
                 All boards in this Workspace
               </h6>
             </Stack>
-            <Stack direction={"row"} gap={"20px"} flexWrap={"wrap"}>
+            <Stack direction={"row"} gap={"14px"} flexWrap={"wrap"}>
               {workspace.boards &&
                 workspace.boards.map((board, index) => (
                   <button
@@ -90,8 +90,8 @@ const ListBoards = () => {
                     className="recent-board-card"
                     style={{
                       backgroundImage: `
-                      linear-gradient(to bottom, rgb(0 0 0 / 65%), rgb(255 255 255 / 0%)),
-                      url(/${board.board.backgroundImage})`,
+                        linear-gradient(to bottom, rgb(0 0 0 / 65%), rgb(255 255 255 / 0%)),
+                        url(/${board.board.backgroundImage})`,
                     }}
                   >
                     <Link to={`/b/${board.board._id}`}>

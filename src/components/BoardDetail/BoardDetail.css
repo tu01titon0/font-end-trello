@@ -38,3 +38,18 @@
   padding: 20px 20px 0 20px;
   font-size: 40px;
 }
+
+.board-title-input {
+  font-size: 40px;
+  display: inline-block;
+  font-weight: 700;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  /* max-width: 10ch; */
+  padding: 10px 20px 0 20px;
+}
+
+.board-title-input::placeholder {
+  color: white;
+}
