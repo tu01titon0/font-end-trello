@@ -25,7 +25,7 @@ input[type="radio"]:checked + img {
 }
 
 .input-plcholder::placeholder {
-    color: rgba(0, 0, 0, 0.575) !important;
+  color: rgba(0, 0, 0, 0.575) !important;
 }
 
 .title {
@@ -75,5 +75,15 @@ input[type="radio"]:checked + img {
 }
 
 .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
-    background-color: transparent !important;
+  background-color: transparent !important;
+}
+
+.create-board-popup {
+  padding: 20px 10px;
+  background: rgba(26, 26, 26, 0.199);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6.9px);
+  -webkit-backdrop-filter: blur(6.9px);
+  border: 1px solid rgba(26, 26, 26, 0.2);
 }
