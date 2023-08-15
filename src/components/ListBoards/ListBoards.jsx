@@ -37,7 +37,7 @@ const ListBoards = () => {
       <NavBar />
       <Stack direction={"row"}>
         <SideBar />
-        <div style={{ padding: "20px", maxWidth: "1000px" }}>
+        <div style={{ padding: "20px", width: "1000px", margin: '0 auto' }}>
           <Stack gap={2}>
             <Stack>
               <Stack direction={"row"} gap={2}>
@@ -64,8 +64,9 @@ const ListBoards = () => {
             <hr
               style={{
                 marginTop: "10px",
+                marginBottom: '10px',
                 border: "none",
-                borderBottom: "1px solid #1a1a1a",
+                borderBottom: "1px solid white",
               }}
             />
           </Stack>

@@ -124,7 +124,7 @@ const CreatBoard = ({ open, anchorEl, handleClose }) => {
         }}
         style={{ margin: "5px" }}
       >
-        <div style={{ backgroundColor: "#1a1a1a", padding: "20px 10px" }}>
+        <div className='create-board-popup'>
           <Typography variant="h4" className="title" style={{ color: "white" }}>
             Create board
           </Typography>
