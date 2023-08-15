@@ -3,8 +3,8 @@ import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import BoardService from "../../../services/board.service";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import "./AddColumnInput.css";
 import {
   FormControl,
@@ -12,6 +12,7 @@ import {
   InputAdornment,
   OutlinedInput,
 } from "@mui/material";
+import useColumn from "../../../store/useColumn";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -52,7 +53,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 export default function AddColumnBtn({ column }) {
   const [expanded, setExpanded] = React.useState("panel1");
   const [columnName, setColumnName] = React.useState();
-  // const data = [...props.store];
+  const {setColumn} = useColumn();
 
   if (column & column.column) {
     const columnToAdd = [...column.column];
@@ -66,7 +67,7 @@ export default function AddColumnBtn({ column }) {
 
     BoardService.addColumnToBoard(dataToBe)
       .then((res) => {
-        column.setColumn(res.data.data.columns);
+        setColumn(res.data.data.columns);
       })
       .catch((err) => {
         console.log(err);

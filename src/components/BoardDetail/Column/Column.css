@@ -32,10 +32,15 @@
   padding: 10px 8px;
   background-color: #101204;
   border-radius: 10px;
+
+  background: rgba(16, 18, 4, 0.651);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(16, 18, 4, 0.3);
 }
 
 .column-title {
   padding: 8px;
+  color: white;
 }
 
 .add-task-btn {
@@ -50,4 +55,8 @@
 .add-task-btn:focus {
   border: 1px solid #101204;
   outline: none;
+}
+
+.task-title {
+  color: white;
 }

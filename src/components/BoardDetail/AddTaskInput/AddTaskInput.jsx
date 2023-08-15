@@ -5,6 +5,7 @@ import { Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import BoardService from "../../../services/board.service";
 import useBoard from "../../../store/useBoard";
+import useColumn from "../../../store/useColumn";
 
 const inputStyle = (state) => ({
   display: state ? "block" : "none",
@@ -18,6 +19,7 @@ const AddTaskInput = ({ props }) => {
   const { board, setBoard } = useBoard();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
+  const { column, setColumn } = useColumn();
 
   const handleOpenInput = () => {
     setOpen(true);
@@ -46,7 +48,7 @@ const AddTaskInput = ({ props }) => {
       BoardService.addTaskToCol(taskContent)
         .then((res) => {
           data[columnArray].tasks.push(res.data.data);
-          props.data.setColumn(res.data.board.columns);
+          setColumn(res.data.board.columns);
           setBoard(res.data.board);
         })
         .catch((err) => {

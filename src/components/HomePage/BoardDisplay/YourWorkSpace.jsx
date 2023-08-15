@@ -6,8 +6,8 @@ const YourWorkSpace = () => {
   return (
     <div style={{ marginTop: "20px" }}>
       <Stack direction={"row"} gap={"10px"} alignItems={"center"} mb={"20px"}>
-        <WindowOutlinedIcon />
-        <h6 style={{ fontSize: "24px" }}>Your Workspaces</h6>
+        <WindowOutlinedIcon style={{ color: "white" }} />
+        <h6 style={{ fontSize: "24px", color: "white" }}>Your Workspaces</h6>
       </Stack>
       <Stack direction={"row"} gap={"20px"} flexWrap={"wrap"}>
         <button className="recent-board-card">
