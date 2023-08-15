@@ -9,6 +9,7 @@ export default function Profile() {
   const user = JSON.parse(localStorage.user);
   const navigate = useNavigate();
   const token = user.token;
+ 
   const formik = useFormik({
     initialValues: {
       fullName: user.fullName,
@@ -16,7 +17,6 @@ export default function Profile() {
       jobTitle: user.jobTitle,
       email: user.email,
     },
-
     onSubmit: async () => {
      UpdateService.userUpdate(formik.values,token)
         .then (() => {
@@ -32,7 +32,6 @@ export default function Profile() {
             console.log(err);
           });
     }
-  
   });
   return (
     <>
