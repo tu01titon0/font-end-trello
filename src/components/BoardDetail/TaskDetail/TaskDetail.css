@@ -53,3 +53,48 @@
   background-color: #22272b;
   width: 100%;
 }
+
+/* .attachment-btn {
+  background-color: transparent;
+  border: 1px solid white;
+}
+
+.attachment-btn:hover,
+.attachment-btn:focus,
+.attachment-btn:active {
+  outline: none;
+  border: 1px solid white;
+  background-color: rgba(255, 255, 255, 0.082);
+} */
+
+.custom-file-input {
+  color: transparent;
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.custom-file-input::before {
+  border: 1px solid rgba(255, 255, 255, 0.308);
+  content: "Add an attachment";
+  color: #fff;
+  display: inline-block;
+  background: transparent;
+  padding: 14px 30px;
+  outline: none;
+  white-space: nowrap;
+  /* -webkit-user-select: none; */
+  cursor: pointer;
+  font-weight: 400;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12),
+    0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+.custom-file-input:focus {
+  outline: none !important;
+}
+.custom-file-input:active::before {
+  transform: scale(0.9) translate(0px, 2px);
+  box-shadow: inset 4px 4px 5px 0px rgba(0, 0, 0, 0.2);
+}

@@ -81,6 +81,26 @@ export default class WorkspaceService {
       }
     );
   }
+  static async changeUserPermission(user, ws, role) {
+    const authKey = cookieParse()._auth;
+    // console.log(
+    //   `${
+    //     import.meta.env.VITE_ROOT_DOMAIN
+    //   }/workspace/updateUser?w=${ws}&u=${user}&r=${role}`
+    // );
+    return await axios.put(
+      `${
+        import.meta.env.VITE_ROOT_DOMAIN
+      }/workspace/updateUser?w=${ws}&u=${user}&r=${role}`,
+      null,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
 
   static async updateWorkspace(data) {
     const authKey = cookieParse()._auth;
@@ -105,6 +125,4 @@ export default class WorkspaceService {
       },
     });
   }
-
-  
 }
