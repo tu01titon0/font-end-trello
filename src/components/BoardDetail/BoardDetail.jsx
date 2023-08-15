@@ -12,13 +12,19 @@ import { useParams } from "react-router";
 import BoardService from "../../services/board.service";
 import useBoard from "../../store/useBoard";
 import useColumn from "../../store/useColumn";
+import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
 const BoardDetail = () => {
-  const [store, setStore] = useState(data2);
   const { board, setBoard } = useBoard();
   const { column, setColumn } = useColumn();
   const boardId = useParams().id;
   const [loading, setLoading] = useState(true);
+  const [textLength, setTextLength] = useState(
+    board && board.title ? board.title.length : "fit-content"
+  );
+  const [displayIcon, setDisplayIcon] = useState(false);
+  const [title, setTitle] = useState();
 
   const boardRef = useRef(board);
   const columnRef = useRef(column);
@@ -34,6 +40,8 @@ const BoardDetail = () => {
         setBoard(res.data.board);
         setColumn(res.data.board.columns);
         setLoading(true);
+        setTitle(res.data.board.title);
+        setTextLength(res.data.board.title.length + 2);
       })
       .catch((err) => {
         console.log(err);
@@ -41,6 +49,25 @@ const BoardDetail = () => {
   }, [boardId]);
 
   const boardTitle = board.title;
+
+  const handleChange = (e) => {
+    setTextLength(e.target.value.length + 1);
+    setTitle(e.target.value);
+  };
+
+  const handleTitleChange = () => {
+    const data = {
+      boardId: boardId,
+      title: title,
+    };
+    BoardService.updateBoardTitle(data)
+      .then((res) => {
+        setBoard(res.data.board);
+        setColumn(res.data.board.columns);
+      })
+      .catch((err) => console.log(err));
+    setDisplayIcon(false);
+  };
 
   const backgroundStyle = (board) => ({
     backgroundImage: board
@@ -130,9 +157,37 @@ const BoardDetail = () => {
           className="scroll-container"
         >
           <Stack direction={"column"} height={"100%"}>
-            <h1 className="board-nav-bar" style={{ color: "white" }}>
+            {/* <h1 className="board-nav-bar" style={{ color: "white" }}>
               {board && board.title ? board.title : null}
-            </h1>
+            </h1> */}
+            <Stack direction={"row"} alignItems={"center"}>
+              <input
+                type="text"
+                value={title}
+                style={{ width: `${textLength + 1}ch` }}
+                className="board-title-input"
+                onChange={(e) => handleChange(e)}
+                onClick={() => setDisplayIcon(true)}
+              />
+              {displayIcon ? (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <CheckOutlinedIcon onClick={() => handleTitleChange()} />
+                  <ClearOutlinedIcon
+                    onClick={() => {
+                      setDisplayIcon(false);
+                      setTitle(board.title);
+                    }}
+                  />
+                </div>
+              ) : null}
+            </Stack>
             <DragDropContext onDragEnd={handleDragEnd} style={{ flexGrow: 1 }}>
               <Droppable
                 droppableId="root"

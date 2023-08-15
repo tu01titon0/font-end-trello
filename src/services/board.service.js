@@ -40,6 +40,20 @@ export default class BoardService {
     );
   }
 
+  static async updateBoardTitle(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.patch(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/updateBoardTitle`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
+
   static async updateDragDrop(data) {
     const authKey = cookieParse()._auth;
     return await axios.patch(
