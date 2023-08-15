@@ -79,12 +79,8 @@ export default function TaskDetail({ props }) {
   const [taskTitle, setTaskTitle] = React.useState({ showButton: false });
   const { setBoard } = useBoard();
   const { setColumn } = useColumn();
-  // const [task, setTask] = React.useState();
-
-  // React.useEffect(() => {}, []);
 
   const des = props.props.item.description;
-
   const columnId = props.props.columnId;
   const userName = JSON.parse(localStorage.getItem("user")).userName;
 
@@ -108,6 +104,10 @@ export default function TaskDetail({ props }) {
         })
         .catch((err) => console.log(err));
     }
+  };
+
+  const handleFileUpload = (e) => {
+    console.log(e.target.files);
   };
 
   const openTaskEditor = () => {
@@ -181,7 +181,10 @@ export default function TaskDetail({ props }) {
                       <div
                         dangerouslySetInnerHTML={{ __html: des }}
                         onClick={() => setDisplayEditor(true)}
-                        style={{ display: displayEditor ? "none" : null, paddingTop: '10px' }}
+                        style={{
+                          display: displayEditor ? "none" : null,
+                          paddingTop: "10px",
+                        }}
                       />
                     </>
                   ) : (
@@ -201,6 +204,17 @@ export default function TaskDetail({ props }) {
                     />
                   </div>
                 </Stack>
+              </Stack>
+              {/* Attachment section */}
+              <Stack direction={"row"} gap={2} alignItems={"center"}>
+                <AttachmentOutlinedIcon />
+                  <input
+                    type="file"
+                    className="custom-file-input"
+                    name="task-attachment"
+                    accept=".png,.jpeg,.jpg,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                    onChange={handleFileUpload}
+                  />
               </Stack>
               {/* Activity header text */}
               <Stack direction={"row"} gap={2} alignItems={"center"}>
