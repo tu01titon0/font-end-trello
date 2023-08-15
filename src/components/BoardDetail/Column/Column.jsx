@@ -5,8 +5,9 @@ import Tasks from "../Tasks/Tasks";
 import AddTaskInput from "../AddTaskInput/AddTaskInput";
 
 const Column = ({ props, index, data, board }) => {
+  const columnId = props._id;
   return (
-    <Draggable draggableId={props._id} index={index}>
+    <Draggable type="column" draggableId={props._id} index={index} key={props._id}>
       {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
@@ -24,7 +25,6 @@ const Column = ({ props, index, data, board }) => {
               key={props._id}
             >
               {props && props.title ? props.title : "None"}
-              {/* Xử lý bất đồng bộ tại đây */}
             </h3>
             <Droppable droppableId={props._id} type="task" direction="vertical">
               {(provided) => (
@@ -35,7 +35,7 @@ const Column = ({ props, index, data, board }) => {
                 >
                   {props.tasks &&
                     props.tasks.map((item, index) => (
-                      <Tasks props={{ item, index }} key={index + 1} />
+                      <Tasks props={{ item, index, board, data, columnId }} key={item._id} />
                     ))}
                   {provided.placeholder}
                   <AddTaskInput props={{ props, data, board }} />

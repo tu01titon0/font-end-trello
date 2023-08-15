@@ -11,11 +11,12 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import { useParams } from "react-router";
 import BoardService from "../../services/board.service";
 import useBoard from "../../store/useBoard";
+import useColumn from "../../store/useColumn";
 
 const BoardDetail = () => {
   const [store, setStore] = useState(data2);
   const { board, setBoard } = useBoard();
-  const [column, setColumn] = useState();
+  const { column, setColumn } = useColumn();
   const boardId = useParams().id;
   const [loading, setLoading] = useState(true);
 
@@ -39,6 +40,8 @@ const BoardDetail = () => {
       });
   }, [boardId]);
 
+  const boardTitle = board.title;
+
   const backgroundStyle = (board) => ({
     backgroundImage: board
       ? `url("../../../${board.backgroundImage}")`
@@ -51,8 +54,10 @@ const BoardDetail = () => {
     const startingIndex = res.source.index;
     const startingCol = res.source.droppableId;
     const typeOfItem = res.type;
-    const endingIndex = res.destination.index;
-    const endingCol = res.destination.droppableId;
+    const endingIndex = res.destination
+      ? res.destination.index
+      : board.columns.length;
+    const endingCol = res.destination ? res.destination.droppableId : "root";
     setLoading(false);
 
     if (typeOfItem === "column") {
@@ -81,11 +86,7 @@ const BoardDetail = () => {
       const endedColIndex = boardColData.findIndex(
         (item) => item._id === endingCol
       );
-      // console.log("data array", boardColData);
-      // console.log("starting index in col", startingIndex);
-      // console.log("starting col index", startedColIndex);
-      // console.log("ended index of col", endedColIndex);
-      // console.log("ended index in col", endingIndex);
+
       const [removedTask] = boardColData[startedColIndex].tasks.splice(
         startingIndex,
         1
@@ -129,7 +130,7 @@ const BoardDetail = () => {
           className="scroll-container"
         >
           <Stack direction={"column"} height={"100%"}>
-            <h1 className="board-nav-bar" style={{color: 'white'}}>
+            <h1 className="board-nav-bar" style={{ color: "white" }}>
               {board && board.title ? board.title : null}
             </h1>
             <DragDropContext onDragEnd={handleDragEnd} style={{ flexGrow: 1 }}>
@@ -151,7 +152,7 @@ const BoardDetail = () => {
                             key={item._id}
                             index={index}
                             data={{ column, setColumn }}
-                            board={{ boardId }}
+                            board={{ boardId, boardTitle }}
                           />
                         ))
                       : null}
