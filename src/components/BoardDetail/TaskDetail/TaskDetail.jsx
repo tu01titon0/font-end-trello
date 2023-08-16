@@ -154,8 +154,20 @@ export default function TaskDetail({ props }) {
   };
 
   const deleteAttachment = (url) => {
-    console.log(url);
-    setAttachmentsIcon({ url: url });
+    const taskId = props.props.item._id;
+    const boardId = props.props.board.boardId;
+    const data = {
+      taskId: taskId,
+      boardId: boardId,
+      url: url,
+    };
+    BoardService.deleteFileOnTask(data)
+      .then((res) => {
+        setBoard(res.data.board);
+        setColumn(res.data.board.columns);
+        setAttachmentsIcon(false);
+      })
+      .catch((err) => console.log(err));
   };
 
   const openTaskEditor = () => {
@@ -297,18 +309,17 @@ export default function TaskDetail({ props }) {
                           >
                             Open In New Tab
                           </button>
-                          <Stack
-                            direction={"row"}
-                            alignItems={"center"}
-                            gap={1}
-                          >
+                          <Stack direction={"row"} alignItems={"center"}>
                             <button
                               className="attachment-controller-btn"
-                              onClick={() => deleteAttachment(item.url)}
+                              onClick={() =>
+                                setAttachmentsIcon({ url: item.url })
+                              }
                             >
                               Delete Attachment
                             </button>
                             <CheckOutlinedIcon
+                              className="dlt-attch-btn"
                               style={{
                                 display:
                                   attachmentsIcon.url === item.url
@@ -316,8 +327,10 @@ export default function TaskDetail({ props }) {
                                     : "none",
                               }}
                               fontSize="12px"
+                              onClick={() => deleteAttachment(item.url)}
                             />
                             <ClearOutlinedIcon
+                              className="dlt-attch-btn"
                               style={{
                                 display:
                                   attachmentsIcon.url === item.url
