@@ -35,7 +35,6 @@ const NavBar = () => {
     //     },
     //   })
     //   .then((res) => {
-    //     console.log("ádasdasdsa", res);
     //     setUserName(res.data.user.userName.slice(0, 2));
     //   })
     //   .catch((error) => {
@@ -191,8 +190,8 @@ const NavBar = () => {
             }}
           >
             <MenuItem  component={Link} to="/profile" onClick={handleClose} >Profile</MenuItem>
-            <MenuItem onClick={handleSignOut}>Logout</MenuItem>
             <MenuItem component={Link} to="/updatePassword" onClick={handleClose}>Reset Password</MenuItem>
+            <MenuItem onClick={handleSignOut}>Logout</MenuItem>
           </Menu>
         </div>
       </Stack>

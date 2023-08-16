@@ -81,6 +81,19 @@ export default class BoardService {
       }
     );
   }
+  static async addUserToBoard(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.post(
+        `${import.meta.env.VITE_ROOT_DOMAIN}/b/add-user`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            authorization: authKey,
+          },
+        }
+    );
+  }
 
   static async updateTaskTitle(data) {
     const authKey = cookieParse()._auth;

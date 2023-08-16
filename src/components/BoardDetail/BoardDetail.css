@@ -39,6 +39,26 @@
   font-size: 40px;
 }
 
+.title-modal {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 20px;
+  padding-bottom: 16px;
+}
+
+.col-modal {
+  /*margin-right: 10px*/
+}
+
+.list-user{
+  margin-top:16px
+}
+.avatar {
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
+
+}
 .board-title-input {
   font-size: 40px;
   display: inline-block;
