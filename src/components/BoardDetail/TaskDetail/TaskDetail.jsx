@@ -1,12 +1,14 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { storage } from "../../../miscs/firebase.setup";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Modal from "@mui/material/Modal";
-import { Avatar, Stack } from "@mui/material";
+import { Avatar, LinearProgress, Stack } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
 import "./TaskDetail.css";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
@@ -19,10 +21,13 @@ import DriveFileMoveOutlinedIcon from "@mui/icons-material/DriveFileMoveOutlined
 import CopyAllOutlinedIcon from "@mui/icons-material/CopyAllOutlined";
 import BrandingWatermarkOutlinedIcon from "@mui/icons-material/BrandingWatermarkOutlined";
 import AutoDeleteOutlinedIcon from "@mui/icons-material/AutoDeleteOutlined";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import TaskEditor from "./TaskEditor/TaskEditor";
 import DoDisturbOnOutlinedIcon from "@mui/icons-material/DoDisturbOnOutlined";
 import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBulletedOutlined";
+import ArrowOutwardOutlinedIcon from "@mui/icons-material/ArrowOutwardOutlined";
+import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import BoardService from "../../../services/board.service";
 import useBoard from "../../../store/useBoard";
 import useColumn from "../../../store/useColumn";
@@ -77,12 +82,50 @@ export default function TaskDetail({ props }) {
   const handleClose = () => props.setOpenModal(false);
   const [displayEditor, setDisplayEditor] = React.useState(false);
   const [taskTitle, setTaskTitle] = React.useState({ showButton: false });
+  const [fileUpload, setFileUpload] = React.useState();
+  const [attachmentsIcon, setAttachmentsIcon] = React.useState(false);
+  const [message, setMessage] = React.useState({ progress: false });
   const { setBoard } = useBoard();
   const { setColumn } = useColumn();
 
   const des = props.props.item.description;
   const columnId = props.props.columnId;
   const userName = JSON.parse(localStorage.getItem("user")).userName;
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    setFileUpload(file);
+    uploadFile(file);
+  };
+
+  const uploadFile = (file) => {
+    if (!file) return;
+    setMessage({ progress: true });
+    const fileRef = ref(storage, `Project/${Date.now() + file.name}`);
+    uploadBytes(fileRef, file)
+      .then((snapshot) => {
+        getDownloadURL(snapshot.ref)
+          .then((url) => {
+            const data = {
+              url: url,
+              name: file.name,
+              type: file.type,
+              taskId: props.props.item._id,
+              boardId: props.props.board.boardId,
+            };
+            BoardService.addFileToTask(data)
+              .then((res) => {
+                setBoard(res.data.board);
+                setColumn(res.data.board.columns);
+              })
+              .catch((err) => console.log(err));
+            // console.log(data);
+            setMessage({ success: "Uploaded succesfully!", progress: false });
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+  };
 
   const handleEditTask = () => {
     if (taskTitle.title) {
@@ -106,8 +149,25 @@ export default function TaskDetail({ props }) {
     }
   };
 
-  const handleFileUpload = (e) => {
-    console.log(e.target.files);
+  const openNewTab = (url) => {
+    window.open(url, "_blank");
+  };
+
+  const deleteAttachment = (url) => {
+    const taskId = props.props.item._id;
+    const boardId = props.props.board.boardId;
+    const data = {
+      taskId: taskId,
+      boardId: boardId,
+      url: url,
+    };
+    BoardService.deleteFileOnTask(data)
+      .then((res) => {
+        setBoard(res.data.board);
+        setColumn(res.data.board.columns);
+        setAttachmentsIcon(false);
+      })
+      .catch((err) => console.log(err));
   };
 
   const openTaskEditor = () => {
@@ -205,17 +265,102 @@ export default function TaskDetail({ props }) {
                   </div>
                 </Stack>
               </Stack>
+              {/* {console.log(props.props.item.files)} */}
+              {props.props && props.props.item.files
+                ? props.props.item.files.map((item) => (
+                    <Stack direction={"row"} gap={2} alignItems={"center"}>
+                      {item.type === "image/jpeg" ||
+                      item.type === "image/png" ? (
+                        <img
+                          src={item.url}
+                          alt={item.name}
+                          className="uploaded-file-thumb"
+                        />
+                      ) : (
+                        <div className="doc-file-thumb-display">.doc</div>
+                      )}
+                      <Stack direction={"column"} gap={1}>
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Stack direction={"row"} alignItems={"start"} gap={1}>
+                            <h5
+                              style={{
+                                color: "white",
+                                textDecoration: "underline",
+                              }}
+                            >
+                              {item.name}
+                            </h5>
+                            <ArrowOutwardOutlinedIcon
+                              style={{
+                                color: "white",
+                              }}
+                              fontSize="11px"
+                            />
+                          </Stack>
+                        </a>
+                        <Stack direction={"row"} gap={1}>
+                          <button
+                            className="attachment-controller-btn"
+                            onClick={() => openNewTab(item.url)}
+                          >
+                            Open In New Tab
+                          </button>
+                          <Stack direction={"row"} alignItems={"center"}>
+                            <button
+                              className="attachment-controller-btn"
+                              onClick={() =>
+                                setAttachmentsIcon({ url: item.url })
+                              }
+                            >
+                              Delete Attachment
+                            </button>
+                            <CheckOutlinedIcon
+                              className="dlt-attch-btn"
+                              style={{
+                                display:
+                                  attachmentsIcon.url === item.url
+                                    ? true
+                                    : "none",
+                              }}
+                              fontSize="12px"
+                              onClick={() => deleteAttachment(item.url)}
+                            />
+                            <ClearOutlinedIcon
+                              className="dlt-attch-btn"
+                              style={{
+                                display:
+                                  attachmentsIcon.url === item.url
+                                    ? true
+                                    : "none",
+                              }}
+                              fontSize="12px"
+                              onClick={() => setAttachmentsIcon({ url: null })}
+                            />
+                          </Stack>
+                        </Stack>
+                        {/* <p>Item type: {item.type}</p> */}
+                      </Stack>
+                    </Stack>
+                  ))
+                : null}
               {/* Attachment section */}
               <Stack direction={"row"} gap={2} alignItems={"center"}>
                 <AttachmentOutlinedIcon />
-                  <input
-                    type="file"
-                    className="custom-file-input"
-                    name="task-attachment"
-                    accept=".png,.jpeg,.jpg,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                    onChange={handleFileUpload}
-                  />
+                <input
+                  type="file"
+                  className="custom-file-input"
+                  name="task-attachment"
+                  accept=".png,.jpeg,.jpg,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  onChange={(e) => handleFileUpload(e)}
+                />
               </Stack>
+              {message.progress ? (
+                <LinearProgress color="inherit" style={{ height: "2px" }} />
+              ) : null}
               {/* Activity header text */}
               <Stack direction={"row"} gap={2} alignItems={"center"}>
                 <FormatListBulletedOutlinedIcon />
