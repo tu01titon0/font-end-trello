@@ -160,6 +160,7 @@ const BoardDetail = () => {
             {/* <h1 className="board-nav-bar" style={{ color: "white" }}>
               {board && board.title ? board.title : null}
             </h1> */}
+
             <Stack direction={"row"} alignItems={"center"}>
               <input
                 type="text"
@@ -188,6 +189,7 @@ const BoardDetail = () => {
                 </div>
               ) : null}
             </Stack>
+
             <DragDropContext onDragEnd={handleDragEnd} style={{ flexGrow: 1 }}>
               <Droppable
                 droppableId="root"

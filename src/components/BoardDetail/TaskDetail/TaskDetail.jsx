@@ -1,8 +1,10 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { storage } from "../../../miscs/firebase.setup";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import Modal from "@mui/material/Modal";
-import { Avatar, Stack } from "@mui/material";
+import { Avatar, LinearProgress, Stack } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
 import "./TaskDetail.css";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -77,12 +79,41 @@ export default function TaskDetail({ props }) {
   const handleClose = () => props.setOpenModal(false);
   const [displayEditor, setDisplayEditor] = React.useState(false);
   const [taskTitle, setTaskTitle] = React.useState({ showButton: false });
+  const [fileUpload, setFileUpload] = React.useState();
+  const [message, setMessage] = React.useState({ progress: false });
   const { setBoard } = useBoard();
   const { setColumn } = useColumn();
 
   const des = props.props.item.description;
   const columnId = props.props.columnId;
   const userName = JSON.parse(localStorage.getItem("user")).userName;
+
+  React.useEffect(() => {
+    // uploadFile();
+    console.log(fileUpload);
+  }, [fileUpload]);
+
+  const handleFileUpload = (e) => {
+    setFileUpload(e.target.files[0]);
+    uploadFile();
+  };
+
+  const uploadFile = () => {
+    if (!fileUpload) return;
+    setMessage({ progress: true });
+    const fileRef = ref(storage, `Project/${Date.now() + fileUpload.name}`);
+    uploadBytes(fileRef, fileUpload)
+      .then((snapshot) => {
+        getDownloadURL(snapshot.ref)
+          .then((url) => {
+            console.log(url);
+            console.log(fileUpload.type);
+            setMessage({ success: "Uploaded succesfully!", progress: false });
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
+  };
 
   const handleEditTask = () => {
     if (taskTitle.title) {
@@ -104,10 +135,6 @@ export default function TaskDetail({ props }) {
         })
         .catch((err) => console.log(err));
     }
-  };
-
-  const handleFileUpload = (e) => {
-    console.log(e.target.files);
   };
 
   const openTaskEditor = () => {
@@ -208,14 +235,17 @@ export default function TaskDetail({ props }) {
               {/* Attachment section */}
               <Stack direction={"row"} gap={2} alignItems={"center"}>
                 <AttachmentOutlinedIcon />
-                  <input
-                    type="file"
-                    className="custom-file-input"
-                    name="task-attachment"
-                    accept=".png,.jpeg,.jpg,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                    onChange={handleFileUpload}
-                  />
+                <input
+                  type="file"
+                  className="custom-file-input"
+                  name="task-attachment"
+                  accept=".png,.jpeg,.jpg,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  onChange={(e) => handleFileUpload(e)}
+                />
               </Stack>
+              {message.progress ? (
+                <LinearProgress color="inherit" style={{ height: "2px" }} />
+              ) : null}
               {/* Activity header text */}
               <Stack direction={"row"} gap={2} alignItems={"center"}>
                 <FormatListBulletedOutlinedIcon />

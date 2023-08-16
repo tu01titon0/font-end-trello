@@ -60,3 +60,40 @@
 .task-title {
   color: white;
 }
+
+.edit-col-title {
+  all: unset;
+  padding: 4px;
+  border-radius: 10px;
+}
+
+.edit-col-title:hover {
+  background-color: rgba(255, 255, 255, 0.068);
+}
+
+.col-settings-popup {
+  position: absolute;
+  padding: 8px;
+  background-color: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  left: -156px;
+  width: 200px;
+  max-width: 200px;
+}
+
+.column-settings-btn {
+  border: none;
+  padding: 4px 6px !important;
+  background-color: transparent;
+  width: 100%;
+  border-radius: 0;
+  text-align: left;
+}
+
+.column-settings-btn:hover,
+.column-settings-btn:active,
+.column-settings-btn:focus {
+  background-color: rgba(255, 255, 255, 0.308);
+}
