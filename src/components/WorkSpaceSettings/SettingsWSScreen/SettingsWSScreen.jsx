@@ -129,7 +129,6 @@ const SettingsWSScreen = () => {
             (workspace) => workspace._id === res.data.workspace._id
           );
           workspaces[wsIndex] = res.data.workspace;
-          console.log(workspace);
           setSuccessMessage(res.data.message);
         })
         .catch((err) => {
