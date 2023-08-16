@@ -232,7 +232,6 @@ const BoardDetail = () => {
     setOpen(false);
     setOpenErr(false);
   };
-  console.log(board.users)
   return (
     <>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
