@@ -277,7 +277,7 @@ export default function TaskDetail({ props }) {
                           className="uploaded-file-thumb"
                         />
                       ) : (
-                        321
+                        <div className="doc-file-thumb-display">.doc</div>
                       )}
                       <Stack direction={"column"} gap={1}>
                         <a

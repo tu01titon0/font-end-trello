@@ -5,7 +5,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./BoardDetail.css";
 import AddColumnBtn from "./AddColumnInput/AddColumnInput";
 import NavBar from "../HomePage/Navbar/NavBar";
-import {Alert, CircularProgress, Snackbar, Stack} from "@mui/material";
+import { Alert, CircularProgress, Snackbar, Stack } from "@mui/material";
 import SideBar from "../HomePage/SideBar/SideBar";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { useParams } from "react-router";
@@ -15,19 +15,19 @@ import useColumn from "../../store/useColumn";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
-import {Button, Col, Input, Modal, Row, Select} from "antd";
+import { Button, Col, Input, Modal, Row, Select } from "antd";
 import Avatar from "@mui/material/Avatar";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined.js";
 import SearchUser from "../WorkSpaceSettings/SearchUser/SearchUser.jsx";
-import ReplyIcon from '@mui/icons-material/Reply';
+import ReplyIcon from "@mui/icons-material/Reply";
 const BoardDetail = () => {
   const { board, setBoard } = useBoard();
   const { column, setColumn } = useColumn();
   const boardId = useParams().id;
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [userId, setUserId] = useState("")
-  const [roll, setRoll] = useState("member")
+  const [userId, setUserId] = useState("");
+  const [roll, setRoll] = useState("member");
   const [message, setMessage] = useState("");
   const [errMessage, setErrMessage] = useState("");
   const [textLength, setTextLength] = useState(
@@ -158,7 +158,6 @@ const BoardDetail = () => {
     }
   };
 
-
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -172,7 +171,7 @@ const BoardDetail = () => {
       hash = string.charCodeAt(i) + ((hash << 5) - hash);
     }
 
-    let color = '#';
+    let color = "#";
 
     for (i = 0; i < 3; i += 1) {
       const value = (hash >> (i * 8)) & 0xff;
@@ -190,9 +189,12 @@ const BoardDetail = () => {
     return {
       sx: {
         bgcolor: stringToColor(name),
-        fontSize: "15px"
+        fontSize: "15px",
       },
-      children: (name.split(' ')[0] && name.split(' ')[1]) ? `${name.split(' ')[0][0]}${name.split(' ')[1][0]}` : `${name.toUpperCase().substring(0, 2)}`,
+      children:
+        name.split(" ")[0] && name.split(" ")[1]
+          ? `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`
+          : `${name.toUpperCase().substring(0, 2)}`,
     };
   }
   const handleErrClick = () => {
@@ -204,21 +206,21 @@ const BoardDetail = () => {
   function handlerAddUser() {
     let dataAdd = {
       userId: userId,
-      boardId:  boardId,
-      roll: roll
+      boardId: boardId,
+      roll: roll,
     };
     BoardService.addUserToBoard(dataAdd)
-        .then((res) => {
-          if (res.data.message) {
-            setBoard(res.data.board)
-            setMessage(res.data.message);
-            handleClick();
-          } else if (res.data.error) {
-            setErrMessage(res.data.error);
-            handleErrClick();
-          }
-        })
-        .catch((err) => console.log(err))
+      .then((res) => {
+        if (res.data.message) {
+          setBoard(res.data.board);
+          setMessage(res.data.message);
+          handleClick();
+        } else if (res.data.error) {
+          setErrMessage(res.data.error);
+          handleErrClick();
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   function choseRollUser(value) {
@@ -235,12 +237,12 @@ const BoardDetail = () => {
   return (
     <>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{width: "100%"}}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
           {message}
         </Alert>
       </Snackbar>
       <Snackbar open={openErr} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="warning" sx={{width: "100%"}}>
+        <Alert onClose={handleClose} severity="warning" sx={{ width: "100%" }}>
           {errMessage}
         </Alert>
       </Snackbar>
@@ -285,74 +287,110 @@ const BoardDetail = () => {
                 </div>
               ) : null}
             </Stack>
-            <Button onClick={showModal} style={{backgroundColor: "#FFFFFF", color: "black", maxWidth:"80px", margin: "auto"}}>
-              <ReplyIcon style={{fontSize: "15px", margin: "auto"}}/>  Share
+            <Button
+              onClick={showModal}
+              style={{
+                backgroundColor: "#FFFFFF",
+                color: "black",
+                maxWidth: "80px",
+                margin: "auto",
+              }}
+            >
+              <ReplyIcon style={{ fontSize: "15px", margin: "auto" }} /> Share
             </Button>
-            <Modal open={isModalOpen} onCancel={handleCancel} footer={[]} width={700}>
+            <Modal
+              open={isModalOpen}
+              onCancel={handleCancel}
+              footer={[]}
+              width={700}
+            >
               <h5 className="title-modal">Share Board</h5>
               <Row>
                 <Col span={14} className="col-modal">
-                  <SearchUser action="addToBoard" userId={userId} setUserId={setUserId}/>
+                  <SearchUser
+                    action="addToBoard"
+                    userId={userId}
+                    setUserId={setUserId}
+                  />
                 </Col>
                 <Col span={6} className="col-modal">
                   <Select
-                      style={{marginLeft: "10%"}}
-                      defaultValue="member"
-                      onChange={(value) => choseRollUser(value)}
-
-                      options={[
-                        {
-                          value: 'admin',
-                          label: 'Admin',
-                        },
-                        {
-                          value: 'member',
-                          label: 'Member',
-                        },
-                      ]}
+                    style={{ marginLeft: "10%" }}
+                    defaultValue="member"
+                    onChange={(value) => choseRollUser(value)}
+                    options={[
+                      {
+                        value: "admin",
+                        label: "Admin",
+                      },
+                      {
+                        value: "member",
+                        label: "Member",
+                      },
+                    ]}
                   />
                 </Col>
                 <Col span={3}>
-                  <Button type="primary" onClick={() => handlerAddUser()}>Share</Button>
+                  <Button type="primary" onClick={() => handlerAddUser()}>
+                    Share
+                  </Button>
                 </Col>
               </Row>
-              {board.users && board.users ? board.users.map((item, index) => (
-                      <Row className="list-user" key={index+1}>
-                        <Col span={6} offset={0}>
-                          <div className="avatar">
-                            <Row>
-                              <Avatar {...stringAvatar(`${item.idUser.fullName}`)} sx={{ width: 30, height: 30, margin: 'auto 0 auto 0' , fontSize: "14px"}}  />
-                              <div style={{paddingLeft: "12px"}}>
-                                <p style={{ color: "black" }}>{item.idUser && item.idUser.fullName}</p>
-                                <Stack direction={"row"} gap={1} alignItems={"center"}>
-                                  <p style={{ fontSize: "14px", color: "black" }}>@{ item.idUser && item.idUser.userName}</p>
-                                </Stack>
-                              </div>
-                            </Row>
-                          </div>
-                        </Col>
-                        <Col span={4} offset={12} style={{marginTop: "auto"}}>
-                          <Select
-                              defaultValue={item.role || "member"}
-                              style={{
-                                width: 100,
+              {board.users && board.users
+                ? board.users.map((item, index) => (
+                    <Row className="list-user" key={index + 1}>
+                      <Col span={6} offset={0}>
+                        <div className="avatar">
+                          <Row>
+                            {console.log(item)}
+                            <Avatar
+                              //   {...stringAvatar(`${item.idUser.fullName}`)}
+                              sx={{
+                                width: 30,
+                                height: 30,
+                                margin: "auto 0 auto 0",
+                                fontSize: "14px",
                               }}
-                              onChange=""
-                              options={[
-                                {
-                                  value: 'admin',
-                                  label: 'admin',
-                                },
-                                {
-                                  value: 'member',
-                                  label: 'member',
-                                },
-                              ]}
-                          />
-                        </Col>
-                      </Row>
+                            />
+                            <div style={{ paddingLeft: "12px" }}>
+                              <p style={{ color: "black" }}>
+                                {item.idUser && item.idUser.fullName}
+                              </p>
+                              <Stack
+                                direction={"row"}
+                                gap={1}
+                                alignItems={"center"}
+                              >
+                                <p style={{ fontSize: "14px", color: "black" }}>
+                                  @{item.idUser && item.idUser.userName}
+                                </p>
+                              </Stack>
+                            </div>
+                          </Row>
+                        </div>
+                      </Col>
+                      <Col span={4} offset={12} style={{ marginTop: "auto" }}>
+                        <Select
+                          defaultValue={item.role || "member"}
+                          style={{
+                            width: 100,
+                          }}
+                          onChange=""
+                          options={[
+                            {
+                              value: "admin",
+                              label: "admin",
+                            },
+                            {
+                              value: "member",
+                              label: "member",
+                            },
+                          ]}
+                        />
+                      </Col>
+                    </Row>
                   ))
-                  : null}
+                : null}
             </Modal>
             <DragDropContext onDragEnd={handleDragEnd} style={{ flexGrow: 1 }}>
               <Droppable
