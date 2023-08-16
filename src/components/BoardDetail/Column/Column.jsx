@@ -7,6 +7,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import CloseIcon from "@mui/icons-material/Close";
 import { Stack } from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 
 const Column = ({ props, index, data, board }) => {
   const [popup, setPopup] = useState();
@@ -74,7 +75,7 @@ const Column = ({ props, index, data, board }) => {
                   </button>
                   <button className="column-settings-btn">
                     <Stack direction={"row"} alignItems={"center"} gap={"6px"}>
-                      <DriveFileRenameOutlineIcon fontSize="12px" />
+                      <DeleteOutlinedIcon fontSize="12px" />
                       Delete Column
                     </Stack>
                   </button>

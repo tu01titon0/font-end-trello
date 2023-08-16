@@ -123,4 +123,18 @@ export default class BoardService {
       }
     );
   }
+
+  static async addFileToTask(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.post(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/addFileToTask`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
 }

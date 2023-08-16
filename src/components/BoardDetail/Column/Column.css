@@ -41,6 +41,7 @@
 .column-title {
   padding: 8px;
   color: white;
+  flex-grow: 1;
 }
 
 .add-task-btn {
@@ -81,6 +82,7 @@
   left: -156px;
   width: 200px;
   max-width: 200px;
+  border-radius: 4px;
 }
 
 .column-settings-btn {

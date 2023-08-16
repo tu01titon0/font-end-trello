@@ -50,7 +50,7 @@
 }
 
 .comment-input {
-  background-color: #22272b;
+  /* background-color: #22272b; */
   width: 100%;
 }
 
@@ -97,4 +97,24 @@
 .custom-file-input:active::before {
   transform: scale(0.9) translate(0px, 2px);
   box-shadow: inset 4px 4px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.uploaded-file-thumb {
+  /* max-height: 100px; */
+  width: 100px;
+}
+
+.attachment-controller-btn {
+  padding: 4px 10px;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: transparent;
+}
+
+.attachment-controller-btn:hover,
+.attachment-controller-btn:focus,
+.attachment-controller-btn:active {
+  border: 1px solid white;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.096);
 }
