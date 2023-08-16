@@ -39,7 +39,6 @@ export default function Profile(user) {
       }
     },
   });
-  console.log( user.userName)
   return (
     <>
       <Layout

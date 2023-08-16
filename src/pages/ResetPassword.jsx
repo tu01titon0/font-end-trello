@@ -56,7 +56,6 @@ export default function ResetPassWord() {
         });
 
         const data = await response.json();
-        console.log(data.message); 
       } catch (error) {
         console.error(error);
       }
