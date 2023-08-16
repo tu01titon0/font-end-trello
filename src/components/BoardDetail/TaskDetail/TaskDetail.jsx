@@ -89,7 +89,8 @@ export default function TaskDetail({ props }) {
   const userName = JSON.parse(localStorage.getItem("user")).userName;
 
   React.useEffect(() => {
-    // uploadFile();
+      // uploadFile();
+    //   const abc = fileUpload;
     console.log(fileUpload);
   }, [fileUpload]);
 
