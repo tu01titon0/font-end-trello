@@ -145,7 +145,7 @@ const NavBar = () => {
         </div>
         <MenuPopupState />
       </Stack>
-      {!userActive && (
+      {/* {!userActive && (
         <div
           style={{
             display: "flex",
@@ -165,7 +165,7 @@ const NavBar = () => {
         >
           Email not activated
         </div>
-      )}
+      )} */}
 
       <Stack direction={"row"} alignItems={"center"} gap={"10px"}>
         <FormControl
