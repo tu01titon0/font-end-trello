@@ -20,9 +20,12 @@ import Avatar from "@mui/material/Avatar";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined.js";
 import SearchUser from "../WorkSpaceSettings/SearchUser/SearchUser.jsx";
 import ReplyIcon from "@mui/icons-material/Reply";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import WorkspaceService from "../../services/workspace.service.js";
 const BoardDetail = () => {
+  const navigate = useNavigate();
+
   const { board, setBoard } = useBoard();
   const { column, setColumn } = useColumn();
   const boardId = useParams().id;
@@ -60,12 +63,13 @@ const BoardDetail = () => {
         let isIdUser = false;
         if (res.data.board && res.data.board.users) {
           isIdUser = res.data.board.users.some(
-              (user) => user.idUser._id && user.idUser._id.toString() === currentUserId
+              (user) => user.idUser._id.toString() === currentUserId
           );
         }
         const isPrivateBoard = res.data.board.visibility === "private";
+        console.log(isIdUser)
         if (!isIdUser && isPrivateBoard) {
-          return <Navigate to="/" />;
+          navigate("/")
         }
       })
       .catch((err) => {
