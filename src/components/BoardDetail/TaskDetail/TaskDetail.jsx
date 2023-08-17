@@ -119,7 +119,6 @@ export default function TaskDetail({ props }) {
                 setColumn(res.data.board.columns);
               })
               .catch((err) => console.log(err));
-            // console.log(data);
             setMessage({ success: "Uploaded succesfully!", progress: false });
           })
           .catch((err) => console.log(err));
@@ -265,7 +264,6 @@ export default function TaskDetail({ props }) {
                   </div>
                 </Stack>
               </Stack>
-              {/* {console.log(props.props.item.files)} */}
               {props.props && props.props.item.files
                 ? props.props.item.files.map((item) => (
                     <Stack direction={"row"} gap={2} alignItems={"center"}>

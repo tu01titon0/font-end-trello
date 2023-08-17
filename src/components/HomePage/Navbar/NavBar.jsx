@@ -26,7 +26,6 @@ const NavBar = () => {
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('user'));
-    console.log(userInfo);
     setUserName(userInfo.userName.slice(0, 2));
     setUserActive(userInfo.authEmail);
     // const authType = cookieParse()._auth_type;
