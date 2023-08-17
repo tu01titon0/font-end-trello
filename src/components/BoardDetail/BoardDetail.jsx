@@ -20,9 +20,12 @@ import Avatar from "@mui/material/Avatar";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined.js";
 import SearchUser from "../WorkSpaceSettings/SearchUser/SearchUser.jsx";
 import ReplyIcon from "@mui/icons-material/Reply";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import WorkspaceService from "../../services/workspace.service.js";
 const BoardDetail = () => {
+  const navigate = useNavigate();
+
   const { board, setBoard } = useBoard();
   const { column, setColumn } = useColumn();
   const boardId = useParams().id;
@@ -37,6 +40,7 @@ const BoardDetail = () => {
   );
   const [displayIcon, setDisplayIcon] = useState(false);
   const [title, setTitle] = useState();
+  let currentUserId = JSON.parse(localStorage.getItem("user"))._id.toString();
 
   const boardRef = useRef(board);
   const columnRef = useRef(column);
@@ -56,6 +60,17 @@ const BoardDetail = () => {
         setLoading(true);
         setTitle(res.data.board.title);
         setTextLength(res.data.board.title.length + 2);
+        let isIdUser = false;
+        if (res.data.board && res.data.board.users) {
+          isIdUser = res.data.board.users.some(
+              (user) => user.idUser._id.toString() === currentUserId
+          );
+        }
+        const isPrivateBoard = res.data.board.visibility === "private";
+        console.log(isIdUser)
+        if (!isIdUser && isPrivateBoard) {
+          navigate("/")
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -69,6 +84,15 @@ const BoardDetail = () => {
     setTitle(e.target.value);
   };
 
+  let isAdmin = false;
+  if (board && board.users) {
+    isAdmin = board.users.some(
+        (user) =>
+            user.idUser._id &&
+            user.idUser._id.toString() === currentUserId &&
+            user.role === "admin"
+    );
+  }
   const handleTitleChange = () => {
     const data = {
       boardId: boardId,
@@ -275,27 +299,7 @@ const BoardDetail = () => {
       })
       .catch((err) => console.log(err));
   }
-  let isIdUser = false;
-  let isAdmin = false;
-  let currentUserId = JSON.parse(localStorage.getItem("user"))._id.toString();
-  if (board && board.users) {
-    isIdUser = board.users.some(
-      (user) => user.idUser._id && user.idUser._id.toString() === currentUserId
-    );
-  }
-  if (board && board.users) {
-    isAdmin = board.users.some(
-      (user) =>
-        user.idUser._id &&
-        user.idUser._id.toString() === currentUserId &&
-        user.role === "admin"
-    );
-  }
 
-  const isPrivateBoard = board.visibility === "private";
-  if (!isIdUser && isPrivateBoard) {
-    return <Navigate to="/" />;
-  }
   return (
     <>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
