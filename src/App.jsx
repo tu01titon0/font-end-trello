@@ -1,5 +1,6 @@
 import Home from "./components/HomePage/Homepage.jsx";
 import Login from "./pages/login.jsx";
+import SentNewPass from "./pages/sentNewPassword.jsx";
 import WorkSpaceSettings from "./components/WorkSpaceSettings/WorkSpaceSettings.jsx";
 import SignUp from "./pages/signup.jsx";
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -10,6 +11,7 @@ import Profile from "./pages/Profile.jsx";
 import { useAuthUser } from "react-auth-kit";
 import ListBoards from "./components/ListBoards/ListBoards.jsx";
 import BoardDetail from "./components/BoardDetail/BoardDetail.jsx";
+import InviteWs from "./pages/inviteWs.jsx";
 
 function App() {
   const auth = useAuthUser();
@@ -26,12 +28,17 @@ function App() {
           <Route path="/b/:id" element={<BoardDetail />} />
           <Route path="/login" element={<Navigate to={"/"} />} />
           <Route path="/signup" element={<Navigate to={"/"} />} />
+          <Route path="/inviteWs/:idUser" element = {<InviteWs />} />
+          <Route path="/resetPassWord" element={<SentNewPass/>} />
+
         </>
       ) : (
         <>
           <Route path="*" element={<Navigate to={"/login"} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/inviteWs/:idUser" element={<Navigate to={"/login"} />} />
+          <Route path="/resetPassWord" element={<SentNewPass/>} />
         </>
       )}
     </Routes>
