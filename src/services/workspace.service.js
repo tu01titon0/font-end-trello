@@ -71,7 +71,6 @@ export default class WorkspaceService {
 
   static async removeUserFromWS(user, ws) {
     const authKey = cookieParse()._auth;
-    console.log(authKey + " permission");
     return await axios.delete(
       `${import.meta.env.VITE_ROOT_DOMAIN}/workspace/rmuser?w=${ws}&u=${user}`,
       {
@@ -84,13 +83,23 @@ export default class WorkspaceService {
   }
   static async changeUserPermission(user, ws, role) {
     const authKey = cookieParse()._auth;
+<<<<<<< HEAD
+=======
+    // console.log(
+    //   `${
+    //     import.meta.env.VITE_ROOT_DOMAIN
+    //   }/workspace/updateUser?w=${ws}&u=${user}&r=${role}`
+    // );
+>>>>>>> f817601fca5b349b04b63decd631425b07fd9703
     return await axios.put(
-      `${import.meta.env.VITE_ROOT_DOMAIN}/workspace/updateUser?w=${ws}&u=${user}&r=${role}`,
+      `${
+        import.meta.env.VITE_ROOT_DOMAIN
+      }/workspace/updateUser?w=${ws}&u=${user}&r=${role}`,
       null,
       {
         headers: {
-            "Content-Type": "multipart/form-data",
-            authorization: authKey,
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
         },
       }
     );
@@ -119,6 +128,4 @@ export default class WorkspaceService {
       },
     });
   }
-
-  
 }

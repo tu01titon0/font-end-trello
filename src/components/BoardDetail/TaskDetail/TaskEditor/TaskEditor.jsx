@@ -2,12 +2,46 @@ import React, { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import "./TaskEditor.css";
 import { Stack } from "@mui/material";
+import BoardService from "../../../../services/board.service";
+import useBoard from "../../../../store/useBoard";
+import useColumn from "../../../../store/useColumn";
 
-export default function TaskEditor({ setDisplayEditor }) {
+export default function TaskEditor({ setDisplayEditor, taskId, boardId }) {
+  const [task, setTask] = React.useState();
+  const { setBoard } = useBoard();
+  const { setColumn } = useColumn();
+
+  React.useEffect(() => {
+    const data = {
+      boardId: boardId,
+      taskId: taskId,
+    };
+    BoardService.getTaskInfo(data)
+      .then((res) => {
+        if (res.data.task.description) {
+          setTask(res.data.task.description);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
-      console.log(editorRef.current.getContent());
+      const data = {
+        boardId: boardId,
+        taskId: taskId,
+        description: editorRef.current.getContent(),
+      };
+      BoardService.updateTaskDescription(data)
+        .then((res) => {
+          setBoard(res.data.board);
+          setColumn(res.data.board.columns);
+          setDisplayEditor(false);
+        })
+        .catch((err) => console.log(err));
     }
   };
 
@@ -20,12 +54,13 @@ export default function TaskEditor({ setDisplayEditor }) {
       <Editor
         apiKey="pjw9plm980lpl2yd26dse0z8hjqjsg8qrg2cnote5gsmslhx"
         onInit={(evt, editor) => (editorRef.current = editor)}
-        initialValue="Add a more detailed description..."
+        initialValue={task ? task : "Add a more detailed description..."}
         init={{
           selector: "textarea",
           skin: "oxide-dark",
           content_css: "dark",
           height: 300,
+          placeholder: "Add a more detailed description...",
           menubar: false,
           plugins: [
             "autolink",

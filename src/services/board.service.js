@@ -40,6 +40,20 @@ export default class BoardService {
     );
   }
 
+  static async updateBoardTitle(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.patch(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/updateBoardTitle`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
+
   static async updateDragDrop(data) {
     const authKey = cookieParse()._auth;
     return await axios.patch(
@@ -58,6 +72,89 @@ export default class BoardService {
     const authKey = cookieParse()._auth;
     return await axios.patch(
       `${import.meta.env.VITE_ROOT_DOMAIN}/b/updateDragTask`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
+  static async addUserToBoard(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.post(
+        `${import.meta.env.VITE_ROOT_DOMAIN}/b/add-user`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            authorization: authKey,
+          },
+        }
+    );
+  }
+
+  static async updateTaskTitle(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.patch(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/updateTaskTitle`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
+
+  static async getTaskInfo(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.post(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/getTaskInfo`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
+
+  static async updateTaskDescription(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.post(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/updateTaskDescription`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
+
+  static async addFileToTask(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.post(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/addFileToTask`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
+
+  static async deleteFileOnTask(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.patch(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/deleteFileOnTask`,
       data,
       {
         headers: {

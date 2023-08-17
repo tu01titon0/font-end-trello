@@ -1,14 +1,19 @@
 .add-workspace-modal {
-  background-color: #22272b;
+  /* background-color: #22272b; */
   border-radius: 5px;
+  background: rgba(16, 18, 4, 0.74);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(16, 18, 4, 0.3);
 }
 
 .workspace-create-input {
   color: white;
-  background-color: #22272b;
+  background-color: #22272b8f;
   outline: none;
   height: 38px;
   border: 1px solid black;
   padding: 10px;
   max-width: 100%;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(16, 18, 4, 0.3);
 }

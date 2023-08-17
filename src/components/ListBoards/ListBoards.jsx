@@ -37,7 +37,7 @@ const ListBoards = () => {
       <NavBar />
       <Stack direction={"row"}>
         <SideBar />
-        <div style={{ padding: "20px", maxWidth: "1000px" }}>
+        <div style={{ padding: "20px", width: "1000px", margin: '0 auto' }}>
           <Stack gap={2}>
             <Stack>
               <Stack direction={"row"} gap={2}>
@@ -64,8 +64,9 @@ const ListBoards = () => {
             <hr
               style={{
                 marginTop: "10px",
+                marginBottom: '10px',
                 border: "none",
-                borderBottom: "1px solid #1a1a1a",
+                borderBottom: "1px solid white",
               }}
             />
           </Stack>
@@ -81,7 +82,7 @@ const ListBoards = () => {
                 All boards in this Workspace
               </h6>
             </Stack>
-            <Stack direction={"row"} gap={"20px"} flexWrap={"wrap"}>
+            <Stack direction={"row"} gap={"14px"} flexWrap={"wrap"}>
               {workspace.boards &&
                 workspace.boards.map((board, index) => (
                   <button
@@ -89,8 +90,8 @@ const ListBoards = () => {
                     className="recent-board-card"
                     style={{
                       backgroundImage: `
-                      linear-gradient(to bottom, rgb(0 0 0 / 65%), rgb(255 255 255 / 0%)),
-                      url(/${board.board.backgroundImage})`,
+                        linear-gradient(to bottom, rgb(0 0 0 / 65%), rgb(255 255 255 / 0%)),
+                        url(/${board.board.backgroundImage})`,
                     }}
                   >
                     <Link to={`/b/${board.board._id}`}>
