@@ -297,8 +297,64 @@ const BoardDetail = () => {
           ignoreElements="p, button, input, section, Draggable"
           className="scroll-container"
         >
+          <Stack
+            direction={"row"}
+            alignItems={"center"}
+            style={{
+              position: "sticky",
+              top: 0,
+              left: 0,
+              paddingRight: "20px",
+            }}
+            justifyContent={"space-between"}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                maxWidth: "70vw",
+              }}
+            >
+              <input
+                type="text"
+                value={title}
+                style={{ width: `${textLength + 1}ch` }}
+                className="board-title-input"
+                onChange={(e) => handleChange(e)}
+                onClick={() => setDisplayIcon(true)}
+              />
+              {displayIcon ? (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <CheckOutlinedIcon onClick={() => handleTitleChange()} />
+                  <ClearOutlinedIcon
+                    onClick={() => {
+                      setDisplayIcon(false);
+                      setTitle(board.title);
+                    }}
+                  />
+                </div>
+              ) : null}
+            </div>
+            <Button
+              onClick={showModal}
+              style={{
+                color: "white",
+                marginLeft: "10px",
+              }}
+              type="primary"
+            >
+              <ReplyIcon style={{ fontSize: "15px", margin: "auto" }} /> Share
+            </Button>
+          </Stack>
           <Stack direction={"column"} height={"100%"}>
-            <Stack direction={"row"} alignItems={"center"}>
+            {/* <Stack direction={"row"} alignItems={"center"}>
               <input
                 type="text"
                 value={title}
@@ -335,7 +391,7 @@ const BoardDetail = () => {
               >
                 <ReplyIcon style={{ fontSize: "15px", margin: "auto" }} /> Share
               </Button>
-            </Stack>
+            </Stack> */}
             <Modal
               open={isModalOpen}
               onCancel={handleCancel}

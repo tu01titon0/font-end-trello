@@ -3,6 +3,8 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 import "../Column/Column.css";
 import TaskDetail from "../TaskDetail/TaskDetail";
 import StackedBarChartOutlinedIcon from "@mui/icons-material/StackedBarChartOutlined";
+import { Stack } from "@mui/material";
+import AttachmentIcon from "@mui/icons-material/Attachment";
 
 const dragStyle = (isDragging, draggableStyle) => ({
   transform: isDragging ? "rotate(3deg)" : null,
@@ -40,11 +42,32 @@ const Tasks = ({ props }) => {
                 )}
               >
                 {props.item.content}
-                {props.item.description ? (
-                  <div style={{ marginTop: "4px" }}>
-                    <StackedBarChartOutlinedIcon sx={{ fontSize: "16px" }} />
-                  </div>
-                ) : null}
+                {console.log(props.item)}
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  mt={"4px"}
+                  gap={1}
+                >
+                  {props.item.description ? (
+                    <div style={{ marginTop: "4px" }}>
+                      <StackedBarChartOutlinedIcon sx={{ fontSize: "16px" }} />
+                    </div>
+                  ) : null}
+                  {props.item && props.item.files.length > 0 ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: "4px",
+                      }}
+                    >
+                      <AttachmentIcon sx={{ fontSize: "18px" }} />
+                      <p>{props.item.files.length}</p>
+                    </div>
+                  ) : null}
+                </Stack>
               </p>
             </div>
           </section>
