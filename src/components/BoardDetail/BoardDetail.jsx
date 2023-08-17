@@ -113,6 +113,7 @@ const BoardDetail = () => {
       BoardService.updateDragDrop(dataToSend)
         .then((res) => {
           setBoard(res.data.board);
+          setColumn(res.data.board.columns);
         })
         .catch((err) => {
           console.log(err);
@@ -146,12 +147,11 @@ const BoardDetail = () => {
         endedIndex: endingIndex,
         boardId: boardId,
       };
-
-      // setStore(newData);
       setColumn(boardColData);
       BoardService.updateDragDropTask(dataToBE)
         .then((res) => {
           setBoard(res.data.board);
+          setColumn(res.data.board.columns);
         })
         .catch((err) => {
           console.log(err);
@@ -451,8 +451,8 @@ const BoardDetail = () => {
                           />
                         ) : (
                           <Button>{item.role || "member"}</Button>
-                      )}
-                      {/* Tú thêm logic delete người dùng ở đây nhé!! */}
+                        )}
+                        {/* Tú thêm logic delete người dùng ở đây nhé!! */}
                         <Button
                           type="primary"
                           danger

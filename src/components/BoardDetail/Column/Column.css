@@ -45,15 +45,22 @@
 
 .content-scroll-bar::-webkit-scrollbar {
   width: 3px;
-  color: white;
+  /* color: white; */
+}
+
+.content-scroll-bar::-webkit-scrollbar-thumb {
+  color: white !important;
+  width: 10px;
+  padding: 4px;
 }
 
 .content-scroll-bar::-webkit-scrollbar-track {
-  color: white;
+  /* color: white; */
 }
 
 .content-scroll-bar::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  margin-left: 4px;
+  background: #b9b9b9;
 }
 
 .column-title {
