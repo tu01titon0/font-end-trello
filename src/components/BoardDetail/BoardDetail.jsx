@@ -21,6 +21,7 @@ import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined.js";
 import SearchUser from "../WorkSpaceSettings/SearchUser/SearchUser.jsx";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { Navigate } from "react-router-dom";
+import WorkspaceService from "../../services/workspace.service.js";
 const BoardDetail = () => {
   const { board, setBoard } = useBoard();
   const { column, setColumn } = useColumn();
@@ -224,6 +225,26 @@ const BoardDetail = () => {
       .catch((err) => console.log(err));
   }
 
+  function handlerDeleteUser (userId) {
+
+    if (confirm("Bạn Muốn xoá người dùng khỏi board không")){
+      let dataDelete = {
+        boardId: boardId,
+        userId: userId
+      }
+      BoardService.removeUserFromBoard(dataDelete)
+          .then((res) => {
+              setBoard(res.data.board);
+            if (res.data.message) {
+              setMessage(res.data.message);
+            }
+            else if (res.data.error) {
+              setErrMessage(res.data.error);
+            }
+          })
+          .catch((err) => console.log(err));
+    }
+  }
   function choseRollUser(value) {
     setRoll(value);
   }
@@ -485,11 +506,11 @@ const BoardDetail = () => {
                           flexDirection: "row",
                         }}
                       >
-                        {isAdmin ? (
+                        {(isAdmin && currentUserId !== item.idUser._id) ? (
                           <Select
                             defaultValue={item.role || "member"}
                             style={{
-                              width: 100,
+                              minWidth: "100px",
                             }}
                             onChange={(value) =>
                               changeRoleUser(value, item.idUser._id)
@@ -506,16 +527,19 @@ const BoardDetail = () => {
                             ]}
                           />
                         ) : (
-                          <Button>{item.role || "member"}</Button>
+                          <Button style={{minWidth: "100px"}}>{item.role || "member"}</Button>
+                      )}
+                        {(isAdmin && currentUserId !== item.idUser._id)? (
+                            <Button
+                              type="primary"
+                              danger
+                              onClick={() => handlerDeleteUser(item.idUser._id)}
+                            >
+                            Delete
+                           </Button>
+                        ) : (
+                            ""
                         )}
-                        {/* Tú thêm logic delete người dùng ở đây nhé!! */}
-                        <Button
-                          type="primary"
-                          danger
-                          onClick={() => handlerAddUser()}
-                        >
-                          Delete
-                        </Button>
                       </Col>
                     </Row>
                   ))
