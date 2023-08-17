@@ -308,7 +308,13 @@ const BoardDetail = () => {
             }}
             justifyContent={"space-between"}
           >
-            <div style={{ display: "flex", flexDirection: "row", maxWidth: '70vw' }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                maxWidth: "70vw",
+              }}
+            >
               <input
                 type="text"
                 value={title}
