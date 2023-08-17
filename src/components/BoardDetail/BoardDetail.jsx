@@ -385,11 +385,6 @@ const BoardDetail = () => {
                       Share
                     </Button>
                   </Col>
-                  {/* <Col span={3} style={{ marginLeft: "10px" }}>
-                  <Button type="primary" onClick={() => handlerAddUser()}>
-                      Share
-                    </Button>
-                  </Col> */}
                 </Stack>
               </Row>
               {board.users && board.users
@@ -456,7 +451,8 @@ const BoardDetail = () => {
                           />
                         ) : (
                           <Button>{item.role || "member"}</Button>
-                        )}
+                      )}
+                      {/* Tú thêm logic delete người dùng ở đây nhé!! */}
                         <Button
                           type="primary"
                           danger
