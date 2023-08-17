@@ -258,16 +258,17 @@ const BoardDetail = () => {
   }
   let isIdUser = false;
   let isAdmin = false;
+  let currentUserId = JSON.parse(localStorage.getItem("user"))._id.toString()
   if (board && board.users) {
     isIdUser = board.users.some(
         (user) =>
-            user.idUser._id.toString() === JSON.parse(localStorage.getItem("user"))._id.toString()
+            user.idUser._id && user.idUser._id.toString() === currentUserId
     );
   }
   if (board && board.users) {
     isAdmin = board.users.some(
         (user) =>
-            (user.idUser._id.toString() === JSON.parse(localStorage.getItem("user"))._id.toString() && user.role === "admin")
+            (user.idUser._id && user.idUser._id.toString() === currentUserId && user.role === "admin")
     );
   }
 
