@@ -57,7 +57,6 @@ const NavBar = () => {
 
   const handleSignOut = () => {
     signOut();
-    
   };
 
   return (
@@ -131,7 +130,6 @@ const NavBar = () => {
           >
             Starred
           </Button>
-         
         </div>
         <div>
           <Button
@@ -147,25 +145,28 @@ const NavBar = () => {
         </div>
         <MenuPopupState />
       </Stack>
-      {!userActive && <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '150px',
-        height: '40px',
-        backgroundColor: '#ecfc89',
-        borderRadius: '8px',
-        color: '#ff7e7e',
-        fontSize: '18px',
-        fontWeight: 'bold',
-        textTransform: 'uppercase',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-      }}
-    >
-      InActive
-    </div> }
-      
+      {/* {!userActive && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            // width: "150px",
+            // height: "40px",
+            padding: "4px 30px",
+            backgroundColor: "white",
+            borderRadius: "8px",
+            color: "#1a1a1a",
+            fontSize: "16px",
+            fontWeight: "bold",
+            textTransform: "uppercase",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          Email not activated
+        </div>
+      )} */}
+
       <Stack direction={"row"} alignItems={"center"} gap={"10px"}>
         <FormControl
           variant="outlined"
@@ -196,7 +197,7 @@ const NavBar = () => {
               alignItems: "center",
               width: "30px",
               height: "30px",
-              textTransform: 'uppercase'
+              textTransform: "uppercase",
             }}
             onClick={handleClick}
           >
@@ -211,9 +212,28 @@ const NavBar = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem  component={Link} to="/profile" onClick={handleClose} >Profile</MenuItem>
-            <MenuItem component={Link} to="/updatePassword" onClick={handleClose}>Reset Password</MenuItem>
-            <MenuItem onClick={handleSignOut}>Logout</MenuItem>
+            <MenuItem
+              style={{ backgroundColor: "#1a1a1a", color: "white" }}
+              component={Link}
+              to="/profile"
+              onClick={handleClose}
+            >
+              Profile
+            </MenuItem>
+            <MenuItem
+              component={Link}
+              style={{ backgroundColor: "#1a1a1a", color: "white" }}
+              to="/updatePassword"
+              onClick={handleClose}
+            >
+              Reset Password
+            </MenuItem>
+            <MenuItem
+              style={{ backgroundColor: "#1a1a1a", color: "white" }}
+              onClick={handleSignOut}
+            >
+              Logout
+            </MenuItem>
           </Menu>
         </div>
       </Stack>

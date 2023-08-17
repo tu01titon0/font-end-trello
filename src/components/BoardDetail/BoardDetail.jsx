@@ -121,13 +121,13 @@ const BoardDetail = () => {
     const typeOfItem = res.type;
     const endingIndex = res.destination
       ? res.destination.index
-      : board.columns.length;
+      : board.columns.length - 1;
     const endingCol = res.destination ? res.destination.droppableId : "root";
     setLoading(false);
-
     if (typeOfItem === "column") {
       const boardColData = [...board.columns];
       const [removedCol] = boardColData.splice(startingIndex, 1);
+      console.log(startingIndex, "ending index", endingIndex);
       boardColData.splice(endingIndex, 0, removedCol);
       setColumn(boardColData);
       const dataToBe = [...boardColData.map((item) => item._id)];
@@ -249,24 +249,22 @@ const BoardDetail = () => {
       .catch((err) => console.log(err));
   }
 
-  function handlerDeleteUser (userId) {
-
-    if (confirm("Bạn Muốn xoá người dùng khỏi board không")){
+  function handlerDeleteUser(userId) {
+    if (confirm("Bạn Muốn xoá người dùng khỏi board không")) {
       let dataDelete = {
         boardId: boardId,
-        userId: userId
-      }
+        userId: userId,
+      };
       BoardService.removeUserFromBoard(dataDelete)
-          .then((res) => {
-              setBoard(res.data.board);
-            if (res.data.message) {
-              setMessage(res.data.message);
-            }
-            else if (res.data.error) {
-              setErrMessage(res.data.error);
-            }
-          })
-          .catch((err) => console.log(err));
+        .then((res) => {
+          setBoard(res.data.board);
+          if (res.data.message) {
+            setMessage(res.data.message);
+          } else if (res.data.error) {
+            setErrMessage(res.data.error);
+          }
+        })
+        .catch((err) => console.log(err));
     }
   }
   function choseRollUser(value) {
@@ -510,7 +508,7 @@ const BoardDetail = () => {
                           flexDirection: "row",
                         }}
                       >
-                        {(isAdmin && currentUserId !== item.idUser._id) ? (
+                        {isAdmin && currentUserId !== item.idUser._id ? (
                           <Select
                             defaultValue={item.role || "member"}
                             style={{
@@ -531,18 +529,20 @@ const BoardDetail = () => {
                             ]}
                           />
                         ) : (
-                          <Button style={{minWidth: "100px"}}>{item.role || "member"}</Button>
-                      )}
-                        {(isAdmin && currentUserId !== item.idUser._id)? (
-                            <Button
-                              type="primary"
-                              danger
-                              onClick={() => handlerDeleteUser(item.idUser._id)}
-                            >
+                          <Button style={{ minWidth: "100px" }}>
+                            {item.role || "member"}
+                          </Button>
+                        )}
+                        {isAdmin && currentUserId !== item.idUser._id ? (
+                          <Button
+                            type="primary"
+                            danger
+                            onClick={() => handlerDeleteUser(item.idUser._id)}
+                          >
                             Delete
-                           </Button>
+                          </Button>
                         ) : (
-                            ""
+                          ""
                         )}
                       </Col>
                     </Row>
