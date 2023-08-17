@@ -22,9 +22,13 @@ import { useSignOut } from "react-auth-kit";
 
 const NavBar = () => {
   const [userName, setUserName] = useState("");
+  const [userActive, setUserActive] = useState("");
+
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('user'));
+    console.log(userInfo);
     setUserName(userInfo.userName.slice(0, 2));
+    setUserActive(userInfo.authEmail);
     // const authType = cookieParse()._auth_type;
     // const authKey = cookieParse()._auth;
     // axios
@@ -144,6 +148,25 @@ const NavBar = () => {
         </div>
         <MenuPopupState />
       </Stack>
+      {!userActive && <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '150px',
+        height: '40px',
+        backgroundColor: '#ecfc89',
+        borderRadius: '8px',
+        color: '#ff7e7e',
+        fontSize: '18px',
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      InActive
+    </div> }
+      
       <Stack direction={"row"} alignItems={"center"} gap={"10px"}>
         <FormControl
           variant="outlined"
