@@ -19,8 +19,8 @@ import { Button, Col, Input, Modal, Row, Select } from "antd";
 import Avatar from "@mui/material/Avatar";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined.js";
 import SearchUser from "../WorkSpaceSettings/SearchUser/SearchUser.jsx";
-import ReplyIcon from '@mui/icons-material/Reply';
-import {Navigate} from "react-router-dom";
+import ReplyIcon from "@mui/icons-material/Reply";
+import { Navigate } from "react-router-dom";
 const BoardDetail = () => {
   const { board, setBoard } = useBoard();
   const { column, setColumn } = useColumn();
@@ -193,7 +193,7 @@ const BoardDetail = () => {
         fontSize: "15px",
       },
       children:
-        (name.split(" ")[0] && name.split(" ")[1])
+        name.split(" ")[0] && name.split(" ")[1]
           ? `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`
           : `${name.toUpperCase().substring(0, 2)}`,
     };
@@ -244,31 +244,32 @@ const BoardDetail = () => {
       currentUserId: JSON.parse(localStorage.getItem("user"))._id,
     };
     BoardService.changeRoleUser(dataChange)
-        .then((res) => {
-          if (res.data.message) {
-            setBoard(res.data.board)
-            setMessage(res.data.message);
-            handleClick();
-          } else if (res.data.error) {
-            setErrMessage(res.data.error);
-            handleErrClick();
-          }
-        })
-        .catch((err) => console.log(err))
+      .then((res) => {
+        if (res.data.message) {
+          setBoard(res.data.board);
+          setMessage(res.data.message);
+          handleClick();
+        } else if (res.data.error) {
+          setErrMessage(res.data.error);
+          handleErrClick();
+        }
+      })
+      .catch((err) => console.log(err));
   }
   let isIdUser = false;
   let isAdmin = false;
-  let currentUserId = JSON.parse(localStorage.getItem("user"))._id.toString()
+  let currentUserId = JSON.parse(localStorage.getItem("user"))._id.toString();
   if (board && board.users) {
     isIdUser = board.users.some(
-        (user) =>
-            user.idUser._id && user.idUser._id.toString() === currentUserId
+      (user) => user.idUser._id && user.idUser._id.toString() === currentUserId
     );
   }
   if (board && board.users) {
     isAdmin = board.users.some(
-        (user) =>
-            (user.idUser._id && user.idUser._id.toString() === currentUserId && user.role === "admin")
+      (user) =>
+        user.idUser._id &&
+        user.idUser._id.toString() === currentUserId &&
+        user.role === "admin"
     );
   }
 
@@ -324,18 +325,17 @@ const BoardDetail = () => {
                   />
                 </div>
               ) : null}
+              <Button
+                onClick={showModal}
+                style={{
+                  color: "white",
+                  marginLeft: "10px",
+                }}
+                type="primary"
+              >
+                <ReplyIcon style={{ fontSize: "15px", margin: "auto" }} /> Share
+              </Button>
             </Stack>
-            <Button
-              onClick={showModal}
-              style={{
-                backgroundColor: "#FFFFFF",
-                color: "black",
-                maxWidth: "80px",
-                margin: "auto",
-              }}
-            >
-              <ReplyIcon style={{ fontSize: "15px", margin: "auto" }} /> Share
-            </Button>
             <Modal
               open={isModalOpen}
               onCancel={handleCancel}
@@ -343,36 +343,49 @@ const BoardDetail = () => {
               width={700}
             >
               <h5 className="title-modal">Share Board</h5>
-              <Row>
-                <Col span={14} className="col-modal">
-                  <SearchUser
-                    action="addToBoard"
-                    userId={userId}
-                    setUserId={setUserId}
-                  />
-                </Col>
-                <Col span={6} className="col-modal">
-                  <Select
-                    style={{ marginLeft: "10%" }}
-                    defaultValue="member"
-                    onChange={(value) => choseRollUser(value)}
-                    options={[
-                      {
-                        value: "admin",
-                        label: "Admin",
-                      },
-                      {
-                        value: "member",
-                        label: "Member",
-                      },
-                    ]}
-                  />
-                </Col>
-                <Col span={3}>
-                  <Button type="primary" onClick={() => handlerAddUser()}>
-                    Share
-                  </Button>
-                </Col>
+              <Row className="add-member-board-detail">
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  style={{ width: "100%" }}
+                  justifyContent={"space-between"}
+                >
+                  <Col span={14} style={{ flexGrow: 1 }} className="col-modal">
+                    <SearchUser
+                      action="addToBoard"
+                      userId={userId}
+                      setUserId={setUserId}
+                    />
+                  </Col>
+                  <Col
+                    span={6}
+                    className="col-modal"
+                    style={{ display: "flex", justifyContent: "flex-end" }}
+                  >
+                    <Select
+                      style={{ marginLeft: "10px" }}
+                      defaultValue="member"
+                      onChange={(value) => choseRollUser(value)}
+                      options={[
+                        {
+                          value: "admin",
+                          label: "Admin",
+                        },
+                        {
+                          value: "member",
+                          label: "Member",
+                        },
+                      ]}
+                    />
+                    <Button
+                      style={{ marginLeft: "10px" }}
+                      type="primary"
+                      onClick={() => handlerAddUser()}
+                    >
+                      Share
+                    </Button>
+                  </Col>
+                </Stack>
               </Row>
               {board.users && board.users
                 ? board.users.map((item, index) => (
@@ -381,7 +394,7 @@ const BoardDetail = () => {
                         <div className="avatar">
                           <Row>
                             <Avatar
-                                {...stringAvatar(`${item.idUser.fullName}`)}
+                              {...stringAvatar(`${item.idUser.fullName}`)}
                               sx={{
                                 width: 30,
                                 height: 30,
@@ -390,7 +403,7 @@ const BoardDetail = () => {
                               }}
                             />
                             <div style={{ paddingLeft: "12px" }}>
-                              <p style={{ color: "black" }}>
+                              <p style={{ color: "white" }}>
                                 {item.idUser && item.idUser.fullName}
                               </p>
                               <Stack
@@ -398,7 +411,7 @@ const BoardDetail = () => {
                                 gap={1}
                                 alignItems={"center"}
                               >
-                                <p style={{ fontSize: "14px", color: "black" }}>
+                                <p style={{ fontSize: "14px", color: "white" }}>
                                   @{item.idUser && item.idUser.userName}
                                 </p>
                               </Stack>
@@ -406,14 +419,25 @@ const BoardDetail = () => {
                           </Row>
                         </div>
                       </Col>
-                      <Col span={4} offset={12} style={{ marginTop: "auto" }}>
-                        {isAdmin ?
+                      <Col
+                        span={4}
+                        offset={12}
+                        style={{
+                          marginTop: "auto",
+                          display: "flex",
+                          gap: "10px",
+                          flexDirection: "row",
+                        }}
+                      >
+                        {isAdmin ? (
                           <Select
                             defaultValue={item.role || "member"}
                             style={{
                               width: 100,
                             }}
-                            onChange={(value) => changeRoleUser(value, item.idUser._id)}
+                            onChange={(value) =>
+                              changeRoleUser(value, item.idUser._id)
+                            }
                             options={[
                               {
                                 value: "admin",
@@ -425,7 +449,17 @@ const BoardDetail = () => {
                               },
                             ]}
                           />
-                        : <Button>{item.role || "member"}</Button>}
+                        ) : (
+                          <Button>{item.role || "member"}</Button>
+                      )}
+                      {/* Tú thêm logic delete người dùng ở đây nhé!! */}
+                        <Button
+                          type="primary"
+                          danger
+                          onClick={() => handlerAddUser()}
+                        >
+                          Delete
+                        </Button>
                       </Col>
                     </Row>
                   ))

@@ -87,6 +87,7 @@ const Column = ({ props, index, data, board }) => {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
+                  className="content-scroll-bar"
                   style={{ minHeight: "100%" }}
                 >
                   {props.tasks &&

@@ -24,6 +24,7 @@
 }
 
 .column-display {
+  /* overflow-y: scroll; */
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -32,10 +33,27 @@
   padding: 10px 8px;
   background-color: #101204;
   border-radius: 10px;
-
   background: rgba(16, 18, 4, 0.651);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(16, 18, 4, 0.3);
+}
+
+.content-scroll-bar {
+  max-height: 72vh;
+  overflow-y: scroll;
+}
+
+.content-scroll-bar::-webkit-scrollbar {
+  width: 3px;
+  color: white;
+}
+
+.content-scroll-bar::-webkit-scrollbar-track {
+  color: white;
+}
+
+.content-scroll-bar::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .column-title {
