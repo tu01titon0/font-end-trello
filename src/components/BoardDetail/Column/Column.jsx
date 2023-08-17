@@ -13,7 +13,7 @@ const Column = ({ props, index, data, board }) => {
           {...provided.draggableProps}
           className="column-display"
         >
-          <div
+          <section
             isDragging={snapshot.isDragging}
             style={{ height: "100%", minHeight: "100%" }}
           >
@@ -35,14 +35,14 @@ const Column = ({ props, index, data, board }) => {
                 >
                   {props.tasks &&
                     props.tasks.map((item, index) => (
-                      <Tasks props={{ item, index }} key={index + 1} />
+                      <Tasks props={{ item, index, board }} key={index + 1} />
                     ))}
                   {provided.placeholder}
                   <AddTaskInput props={{ props, data, board }} />
                 </div>
               )}
             </Droppable>
-          </div>
+          </section>
         </div>
       )}
     </Draggable>

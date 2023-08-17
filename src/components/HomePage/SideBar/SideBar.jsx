@@ -65,7 +65,7 @@ const SideBar = () => {
           justifyContent={"space-between"}
           pl={1}
         >
-          <p>Workspaces</p>
+          <p style={{color: 'white'}}>Workspaces</p>
           <button
             type="button"
             className="add-workspace-btn"

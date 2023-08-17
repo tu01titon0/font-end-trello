@@ -39,11 +39,15 @@ const BoardDetail = () => {
       });
   }, [boardId]);
 
+  const boardTitle = board.title;
+
   const backgroundStyle = (board) => ({
-    backgroundImage: board ? `url("../../../public/${board.backgroundImage}")` : 'none',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover'
-  })
+    backgroundImage: board
+      ? `url("../../../${board.backgroundImage}")`
+      : "none",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+  });
 
   const handleDragEnd = (res) => {
     const startingIndex = res.source.index;
@@ -123,11 +127,11 @@ const BoardDetail = () => {
         <SideBar />
         <ScrollContainer
           vertical={false}
-          ignoreElements="p, button, input, Draggable"
+          ignoreElements="p, button, input, section, Draggable"
           className="scroll-container"
         >
           <Stack direction={"column"} height={"100%"}>
-            <h1 className="board-nav-bar">
+            <h1 className="board-nav-bar" style={{ color: "white" }}>
               {board && board.title ? board.title : null}
             </h1>
             <DragDropContext onDragEnd={handleDragEnd} style={{ flexGrow: 1 }}>
@@ -149,7 +153,7 @@ const BoardDetail = () => {
                             key={item._id}
                             index={index}
                             data={{ column, setColumn }}
-                            board={{ boardId }}
+                            board={{ boardId, boardTitle }}
                           />
                         ))
                       : null}

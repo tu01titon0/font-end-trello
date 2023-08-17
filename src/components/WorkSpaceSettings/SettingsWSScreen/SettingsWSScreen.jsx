@@ -255,10 +255,12 @@ const SettingsWSScreen = () => {
               {workSpace.name && workSpace.name.toUpperCase().substring(0, 2)}
             </Avatar>
             <div>
-              <p>{workSpace.name}</p>
+              <p style={{ color: "white" }}>{workSpace.name}</p>
               <Stack direction={"row"} gap={1} alignItems={"center"}>
-                <LockPersonOutlinedIcon sx={{ fontSize: "12px" }} />
-                <p style={{ fontSize: "14px" }}>Private</p>
+                <LockPersonOutlinedIcon
+                  sx={{ fontSize: "12px", color: "white" }}
+                />
+                <p style={{ fontSize: "14px", color: "white" }}>Private</p>
               </Stack>
             </div>
           </Stack>
@@ -282,7 +284,7 @@ const SettingsWSScreen = () => {
         />
         <Typography variant="h6">Thay đổi thông tin Workspace</Typography>
         <Stack direction={"column"} gap={2}>
-          <p>Đổi tên Workspace</p>
+          <p style={{ color: "white" }}>Đổi tên Workspace</p>
           <form onSubmit={formik.handleSubmit}>
             <input
               className="ws-setting-input"
@@ -322,11 +324,11 @@ const SettingsWSScreen = () => {
         />
         <Typography variant="h6">Thay đổi người dùng Workspace</Typography>
         <Stack direction={"column"} gap={2}>
-          <p>Tìm người dùng</p>
+          <p style={{ color: "white" }}>Tìm người dùng</p>
 
           <SearchUser />
 
-          <p>Danh sách người dùng hiện tại</p>
+          <p style={{ color: "white" }}>Danh sách người dùng hiện tại</p>
 
           {/* Map danh sách người dùng ở đây!!! */}
           {workSpace.users &&
@@ -345,8 +347,10 @@ const SettingsWSScreen = () => {
                         row.idUser.fullName.toUpperCase().substring(0, 2)}
                     </Avatar>
                     <Stack>
-                      <h3>{row.idUser.fullName}</h3>
-                      <p style={{ fontSize: "12px" }}>@{row.idUser.userName}</p>
+                      <h3 style={{ color: "white" }}>{row.idUser.fullName}</h3>
+                      <p style={{ fontSize: "12px", color: "white" }}>
+                        @{row.idUser.userName}
+                      </p>
                     </Stack>
                   </Stack>
                   <Stack direction={"row"} gap={2} alignItems={"center"}>
