@@ -40,6 +40,7 @@
 }
 
 .title-modal {
+  color: white;
   font-size: 20px;
   font-weight: 400;
   line-height: 20px;
@@ -47,11 +48,12 @@
 }
 
 .col-modal {
+  flex-grow: 1;
   /*margin-right: 10px*/
 }
 
-.list-user{
-  margin-top:16px
+.list-user {
+  margin-top: 16px;
 }
 .avatar {
   /*display: flex;*/
@@ -72,4 +74,8 @@
 
 .board-title-input::placeholder {
   color: white;
+}
+
+.add-member-board-detail {
+  color: black;
 }
