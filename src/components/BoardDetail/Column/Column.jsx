@@ -84,22 +84,24 @@ const Column = ({ props, index, data, board }) => {
             </Stack>
             <Droppable droppableId={props._id} type="task" direction="vertical">
               {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="content-scroll-bar"
-                  style={{ minHeight: "100%" }}
-                >
-                  {props.tasks &&
-                    props.tasks.map((item, index) => (
-                      <Tasks
-                        props={{ item, index, board, data, columnId }}
-                        key={item._id}
-                      />
-                    ))}
-                  {provided.placeholder}
-                  <AddTaskInput props={{ props, data, board }} />
-                </div>
+                <>
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    className="content-scroll-bar"
+                    style={{ minHeight: "100%" }}
+                  >
+                    {props.tasks &&
+                      props.tasks.map((item, index) => (
+                        <Tasks
+                          props={{ item, index, board, data, columnId }}
+                          key={item._id}
+                        />
+                      ))}
+                    {provided.placeholder}
+                    <AddTaskInput props={{ props, data, board }} />
+                  </div>
+                </>
               )}
             </Droppable>
           </section>

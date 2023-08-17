@@ -42,7 +42,7 @@ const Tasks = ({ props }) => {
                 )}
               >
                 {props.item.content}
-                {console.log(props.item)}
+                {/* {console.log(props.item)} */}
                 <Stack
                   direction={"row"}
                   alignItems={"center"}

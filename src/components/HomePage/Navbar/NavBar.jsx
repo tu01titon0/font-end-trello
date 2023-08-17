@@ -146,7 +146,6 @@ const NavBar = () => {
         </div>
         <MenuPopupState />
       </Stack>
-      {console.log(userActive)}
       {!userActive && (
         <div
           style={{
