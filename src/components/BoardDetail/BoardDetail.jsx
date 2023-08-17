@@ -19,7 +19,8 @@ import { Button, Col, Input, Modal, Row, Select } from "antd";
 import Avatar from "@mui/material/Avatar";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined.js";
 import SearchUser from "../WorkSpaceSettings/SearchUser/SearchUser.jsx";
-import ReplyIcon from "@mui/icons-material/Reply";
+import ReplyIcon from '@mui/icons-material/Reply';
+import {Navigate} from "react-router-dom";
 const BoardDetail = () => {
   const { board, setBoard } = useBoard();
   const { column, setColumn } = useColumn();
@@ -192,7 +193,7 @@ const BoardDetail = () => {
         fontSize: "15px",
       },
       children:
-        name.split(" ")[0] && name.split(" ")[1]
+        (name.split(" ")[0] && name.split(" ")[1])
           ? `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`
           : `${name.toUpperCase().substring(0, 2)}`,
     };
@@ -234,6 +235,46 @@ const BoardDetail = () => {
     setOpen(false);
     setOpenErr(false);
   };
+
+  function changeRoleUser(value, idUser) {
+    let dataChange = {
+      boardId: boardId,
+      role: value,
+      idUser: idUser,
+      currentUserId: JSON.parse(localStorage.getItem("user"))._id,
+    };
+    BoardService.changeRoleUser(dataChange)
+        .then((res) => {
+          if (res.data.message) {
+            setBoard(res.data.board)
+            setMessage(res.data.message);
+            handleClick();
+          } else if (res.data.error) {
+            setErrMessage(res.data.error);
+            handleErrClick();
+          }
+        })
+        .catch((err) => console.log(err))
+  }
+  let isIdUser = false;
+  let isAdmin = false;
+  if (board && board.users) {
+    isIdUser = board.users.some(
+        (user) =>
+            user.idUser._id.toString() === JSON.parse(localStorage.getItem("user"))._id.toString()
+    );
+  }
+  if (board && board.users) {
+    isAdmin = board.users.some(
+        (user) =>
+            (user.idUser._id.toString() === JSON.parse(localStorage.getItem("user"))._id.toString() && user.role === "admin")
+    );
+  }
+
+  const isPrivateBoard = board.visibility === "private";
+  if (!isIdUser && isPrivateBoard) {
+    return <Navigate to="/" />;
+  }
   return (
     <>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
@@ -255,10 +296,6 @@ const BoardDetail = () => {
           className="scroll-container"
         >
           <Stack direction={"column"} height={"100%"}>
-            {/* <h1 className="board-nav-bar" style={{ color: "white" }}>
-              {board && board.title ? board.title : null}
-            </h1> */}
-
             <Stack direction={"row"} alignItems={"center"}>
               <input
                 type="text"
@@ -342,9 +379,8 @@ const BoardDetail = () => {
                       <Col span={6} offset={0}>
                         <div className="avatar">
                           <Row>
-                            {console.log(item)}
                             <Avatar
-                              //   {...stringAvatar(`${item.idUser.fullName}`)}
+                                {...stringAvatar(`${item.idUser.fullName}`)}
                               sx={{
                                 width: 30,
                                 height: 30,
@@ -370,23 +406,25 @@ const BoardDetail = () => {
                         </div>
                       </Col>
                       <Col span={4} offset={12} style={{ marginTop: "auto" }}>
-                        <Select
-                          defaultValue={item.role || "member"}
-                          style={{
-                            width: 100,
-                          }}
-                          onChange=""
-                          options={[
-                            {
-                              value: "admin",
-                              label: "admin",
-                            },
-                            {
-                              value: "member",
-                              label: "member",
-                            },
-                          ]}
-                        />
+                        {isAdmin ?
+                          <Select
+                            defaultValue={item.role || "member"}
+                            style={{
+                              width: 100,
+                            }}
+                            onChange={(value) => changeRoleUser(value, item.idUser._id)}
+                            options={[
+                              {
+                                value: "admin",
+                                label: "admin",
+                              },
+                              {
+                                value: "member",
+                                label: "member",
+                              },
+                            ]}
+                          />
+                        : <Button>{item.role || "member"}</Button>}
                       </Col>
                     </Row>
                   ))
