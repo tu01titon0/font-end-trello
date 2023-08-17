@@ -83,14 +83,11 @@ export default class WorkspaceService {
   }
   static async changeUserPermission(user, ws, role) {
     const authKey = cookieParse()._auth;
-<<<<<<< HEAD
-=======
     // console.log(
     //   `${
     //     import.meta.env.VITE_ROOT_DOMAIN
     //   }/workspace/updateUser?w=${ws}&u=${user}&r=${role}`
     // );
->>>>>>> f817601fca5b349b04b63decd631425b07fd9703
     return await axios.put(
       `${
         import.meta.env.VITE_ROOT_DOMAIN

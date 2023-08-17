@@ -144,6 +144,9 @@ const Login = () => {
         <p style={{ textAlign: "left", marginTop: "20px", color: "black" }}>
           Chưa có tài khoản? <Link to={"/signup"}>Đăng ký</Link> ngay!
         </p>
+        <p style={{ textAlign: "left", marginTop: "20px", color: "black" }}>
+          <Link to={"/resetPassWord"}>Quên mật khẩu</Link> !
+        </p>
       </Box>
     </Box>
   );

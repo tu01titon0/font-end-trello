@@ -1,5 +1,6 @@
 import Home from "./components/HomePage/Homepage.jsx";
 import Login from "./pages/login.jsx";
+import SentNewPass from "./pages/sentNewPassword.jsx";
 import WorkSpaceSettings from "./components/WorkSpaceSettings/WorkSpaceSettings.jsx";
 import SignUp from "./pages/signup.jsx";
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -28,6 +29,7 @@ function App() {
           <Route path="/login" element={<Navigate to={"/"} />} />
           <Route path="/signup" element={<Navigate to={"/"} />} />
           <Route path="/inviteWs/:idUser" element = {<InviteWs />} />
+          <Route path="/resetPassWord" element={<SentNewPass/>} />
 
         </>
       ) : (
@@ -36,6 +38,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/inviteWs/:idUser" element={<Navigate to={"/login"} />} />
+          <Route path="/resetPassWord" element={<SentNewPass/>} />
         </>
       )}
     </Routes>

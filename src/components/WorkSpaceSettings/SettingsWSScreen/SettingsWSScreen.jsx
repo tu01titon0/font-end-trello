@@ -353,26 +353,6 @@ const SettingsWSScreen = () => {
                   </Stack>
                   <Stack direction={"row"} gap={2} alignItems={"center"}>
                     <p>Admin of 0 board</p>
-<<<<<<< HEAD
-                    { userToFind.role == "admin" ? 
-                    <select className="ws-user-btn" style={{ color: "#32cd32", fontSize: "1em", padding: "10px", borderRadius: "5px"}} 
-                    id="roleSelect"
-                    value={row.role}
-                    onChange={(event) => {
-                      updateUserPermisstion(row.idUser._id, event)
-                    }}
-                  >
-                    <option  value="admin">Admin</option>
-                    <option  value="member">Member</option>
-                  </select>
-                    :  <button
-                    className="ws-user-btn"
-                    style={{ color: "#32cd32" }}
-                  >
-                    {row.role}
-                  </button>}
-                    
-=======
                     {userToFind.role == "admin" ? (
                       <select
                         className="ws-user-btn"
@@ -399,7 +379,6 @@ const SettingsWSScreen = () => {
                         {row.role}
                       </button>
                     )}
->>>>>>> f817601fca5b349b04b63decd631425b07fd9703
 
                     <button
                       className="ws-user-btn"
