@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Column.css";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import Tasks from "../Tasks/Tasks";
@@ -8,10 +8,32 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Stack } from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import useBoard from "../../../store/useBoard";
+import useColumn from "../../../store/useColumn";
+import BoardService from "../../../services/board.service";
 
 const Column = ({ props, index, data, board }) => {
   const [popup, setPopup] = useState();
   const columnId = props._id;
+  const { setBoard } = useBoard();
+  const { column, setColumn } = useColumn();
+  const [userRole, setUserRole] = useState();
+
+  // Kiểm tra role của người dùng trong board
+
+  useEffect(() => {
+    BoardService.getBoardDetail(board.boardId)
+      .then((res) => {
+        const localUser = JSON.parse(localStorage.getItem("user"));
+        const currentUser = res.data.board.users.find(
+          (item) => item.idUser._id === localUser._id
+        );
+        setUserRole(currentUser.role);
+      })
+      .catch((err) => console.log(err));
+  }, [column]);
+
+  // Bật tắt pop up menu của col
 
   const handleColumnSetting = () => {
     if (!popup) {
@@ -19,6 +41,22 @@ const Column = ({ props, index, data, board }) => {
     } else {
       setPopup(null);
     }
+  };
+
+  // Xóa col
+
+  const handleDeleteColumn = (val) => {
+    const data = {
+      localUser: JSON.parse(localStorage.getItem("user")),
+      boardId: board.boardId,
+      colId: val,
+    };
+    BoardService.deleteCol(data)
+      .then((res) => {
+        setBoard(res.data.board);
+        setColumn(res.data.board.columns);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -51,36 +89,49 @@ const Column = ({ props, index, data, board }) => {
               >
                 {props && props.title ? props.title : "None"}
               </h3>
-              <div style={{ position: "relative" }}>
-                {popup ? (
-                  <CloseIcon
-                    className="edit-col-title"
-                    onClick={() => handleColumnSetting()}
-                  />
-                ) : (
-                  <MoreHorizIcon
-                    className="edit-col-title"
-                    onClick={() => handleColumnSetting()}
-                  />
-                )}
-                <div
-                  className="col-settings-popup"
-                  style={{ display: popup === columnId ? null : "none" }}
-                >
-                  <button className="column-settings-btn">
-                    <Stack direction={"row"} alignItems={"center"} gap={"6px"}>
-                      <DriveFileRenameOutlineIcon fontSize="12px" />
-                      Edit Column Name
-                    </Stack>
-                  </button>
-                  <button className="column-settings-btn">
-                    <Stack direction={"row"} alignItems={"center"} gap={"6px"}>
-                      <DeleteOutlinedIcon fontSize="12px" />
-                      Delete Column
-                    </Stack>
-                  </button>
+              {userRole === "admin" && (
+                <div style={{ position: "relative" }}>
+                  {popup ? (
+                    <CloseIcon
+                      className="edit-col-title"
+                      onClick={() => handleColumnSetting()}
+                    />
+                  ) : (
+                    <MoreHorizIcon
+                      className="edit-col-title"
+                      onClick={() => handleColumnSetting()}
+                    />
+                  )}
+                  <div
+                    className="col-settings-popup"
+                    style={{ display: popup === columnId ? null : "none" }}
+                  >
+                    <button className="column-settings-btn">
+                      <Stack
+                        direction={"row"}
+                        alignItems={"center"}
+                        gap={"6px"}
+                      >
+                        <DriveFileRenameOutlineIcon fontSize="12px" />
+                        Edit Column Name
+                      </Stack>
+                    </button>
+                    <button
+                      className="column-settings-btn"
+                      onClick={() => handleDeleteColumn(columnId)}
+                    >
+                      <Stack
+                        direction={"row"}
+                        alignItems={"center"}
+                        gap={"6px"}
+                      >
+                        <DeleteOutlinedIcon fontSize="12px" />
+                        Delete Column
+                      </Stack>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </Stack>
             <Droppable droppableId={props._id} type="task" direction="vertical">
               {(provided) => (

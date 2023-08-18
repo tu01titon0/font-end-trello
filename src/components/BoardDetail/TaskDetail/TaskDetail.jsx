@@ -265,8 +265,8 @@ export default function TaskDetail({ props }) {
                 </Stack>
               </Stack>
               {props.props && props.props.item.files
-                ? props.props.item.files.map((item) => (
-                    <Stack direction={"row"} gap={2} alignItems={"center"}>
+                ? props.props.item.files.map((item, index) => (
+                    <Stack key={index + 1} direction={"row"} gap={2} alignItems={"center"}>
                       {item.type === "image/jpeg" ||
                       item.type === "image/png" ? (
                         <img
