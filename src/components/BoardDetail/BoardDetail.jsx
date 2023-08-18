@@ -21,8 +21,8 @@ import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined.js";
 import SearchUser from "../WorkSpaceSettings/SearchUser/SearchUser.jsx";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { useNavigate } from "react-router-dom";
-
 import WorkspaceService from "../../services/workspace.service.js";
+
 const BoardDetail = () => {
   const navigate = useNavigate();
 
@@ -143,6 +143,7 @@ const BoardDetail = () => {
         });
       setLoading(true);
     } else if (typeOfItem === "task") {
+      if (endingCol === "root") return;
       const boardColData = [...board.columns];
       const startedColIndex = boardColData.findIndex(
         (item) => item._id === startingCol
@@ -353,8 +354,8 @@ const BoardDetail = () => {
                     gap: "10px",
                   }}
                 >
-                  <CheckOutlinedIcon onClick={() => handleTitleChange()} />
-                  <ClearOutlinedIcon
+                  <CheckOutlinedIcon className="edit-board-title-icon board-check-icon" onClick={() => handleTitleChange()} />
+                  <ClearOutlinedIcon className="edit-board-title-icon board-cancel-icon"
                     onClick={() => {
                       setDisplayIcon(false);
                       setTitle(board.title);

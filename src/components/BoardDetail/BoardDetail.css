@@ -79,3 +79,18 @@
 .add-member-board-detail {
   color: black;
 }
+
+.edit-board-title-icon {
+  all: unset;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.board-check-icon:hover {
+  background-color: rgba(0, 128, 0, 0.445);
+}
+
+.board-cancel-icon:hover {
+  background-color: rgba(220, 20, 60, 0.445);
+}

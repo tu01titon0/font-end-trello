@@ -50,22 +50,8 @@
 }
 
 .comment-input {
-  /* background-color: #22272b; */
   width: 100%;
 }
-
-/* .attachment-btn {
-  background-color: transparent;
-  border: 1px solid white;
-}
-
-.attachment-btn:hover,
-.attachment-btn:focus,
-.attachment-btn:active {
-  outline: none;
-  border: 1px solid white;
-  background-color: rgba(255, 255, 255, 0.082);
-} */
 
 .dlt-attch-btn {
   all: unset;
@@ -144,4 +130,19 @@
   font-weight: bold;
   background-color: gray;
   border-radius: 4px;
+}
+
+.handle-edit-icon {
+  all: unset;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.edit-icon:hover {
+  background-color: rgba(0, 128, 0, 0.445);
+}
+
+.cancel-icon:hover {
+  background-color: rgba(220, 20, 60, 0.445);
 }
