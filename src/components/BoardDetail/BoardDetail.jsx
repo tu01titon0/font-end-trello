@@ -63,13 +63,12 @@ const BoardDetail = () => {
         let isIdUser = false;
         if (res.data.board && res.data.board.users) {
           isIdUser = res.data.board.users.some(
-              (user) => user.idUser._id.toString() === currentUserId
+            (user) => user.idUser._id.toString() === currentUserId
           );
         }
         const isPrivateBoard = res.data.board.visibility === "private";
-        console.log(isIdUser)
         if (!isIdUser && isPrivateBoard) {
-          navigate("/")
+          navigate("/");
         }
       })
       .catch((err) => {
@@ -87,10 +86,10 @@ const BoardDetail = () => {
   let isAdmin = false;
   if (board && board.users) {
     isAdmin = board.users.some(
-        (user) =>
-            user.idUser._id &&
-            user.idUser._id.toString() === currentUserId &&
-            user.role === "admin"
+      (user) =>
+        user.idUser._id &&
+        user.idUser._id.toString() === currentUserId &&
+        user.role === "admin"
     );
   }
   const handleTitleChange = () => {
@@ -127,7 +126,6 @@ const BoardDetail = () => {
     if (typeOfItem === "column") {
       const boardColData = [...board.columns];
       const [removedCol] = boardColData.splice(startingIndex, 1);
-      console.log(startingIndex, "ending index", endingIndex);
       boardColData.splice(endingIndex, 0, removedCol);
       setColumn(boardColData);
       const dataToBe = [...boardColData.map((item) => item._id)];
@@ -377,44 +375,6 @@ const BoardDetail = () => {
             </Button>
           </Stack>
           <Stack direction={"column"} height={"100%"}>
-            {/* <Stack direction={"row"} alignItems={"center"}>
-              <input
-                type="text"
-                value={title}
-                style={{ width: `${textLength + 1}ch` }}
-                className="board-title-input"
-                onChange={(e) => handleChange(e)}
-                onClick={() => setDisplayIcon(true)}
-              />
-              {displayIcon ? (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
-                  <CheckOutlinedIcon onClick={() => handleTitleChange()} />
-                  <ClearOutlinedIcon
-                    onClick={() => {
-                      setDisplayIcon(false);
-                      setTitle(board.title);
-                    }}
-                  />
-                </div>
-              ) : null}
-              <Button
-                onClick={showModal}
-                style={{
-                  color: "white",
-                  marginLeft: "10px",
-                }}
-                type="primary"
-              >
-                <ReplyIcon style={{ fontSize: "15px", margin: "auto" }} /> Share
-              </Button>
-            </Stack> */}
             <Modal
               open={isModalOpen}
               onCancel={handleCancel}
@@ -568,7 +528,7 @@ const BoardDetail = () => {
                             key={item._id}
                             index={index}
                             data={{ column, setColumn }}
-                            board={{ boardId, boardTitle }}
+                            board={{ board, isAdmin, boardId, boardTitle }}
                           />
                         ))
                       : null}

@@ -31,7 +31,7 @@ const Tasks = ({ props }) => {
             className="tasks-display"
           >
             <div isDragging={snapshot.isDragging} style={{ flexGrow: 1 }}>
-              <p
+              <div
                 className="task-title"
                 onClick={() => setOpenModal(true)}
                 isDragging={snapshot.isDragging}
@@ -67,7 +67,7 @@ const Tasks = ({ props }) => {
                     </div>
                   ) : null}
                 </Stack>
-              </p>
+              </div>
             </div>
           </section>
         )}

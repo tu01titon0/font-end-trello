@@ -84,28 +84,28 @@ export default class BoardService {
   static async addUserToBoard(data) {
     const authKey = cookieParse()._auth;
     return await axios.post(
-        `${import.meta.env.VITE_ROOT_DOMAIN}/b/add-user`,
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            authorization: authKey,
-          },
-        }
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/add-user`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
     );
   }
 
   static async changeRoleUser(data) {
     const authKey = cookieParse()._auth;
     return await axios.post(
-        `${import.meta.env.VITE_ROOT_DOMAIN}/b/change-role`,
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            authorization: authKey,
-          },
-        }
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/change-role`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
     );
   }
 
@@ -180,16 +180,30 @@ export default class BoardService {
   }
 
   static async removeUserFromBoard(data) {
-      const authKey = cookieParse()._auth;
-      return await axios.post(
-          `${import.meta.env.VITE_ROOT_DOMAIN}/b/deleteUserFromBoard`,
-          data,
-          {
-              headers: {
-                  "Content-Type": "multipart/form-data",
-                  authorization: authKey,
-              },
-          }
-      );
+    const authKey = cookieParse()._auth;
+    return await axios.post(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/deleteUserFromBoard`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
+
+  static async deleteCol(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.patch(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/deleteCol`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
   }
 }
