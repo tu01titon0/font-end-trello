@@ -12,6 +12,8 @@ import useWorkspace from "../../store/useWorkspace.js";
 import { Link, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import WorkspaceService from "../../services/workspace.service.js";
+import { Alert } from "antd";
+import AlertMessage from "../AlertMessage.jsx";
 const ListBoards = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -32,12 +34,19 @@ const ListBoards = () => {
         console.log(err);
       });
   }, [id]);
+
   return (
     <Stack direction={"column"} className="ws-settings-main">
       <NavBar />
+      <AlertMessage />
+      {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          This is a success message!
+        </Alert>
+      </Snackbar> */}
       <Stack direction={"row"}>
         <SideBar />
-        <div style={{ padding: "20px", width: "1000px", margin: '0 auto' }}>
+        <div style={{ padding: "20px", width: "1000px", margin: "0 auto" }}>
           <Stack gap={2}>
             <Stack>
               <Stack direction={"row"} gap={2}>
@@ -64,7 +73,7 @@ const ListBoards = () => {
             <hr
               style={{
                 marginTop: "10px",
-                marginBottom: '10px',
+                marginBottom: "10px",
                 border: "none",
                 borderBottom: "1px solid white",
               }}

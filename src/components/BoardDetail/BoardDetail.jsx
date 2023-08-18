@@ -14,14 +14,13 @@ import useBoard from "../../store/useBoard";
 import useColumn from "../../store/useColumn";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { Button, Col, Input, Modal, Row, Select } from "antd";
 import Avatar from "@mui/material/Avatar";
-import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined.js";
 import SearchUser from "../WorkSpaceSettings/SearchUser/SearchUser.jsx";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { useNavigate } from "react-router-dom";
-import WorkspaceService from "../../services/workspace.service.js";
+import DeleteBoardModal from "./DeleteBoardModal/DeleteBoardModal";
 
 const BoardDetail = () => {
   const navigate = useNavigate();
@@ -38,6 +37,7 @@ const BoardDetail = () => {
   const [textLength, setTextLength] = useState(
     board && board.title ? board.title.length : "fit-content"
   );
+  const [openDeleteBoardModal, setOpenDeleteBoardModal] = useState(false);
   const [displayIcon, setDisplayIcon] = useState(false);
   const [title, setTitle] = useState();
   let currentUserId = JSON.parse(localStorage.getItem("user"))._id.toString();
@@ -77,6 +77,10 @@ const BoardDetail = () => {
   }, [boardId]);
 
   const boardTitle = board.title;
+
+  const handleDeleteBoard = () => {
+    setOpenDeleteBoardModal(true);
+  };
 
   const handleChange = (e) => {
     setTextLength(e.target.value.length + 1);
@@ -301,6 +305,10 @@ const BoardDetail = () => {
 
   return (
     <>
+      <DeleteBoardModal
+        props={{ openDeleteBoardModal, setOpenDeleteBoardModal }}
+        // boardId={(boardId, boardRef)}
+      />
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
           {message}
@@ -354,8 +362,12 @@ const BoardDetail = () => {
                     gap: "10px",
                   }}
                 >
-                  <CheckOutlinedIcon className="edit-board-title-icon board-check-icon" onClick={() => handleTitleChange()} />
-                  <ClearOutlinedIcon className="edit-board-title-icon board-cancel-icon"
+                  <CheckOutlinedIcon
+                    className="edit-board-title-icon board-check-icon"
+                    onClick={() => handleTitleChange()}
+                  />
+                  <ClearOutlinedIcon
+                    className="edit-board-title-icon board-cancel-icon"
                     onClick={() => {
                       setDisplayIcon(false);
                       setTitle(board.title);
@@ -364,16 +376,29 @@ const BoardDetail = () => {
                 </div>
               ) : null}
             </div>
-            <Button
-              onClick={showModal}
-              style={{
-                color: "white",
-                marginLeft: "10px",
-              }}
-              type="primary"
-            >
-              <ReplyIcon style={{ fontSize: "15px", margin: "auto" }} /> Share
-            </Button>
+            <Stack direction={"row"} alignItems={"center"} gap={1}>
+              <Button
+                onClick={showModal}
+                style={{
+                  color: "white",
+                  marginLeft: "10px",
+                }}
+                type="primary"
+              >
+                <ReplyIcon style={{ fontSize: "15px", margin: "auto" }} /> Share
+              </Button>
+              {isAdmin && (
+                <Button
+                  className="delete-board-btn"
+                  onClick={() => handleDeleteBoard()}
+                >
+                  <Stack direction={"row"} alignItems={"center"}>
+                    <DeleteOutlineOutlinedIcon fontSize="14px" />
+                    Delete
+                  </Stack>
+                </Button>
+              )}
+            </Stack>
           </Stack>
           <Stack direction={"column"} height={"100%"}>
             <Modal
