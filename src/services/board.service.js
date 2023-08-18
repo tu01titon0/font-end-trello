@@ -233,4 +233,18 @@ export default class BoardService {
       }
     );
   }
+
+  static async changeColName(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.patch(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/changeColName`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
 }
