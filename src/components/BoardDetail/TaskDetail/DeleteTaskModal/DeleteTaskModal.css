@@ -1,0 +1,18 @@
+.delete-task-modal {
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.466);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.027);
+  border-radius: 8px;
+  /* bgcolor: "rgb(36 40 47 / 50%)",
+  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",
+  backdropFilter: "blur(5px)",
+  border: "1px solid rgba(9, 30, 66, 0.2)",
+  p: "20px",
+  outline: "none",
+  borderRadius: "10px", */
+}
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  background-color: transparent !important;
+}

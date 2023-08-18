@@ -12,14 +12,10 @@ import { Link, useNavigate } from "react-router-dom";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
-import ChecklistOutlinedIcon from "@mui/icons-material/ChecklistOutlined";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import AttachmentOutlinedIcon from "@mui/icons-material/AttachmentOutlined";
 import RollerShadesOutlinedIcon from "@mui/icons-material/RollerShadesOutlined";
-import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import DriveFileMoveOutlinedIcon from "@mui/icons-material/DriveFileMoveOutlined";
-import CopyAllOutlinedIcon from "@mui/icons-material/CopyAllOutlined";
-import BrandingWatermarkOutlinedIcon from "@mui/icons-material/BrandingWatermarkOutlined";
 import AutoDeleteOutlinedIcon from "@mui/icons-material/AutoDeleteOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
@@ -31,6 +27,7 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import BoardService from "../../../services/board.service";
 import useBoard from "../../../store/useBoard";
 import useColumn from "../../../store/useColumn";
+import DeleteTaskModal from "./DeleteTaskModal/DeleteTaskModal";
 
 const style = {
   position: "absolute",
@@ -41,7 +38,7 @@ const style = {
   minWidth: "700px",
   bgcolor: "rgb(36 40 47 / 50%)",
   boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",
-  backdropFilter: "blur(5px)",
+  backdropFilter: "blur(6px)",
   border: "1px solid rgba(9, 30, 66, 0.2)",
   p: "20px",
   outline: "none",
@@ -85,6 +82,7 @@ export default function TaskDetail({ props }) {
   const [fileUpload, setFileUpload] = React.useState();
   const [attachmentsIcon, setAttachmentsIcon] = React.useState(false);
   const [message, setMessage] = React.useState({ progress: false });
+  const [openModal, setOpenModal] = React.useState(false);
   const { setBoard } = useBoard();
   const { setColumn } = useColumn();
 
@@ -175,6 +173,11 @@ export default function TaskDetail({ props }) {
 
   return (
     <div>
+      <DeleteTaskModal
+        props={{ openModal, setOpenModal }}
+        taskId={props.props.item._id}
+        boardId={props.props.board.boardId}
+      />
       <Modal
         open={props.openModal}
         style={{ overflow: "scroll" }}
@@ -204,12 +207,14 @@ export default function TaskDetail({ props }) {
                   onClick={() => setTaskTitle({ showButton: true })}
                 />
                 {taskTitle.showButton && (
-                  <Stack direction={"row"} gap={1} alignItems={"center"}>
+                  <Stack direction={"row"} gap={"4px"} alignItems={"center"}>
                     <CreateIcon
+                      className="handle-edit-icon edit-icon"
                       style={{ color: "white", fontSize: "18px" }}
                       onClick={() => handleEditTask()}
                     />
                     <DoDisturbOnOutlinedIcon
+                      className="handle-edit-icon cancel-icon"
                       style={{ color: "white", fontSize: "18px" }}
                       onClick={() =>
                         setTaskTitle({
@@ -266,7 +271,12 @@ export default function TaskDetail({ props }) {
               </Stack>
               {props.props && props.props.item.files
                 ? props.props.item.files.map((item, index) => (
-                    <Stack key={index + 1} direction={"row"} gap={2} alignItems={"center"}>
+                    <Stack
+                      key={index + 1}
+                      direction={"row"}
+                      gap={2}
+                      alignItems={"center"}
+                    >
                       {item.type === "image/jpeg" ||
                       item.type === "image/png" ? (
                         <img
@@ -389,34 +399,18 @@ export default function TaskDetail({ props }) {
                     Labels
                   </div>
                 </button>
-                <button>
-                  <div className="task-detail-func-btn">
-                    <ChecklistOutlinedIcon style={{ fontSize: "14px" }} />{" "}
-                    Checklist
-                  </div>
-                </button>
+
                 <button>
                   <div className="task-detail-func-btn">
                     <AccessTimeOutlinedIcon style={{ fontSize: "14px" }} />{" "}
                     Dates
                   </div>
                 </button>
-                <button>
-                  <div className="task-detail-func-btn">
-                    <AttachmentOutlinedIcon style={{ fontSize: "14px" }} />{" "}
-                    Attackment
-                  </div>
-                </button>
+
                 <button>
                   <div className="task-detail-func-btn">
                     <RollerShadesOutlinedIcon style={{ fontSize: "14px" }} />{" "}
                     Cover
-                  </div>
-                </button>
-                <button>
-                  <div className="task-detail-func-btn">
-                    <TuneOutlinedIcon style={{ fontSize: "14px" }} /> Custom
-                    Fields
                   </div>
                 </button>
               </div>
@@ -428,23 +422,10 @@ export default function TaskDetail({ props }) {
                     Move
                   </div>
                 </button>
-                <button>
-                  <div className="task-detail-func-btn">
-                    <CopyAllOutlinedIcon style={{ fontSize: "14px" }} /> Copy
-                  </div>
-                </button>
-                <button>
-                  <div className="task-detail-func-btn">
-                    <BrandingWatermarkOutlinedIcon
-                      style={{ fontSize: "14px" }}
-                    />{" "}
-                    Make Template
-                  </div>
-                </button>
-                <button>
+                <button onClick={() => setOpenModal(true)}>
                   <div className="task-detail-func-btn">
                     <AutoDeleteOutlinedIcon style={{ fontSize: "14px" }} />{" "}
-                    Archive
+                    Delete
                   </div>
                 </button>
                 <button>
