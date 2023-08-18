@@ -1,61 +1,53 @@
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import {Alert, Box, Button, Stack, TextField, Typography } from "@mui/material";
 import NavBar from "../components/HomePage/Navbar/NavBar";
 import { Layout } from "antd";
 import "./resetPassword.css";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useState} from "react";
+import UpdateService from "../services/user.sevice";
+import useAlert from "../store/useAlert";
+
+
 
 export default function ResetPassWord() {
   const [currentPasswordValid, setCurrentPasswordValid] = useState(true);
-
+  const userInfo = JSON.parse(localStorage.getItem('user'));
+  const [errMessage, setErrMessage] = useState("");
+  const [message, setMessage] = useState("");
   const UpdatePassSchema = Yup.object().shape({
     password: Yup.string()
       .required("Vui lòng nhập mật khẩu hiện tại")
-      .test("check-current-password", "Mật khẩu hiện tại không đúng", async function (value) {
-        if (!value || !formik.touched.password) return true; 
-        try {
-          const response = await fetch("/api/user/password", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ password: value }),
-          });
-          const data = await response.json();
-          setCurrentPasswordValid(data.isValid);
-          return data.isValid;
-        } catch (error) {
-          setCurrentPasswordValid(false);
-          return false;
-        }
-      }),
-    newpassword: Yup.string().required("Vui lòng nhập mật khẩu mới"),
-    confirmpassword: Yup.string().required("Vui lòng nhập lại mật khẩu mới"),
+     
+      ,
+      newPassword: Yup.string().required("Vui lòng nhập mật khẩu mới"),
+    checkNewPassword: Yup.string().required("Vui lòng nhập lại mật khẩu mới"),
   });
   const formik = useFormik({
     initialValues: {
       password: "",
-      newpassword: "",
-      confirmpassword: "",
+      newPassword: "",
+      checkNewPassword: "",
     },
     validationSchema: UpdatePassSchema,
     onSubmit: async (values) => {
-      if (!currentPasswordValid) {
-        return; 
-      }
-
       try {
-      
-        const response = await fetch("/api/user/password", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        });
+          UpdateService.resetPassword(userInfo._id,values)
+          .then((res) => {
+            if (res.data.message) {
+              setErrMessage(res.data.message);
+              setMessage("");
 
-        const data = await response.json();
+            } else {
+              setErrMessage("");
+
+              setMessage(res.data.success);
+              // navigate("/login");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } catch (error) {
         console.error(error);
       }
@@ -122,31 +114,31 @@ export default function ResetPassWord() {
               className="password-input"
               required
               label="Mật khẩu mới"
-              name="newpassword"
-              value={formik.values.newpassword}
+              name="newPassword"
+              value={formik.values.newPassword}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="Nhập mật khẩu mới"
-              helperText={formik.touched.newpassword && formik.errors.newpassword}
-              error={formik.touched.newpassword && !!formik.errors.newpassword}
+              helperText={formik.touched.newPassword && formik.errors.newPassword}
+              error={formik.touched.newPassword && !!formik.errors.newPassword}
             />
             <TextField
               className="password-input"
               required
               label="Nhập lại mật khẩu mới"
-              name="confirmpassword"
-              value={formik.values.confirmpassword}
+              name="checkNewPassword"
+              value={formik.values.checkNewPassword}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="Nhập lại mật khẩu mới"
               helperText={
-                formik.touched.confirmpassword && formik.errors.confirmpassword
-                  ? formik.errors.confirmpassword
+                formik.touched.checkNewPassword && formik.errors.checkNewPassword
+                  ? formik.errors.checkNewPassword
                   : ""
               }
               error={
-                formik.touched.confirmpassword &&
-                !!formik.errors.confirmpassword
+                formik.touched.checkNewPassword &&
+                !!formik.errors.checkNewPassword
               }
             />
             <Button
@@ -165,6 +157,16 @@ export default function ResetPassWord() {
                 borderBottom: "1px solid rgb(26 26 26 / 30%)",
               }}
             />
+            {errMessage && (
+          <Alert severity="error" sx={{ width: "100%", mt: 2 }}>
+            {errMessage}
+          </Alert>
+        )} 
+        {message && (
+          <Alert severity="success" sx={{ width: "100%", mt: 2 }}>
+            {message}
+          </Alert>
+        )}
           </Box>
         </Box>
       </Layout>

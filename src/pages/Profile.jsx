@@ -8,7 +8,6 @@ export default function Profile() {
   
   const user = JSON.parse(localStorage.user);
   const navigate = useNavigate();
-  const token = user.token;
   const formik = useFormik({
     initialValues: {
       fullName: user.fullName,
@@ -18,7 +17,7 @@ export default function Profile() {
     },
 
     onSubmit: async () => {
-     UpdateService.userUpdate(formik.values,token)
+     UpdateService.userUpdate(user._id,formik.values)
         .then (() => {
           const updatedUser = { ...user, ...formik.values };
         localStorage.setItem("user", JSON.stringify(updatedUser));
@@ -26,7 +25,7 @@ export default function Profile() {
         formik.resetForm();
         setTimeout(() => {
           navigate("/");
-        }, 700);
+        }, 1000);
           })
           .catch((err) => {
             console.log(err);
