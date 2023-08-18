@@ -65,7 +65,23 @@ const ListBoards = () => {
                   <p>{workspace.name}</p>
                   <Stack direction={"row"} gap={1} alignItems={"center"}>
                     <LockPersonOutlinedIcon sx={{ fontSize: "12px" }} />
-                    <p style={{ fontSize: "14px" }}>Private</p>
+                    <select
+                        className="ws-user-btn"
+                        style={{
+                          color: "#32cd32",
+                          fontSize: "1em",
+                          padding: "10px",
+                          borderRadius: "5px",
+                        }}
+                        id="roleSelect"
+                        value={"private"}
+                        onChange={(event) => {
+                          // updateUserPermisstion(row.idUser._id, event);
+                        }}
+                      >
+                        <option value="private">Private</option>
+                        <option value="public">Public</option>
+                      </select>
                   </Stack>
                 </div>
               </Stack>
