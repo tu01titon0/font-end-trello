@@ -23,7 +23,7 @@ export default class UpdateService {
     });
   }
   static async sendNewPassword(email) {
-    console.log(email);
+    // console.log(email);
     const data = { email: email.userEmail }
     return await axios.post(`${import.meta.env.VITE_ROOT_DOMAIN}/user/sentNewPassword`,data);
   }

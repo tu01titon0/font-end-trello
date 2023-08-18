@@ -32,6 +32,7 @@
 
 .scroll-container {
   height: calc(100vh - 48px);
+  width: 100%;
 }
 
 .board-nav-bar {
@@ -93,4 +94,18 @@
 
 .board-cancel-icon:hover {
   background-color: rgba(220, 20, 60, 0.445);
+}
+
+.delete-board-btn {
+  background-color: crimson;
+  outline: none;
+  border: none;
+  color: white;
+  border: 1px solid crimson;
+}
+
+.delete-board-btn:hover {
+  background-color: rgba(255, 185, 199, 0.596);
+  color: crimson !important;
+  border: 1px solid crimson !important;
 }

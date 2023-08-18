@@ -220,4 +220,17 @@ export default class BoardService {
       }
     );
   }
+
+  static async deleteBoard(data, user) {
+    const authKey = cookieParse()._auth;
+    return await axios.delete(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/b/delete/?id=${data}&u=${user}`,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
 }
