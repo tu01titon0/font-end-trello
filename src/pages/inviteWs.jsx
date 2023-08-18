@@ -8,10 +8,6 @@ const InviteWs = () => {
   // const [checkUser, setCheckUser] = useState();
   const idUserReceive = useParams().idUser;
   const userCurrent = JSON.parse(localStorage.getItem("user"));
-  console.log(idUserReceive);
-  console.log(userCurrent);
-  // console.log(checkUser);
-  console.log(userReceive);
 
   async function fetchUser(id) {
     try {

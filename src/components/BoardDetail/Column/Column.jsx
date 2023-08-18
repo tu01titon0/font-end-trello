@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Column.css";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import Tasks from "../Tasks/Tasks";
@@ -8,10 +8,57 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Stack } from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import useBoard from "../../../store/useBoard";
+import useColumn from "../../../store/useColumn";
+import BoardService from "../../../services/board.service";
+import ClearIcon from "@mui/icons-material/Clear";
+import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 
 const Column = ({ props, index, data, board }) => {
   const [popup, setPopup] = useState();
   const columnId = props._id;
+  const { setBoard } = useBoard();
+  const { column, setColumn } = useColumn();
+  const [userRole, setUserRole] = useState();
+  const [showEdit, setShowEdit] = useState({ status: false });
+
+  const handleColTitleChange = (val) => {
+    setShowEdit({ message: val, status: true });
+  };
+
+  const handleUpdateColTitle = () => {
+    if (showEdit.message) {
+      const data = {
+        title: showEdit.message,
+        columnId: props._id,
+        boardId: board.boardId,
+      };
+      BoardService.changeColName(data)
+        .then((res) => {
+          setBoard(res.data.board);
+          setColumn(res.data.board.columns);
+          setShowEdit({ status: false });
+        })
+        .catch((err) => console.log(err));
+      // Xử lý logic update tên cột ở đây
+    }
+  };
+
+  // Kiểm tra role của người dùng trong board
+
+  useEffect(() => {
+    BoardService.getBoardDetail(board.boardId)
+      .then((res) => {
+        const localUser = JSON.parse(localStorage.getItem("user"));
+        const currentUser = res.data.board.users.find(
+          (item) => item.idUser._id === localUser._id
+        );
+        setUserRole(currentUser.role);
+      })
+      .catch((err) => console.log(err));
+  }, [column]);
+
+  // Bật tắt pop up menu của col
 
   const handleColumnSetting = () => {
     if (!popup) {
@@ -19,6 +66,22 @@ const Column = ({ props, index, data, board }) => {
     } else {
       setPopup(null);
     }
+  };
+
+  // Xóa col
+
+  const handleDeleteColumn = (val) => {
+    const data = {
+      localUser: JSON.parse(localStorage.getItem("user")),
+      boardId: board.boardId,
+      colId: val,
+    };
+    BoardService.deleteCol(data)
+      .then((res) => {
+        setBoard(res.data.board);
+        setColumn(res.data.board.columns);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -43,62 +106,108 @@ const Column = ({ props, index, data, board }) => {
               alignItems={"start"}
               justifyContent={"space-between"}
             >
+              <div
+                style={{
+                  display: showEdit.status ? "flex" : "none",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "4px",
+                }}
+              >
+                <input
+                  type="text"
+                  className="column-title-edit"
+                  value={showEdit.message}
+                  onChange={(e) => handleColTitleChange(e.target.value)}
+                />
+                <CheckOutlinedIcon
+                  className="edit-col-title-icon check-col-icon"
+                  onClick={() => handleUpdateColTitle()}
+                />
+                <ClearIcon
+                  className="edit-col-title-icon cancel-col-icon"
+                  onClick={() =>
+                    setShowEdit({ message: props.title, status: false })
+                  }
+                />
+              </div>
               <h3
                 className="column-title"
+                style={{ display: showEdit.status ? "none" : null }}
                 isDragging={snapshot.isDragging}
                 {...provided.dragHandleProps}
                 key={props._id}
+                onClick={() =>
+                  userRole &&
+                  setShowEdit({ message: props.title, status: true })
+                }
               >
                 {props && props.title ? props.title : "None"}
               </h3>
-              <div style={{ position: "relative" }}>
-                {popup ? (
-                  <CloseIcon
-                    className="edit-col-title"
-                    onClick={() => handleColumnSetting()}
-                  />
-                ) : (
-                  <MoreHorizIcon
-                    className="edit-col-title"
-                    onClick={() => handleColumnSetting()}
-                  />
-                )}
-                <div
-                  className="col-settings-popup"
-                  style={{ display: popup === columnId ? null : "none" }}
-                >
-                  <button className="column-settings-btn">
-                    <Stack direction={"row"} alignItems={"center"} gap={"6px"}>
-                      <DriveFileRenameOutlineIcon fontSize="12px" />
-                      Edit Column Name
-                    </Stack>
-                  </button>
-                  <button className="column-settings-btn">
-                    <Stack direction={"row"} alignItems={"center"} gap={"6px"}>
-                      <DeleteOutlinedIcon fontSize="12px" />
-                      Delete Column
-                    </Stack>
-                  </button>
+              {userRole === "admin" && (
+                <div style={{ position: "relative" }}>
+                  {popup ? (
+                    <CloseIcon
+                      className="edit-col-title"
+                      onClick={() => handleColumnSetting()}
+                    />
+                  ) : (
+                    <MoreHorizIcon
+                      className="edit-col-title"
+                      onClick={() => handleColumnSetting()}
+                    />
+                  )}
+                  <div
+                    className="col-settings-popup"
+                    style={{ display: popup === columnId ? null : "none" }}
+                  >
+                    <button className="column-settings-btn">
+                      <Stack
+                        direction={"row"}
+                        alignItems={"center"}
+                        gap={"6px"}
+                      >
+                        <DriveFileRenameOutlineIcon fontSize="12px" />
+                        Edit Column Name
+                      </Stack>
+                    </button>
+                    <button
+                      className="column-settings-btn"
+                      onClick={() => handleDeleteColumn(columnId)}
+                    >
+                      <Stack
+                        direction={"row"}
+                        alignItems={"center"}
+                        gap={"6px"}
+                      >
+                        <DeleteOutlinedIcon fontSize="12px" />
+                        Delete Column
+                      </Stack>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </Stack>
             <Droppable droppableId={props._id} type="task" direction="vertical">
               {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  style={{ minHeight: "100%" }}
-                >
-                  {props.tasks &&
-                    props.tasks.map((item, index) => (
-                      <Tasks
-                        props={{ item, index, board, data, columnId }}
-                        key={item._id}
-                      />
-                    ))}
-                  {provided.placeholder}
-                  <AddTaskInput props={{ props, data, board }} />
-                </div>
+                <>
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    className="content-scroll-bar"
+                    style={{ minHeight: "100%" }}
+                  >
+                    {props.tasks &&
+                      props.tasks.map((item, index) => (
+                        <Tasks
+                          props={{ item, index, board, data, columnId }}
+                          key={item._id}
+                        />
+                      ))}
+                    {provided.placeholder}
+                    <AddTaskInput props={{ props, data, board }} />
+                  </div>
+                </>
               )}
             </Droppable>
           </section>
