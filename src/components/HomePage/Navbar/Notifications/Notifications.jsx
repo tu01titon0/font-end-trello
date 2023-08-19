@@ -6,9 +6,12 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import "./Notifications.css";
 
 import { socket } from "../../../../miscs/socket";
+import UpdateService from "../../../../services/user.sevice";
+import { Link } from "react-router-dom";
 
 export default function UserNotification() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [userNotifications, setUserNotifications] = React.useState([]);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -17,11 +20,21 @@ export default function UserNotification() {
     setAnchorEl(null);
   };
 
+  const userId = JSON.parse(localStorage.getItem("user"))._id;
+
   React.useEffect(() => {
     socket.on("chat", (payload) => {
       console.log(payload);
     });
   });
+
+  React.useEffect(() => {
+    UpdateService.getAllNotification(userId)
+      .then((res) => {
+        setUserNotifications(res.data.notifications);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div>
@@ -52,15 +65,22 @@ export default function UserNotification() {
           horizontal: "right",
         }}
       >
-        <MenuItem className="open-user-notify" onClick={handleClose}>
-          Profile
-        </MenuItem>
-        <MenuItem className="open-user-notify" onClick={handleClose}>
-          My account
-        </MenuItem>
-        <MenuItem className="open-user-notify" onClick={handleClose}>
-          Logout
-        </MenuItem>
+        {/* {userNotifications.map(
+          (item) =>
+            item.notification &&
+            item.notification.length > 0 &&
+            item.notification.map((noti) => (
+              <div className="open-user-notify" onClick={handleClose}>
+                <>
+                  {console.log(item)}
+                  <Link className="noti-navigate-link" to={`/b/${item._id}`}>
+                    {noti}
+                  </Link>
+                  <hr style={{marginTop: '5px'}} />
+                </>
+              </div>
+            ))
+        )} */}
       </Menu>
     </div>
   );

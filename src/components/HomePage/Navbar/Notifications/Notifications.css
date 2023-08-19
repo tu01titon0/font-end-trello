@@ -1,6 +1,10 @@
 .open-user-notify {
   background-color: black !important;
   color: white !important;
+  max-width: 300px;
+  padding: 8px;
+  /* inline-size: 200px !important;
+  overflow-wrap: break-word !important; */
 }
 
 .open-user-notify:hover,
@@ -24,4 +28,12 @@
   /* padding: 0 18%; */
   /* height: fit-content; */
   border-radius: 50%;
+}
+
+.noti-navigate-link {
+  text-decoration: none;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  max-width: 300px;
 }

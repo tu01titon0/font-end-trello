@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Column from "./Column/Column";
 import data2 from "./MockData";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import "./BoardDetail.css";
 import AddColumnBtn from "./AddColumnInput/AddColumnInput";
 import NavBar from "../HomePage/Navbar/NavBar";
@@ -98,9 +98,13 @@ const BoardDetail = () => {
     );
   }
   const handleTitleChange = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const message = `User ${user.userName} has changed column ${board.title} name to ${title}`;
+    if (!title || title === board.title) return;
     const data = {
       boardId: boardId,
       title: title,
+      notification: {message: message, time: Date.now().toString()},
     };
     BoardService.updateBoardTitle(data)
       .then((res) => {
