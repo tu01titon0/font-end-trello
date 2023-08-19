@@ -21,6 +21,7 @@ import SearchUser from "../WorkSpaceSettings/SearchUser/SearchUser.jsx";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { useNavigate } from "react-router-dom";
 import DeleteBoardModal from "./DeleteBoardModal/DeleteBoardModal";
+import { socket } from "../../miscs/socket";
 
 const BoardDetail = () => {
   const navigate = useNavigate();
@@ -42,15 +43,15 @@ const BoardDetail = () => {
   const [title, setTitle] = useState();
   let currentUserId = JSON.parse(localStorage.getItem("user"))._id.toString();
 
-  const boardRef = useRef(board);
-  const columnRef = useRef(column);
   const [open, setOpen] = React.useState(false);
   const [openErr, setOpenErr] = React.useState(false);
 
   useEffect(() => {
-    boardRef.current = board;
-    columnRef.current = column;
-  }, [board, column]);
+    socket.on("drag", (payload) => {
+      setBoard(payload.board);
+      setColumn(payload.board.columns);
+    });
+  });
 
   useEffect(() => {
     BoardService.getBoardDetail(boardId)
@@ -134,13 +135,14 @@ const BoardDetail = () => {
       setColumn(boardColData);
       const dataToBe = [...boardColData.map((item) => item._id)];
       const dataToSend = {
-        board: boardRef.current._id,
+        board: board._id,
         array: dataToBe,
       };
       BoardService.updateDragDrop(dataToSend)
         .then((res) => {
           setBoard(res.data.board);
           setColumn(res.data.board.columns);
+          socket.emit("drag", { board: res.data.board });
         })
         .catch((err) => {
           console.log(err);
@@ -180,6 +182,7 @@ const BoardDetail = () => {
         .then((res) => {
           setBoard(res.data.board);
           setColumn(res.data.board.columns);
+          socket.emit("drag", { board: res.data.board });
         })
         .catch((err) => {
           console.log(err);

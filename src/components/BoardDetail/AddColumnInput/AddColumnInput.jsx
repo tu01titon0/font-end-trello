@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import useColumn from "../../../store/useColumn";
 import useBoard from "../../../store/useBoard";
+import { socket } from "../../../miscs/socket";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -71,6 +72,7 @@ export default function AddColumnBtn({ column }) {
       .then((res) => {
         setBoard(res.data.data);
         setColumn(res.data.data.columns);
+        socket.emit("drag", { board: res.data.data });
       })
       .catch((err) => {
         console.log(err);

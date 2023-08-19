@@ -6,6 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import BoardService from "../../../services/board.service";
 import useBoard from "../../../store/useBoard";
 import useColumn from "../../../store/useColumn";
+import { socket } from "../../../miscs/socket";
 
 const inputStyle = (state) => ({
   display: state ? "block" : "none",
@@ -50,6 +51,7 @@ const AddTaskInput = ({ props }) => {
           data[columnArray].tasks.push(res.data.data);
           setColumn(res.data.board.columns);
           setBoard(res.data.board);
+          socket.emit("drag", { board: res.data.board });
         })
         .catch((err) => {
           console.log(err);
