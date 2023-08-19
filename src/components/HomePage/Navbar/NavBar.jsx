@@ -13,36 +13,19 @@ import {
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuPopupState from "../AddBoardButton";
 import SearchIcon from "@mui/icons-material/Search";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import cookieParse from "../../../services/cookieparse.service";
 import { useSignOut } from "react-auth-kit";
+import UserNotification from "./Notifications/Notifications";
 
 const NavBar = () => {
   const [userName, setUserName] = useState("");
   const [userActive, setUserActive] = useState("");
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem('user'));
+    const userInfo = JSON.parse(localStorage.getItem("user"));
     setUserName(userInfo.userName.slice(0, 2));
     setUserActive(userInfo.authEmail);
-    // const authType = cookieParse()._auth_type;
-    // const authKey = cookieParse()._auth;
-    // axios
-    //   .get("http://localhost:8686/api/user/info", {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //       authorization: authKey,
-    //     },
-    //   })
-    //   .then((res) => {
-    //     setUserName(res.data.user.userName.slice(0, 2));
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   }, []);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -75,7 +58,6 @@ const NavBar = () => {
             aria-controls={open ? "basic-menu" : undefined}
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
-            // onClick={handleClick}
             endIcon={<KeyboardArrowDownIcon />}
           >
             Dashboard
@@ -187,7 +169,11 @@ const NavBar = () => {
             placeholder="Search"
           />
         </FormControl>
-        <NotificationsIcon style={{ color: "#c7cfd8", fontSize: "18px" }} />
+        {/* <NotificationsIcon
+          style={{ color: "#c7cfd8", fontSize: "18px" }}
+          onClick={() => setOpenNotify(true)}
+        /> */}
+        <UserNotification />
         <QuestionMarkIcon style={{ color: "#c7cfd8", fontSize: "18px" }} />
         <div>
           <Avatar
