@@ -14,13 +14,17 @@ import useBoard from "../../store/useBoard";
 import useColumn from "../../store/useColumn";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
-
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { Button, Col, Input, Modal, Row, Select } from "antd";
 import Avatar from "@mui/material/Avatar";
-import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined.js";
 import SearchUser from "../WorkSpaceSettings/SearchUser/SearchUser.jsx";
 import ReplyIcon from "@mui/icons-material/Reply";
+import { useNavigate } from "react-router-dom";
+import DeleteBoardModal from "./DeleteBoardModal/DeleteBoardModal";
+
 const BoardDetail = () => {
+  const navigate = useNavigate();
+
   const { board, setBoard } = useBoard();
   const { column, setColumn } = useColumn();
   const boardId = useParams().id;
@@ -33,8 +37,10 @@ const BoardDetail = () => {
   const [textLength, setTextLength] = useState(
     board && board.title ? board.title.length : "fit-content"
   );
+  const [openDeleteBoardModal, setOpenDeleteBoardModal] = useState(false);
   const [displayIcon, setDisplayIcon] = useState(false);
   const [title, setTitle] = useState();
+  let currentUserId = JSON.parse(localStorage.getItem("user"))._id.toString();
 
   const boardRef = useRef(board);
   const columnRef = useRef(column);
@@ -54,6 +60,16 @@ const BoardDetail = () => {
         setLoading(true);
         setTitle(res.data.board.title);
         setTextLength(res.data.board.title.length + 2);
+        let isIdUser = false;
+        if (res.data.board && res.data.board.users) {
+          isIdUser = res.data.board.users.some(
+            (user) => user.idUser._id.toString() === currentUserId
+          );
+        }
+        const isPrivateBoard = res.data.board.visibility === "private";
+        if (!isIdUser && isPrivateBoard) {
+          navigate("/");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -62,11 +78,24 @@ const BoardDetail = () => {
 
   const boardTitle = board.title;
 
+  const handleDeleteBoard = () => {
+    setOpenDeleteBoardModal(true);
+  };
+
   const handleChange = (e) => {
     setTextLength(e.target.value.length + 1);
     setTitle(e.target.value);
   };
 
+  let isAdmin = false;
+  if (board && board.users) {
+    isAdmin = board.users.some(
+      (user) =>
+        user.idUser._id &&
+        user.idUser._id.toString() === currentUserId &&
+        user.role === "admin"
+    );
+  }
   const handleTitleChange = () => {
     const data = {
       boardId: boardId,
@@ -95,10 +124,9 @@ const BoardDetail = () => {
     const typeOfItem = res.type;
     const endingIndex = res.destination
       ? res.destination.index
-      : board.columns.length;
+      : board.columns.length - 1;
     const endingCol = res.destination ? res.destination.droppableId : "root";
     setLoading(false);
-
     if (typeOfItem === "column") {
       const boardColData = [...board.columns];
       const [removedCol] = boardColData.splice(startingIndex, 1);
@@ -112,12 +140,14 @@ const BoardDetail = () => {
       BoardService.updateDragDrop(dataToSend)
         .then((res) => {
           setBoard(res.data.board);
+          setColumn(res.data.board.columns);
         })
         .catch((err) => {
           console.log(err);
         });
       setLoading(true);
     } else if (typeOfItem === "task") {
+      if (endingCol === "root") return;
       const boardColData = [...board.columns];
       const startedColIndex = boardColData.findIndex(
         (item) => item._id === startingCol
@@ -145,12 +175,11 @@ const BoardDetail = () => {
         endedIndex: endingIndex,
         boardId: boardId,
       };
-
-      // setStore(newData);
       setColumn(boardColData);
       BoardService.updateDragDropTask(dataToBE)
         .then((res) => {
           setBoard(res.data.board);
+          setColumn(res.data.board.columns);
         })
         .catch((err) => {
           console.log(err);
@@ -223,6 +252,24 @@ const BoardDetail = () => {
       .catch((err) => console.log(err));
   }
 
+  function handlerDeleteUser(userId) {
+    if (confirm("Bạn Muốn xoá người dùng khỏi board không")) {
+      let dataDelete = {
+        boardId: boardId,
+        userId: userId,
+      };
+      BoardService.removeUserFromBoard(dataDelete)
+        .then((res) => {
+          setBoard(res.data.board);
+          if (res.data.message) {
+            setMessage(res.data.message);
+          } else if (res.data.error) {
+            setErrMessage(res.data.error);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }
   function choseRollUser(value) {
     setRoll(value);
   }
@@ -234,8 +281,34 @@ const BoardDetail = () => {
     setOpen(false);
     setOpenErr(false);
   };
+
+  function changeRoleUser(value, idUser) {
+    let dataChange = {
+      boardId: boardId,
+      role: value,
+      idUser: idUser,
+      currentUserId: JSON.parse(localStorage.getItem("user"))._id,
+    };
+    BoardService.changeRoleUser(dataChange)
+      .then((res) => {
+        if (res.data.message) {
+          setBoard(res.data.board);
+          setMessage(res.data.message);
+          handleClick();
+        } else if (res.data.error) {
+          setErrMessage(res.data.error);
+          handleErrClick();
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <>
+      <DeleteBoardModal
+        props={{ openDeleteBoardModal, setOpenDeleteBoardModal }}
+        // boardId={(boardId, boardRef)}
+      />
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
           {message}
@@ -254,12 +327,24 @@ const BoardDetail = () => {
           ignoreElements="p, button, input, section, Draggable"
           className="scroll-container"
         >
-          <Stack direction={"column"} height={"100%"}>
-            {/* <h1 className="board-nav-bar" style={{ color: "white" }}>
-              {board && board.title ? board.title : null}
-            </h1> */}
-
-            <Stack direction={"row"} alignItems={"center"}>
+          <Stack
+            direction={"row"}
+            alignItems={"center"}
+            style={{
+              position: "sticky",
+              top: 0,
+              left: 0,
+              paddingRight: "20px",
+            }}
+            justifyContent={"space-between"}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                maxWidth: "70vw",
+              }}
+            >
               <input
                 type="text"
                 value={title}
@@ -277,8 +362,12 @@ const BoardDetail = () => {
                     gap: "10px",
                   }}
                 >
-                  <CheckOutlinedIcon onClick={() => handleTitleChange()} />
+                  <CheckOutlinedIcon
+                    className="edit-board-title-icon board-check-icon"
+                    onClick={() => handleTitleChange()}
+                  />
                   <ClearOutlinedIcon
+                    className="edit-board-title-icon board-cancel-icon"
                     onClick={() => {
                       setDisplayIcon(false);
                       setTitle(board.title);
@@ -286,18 +375,32 @@ const BoardDetail = () => {
                   />
                 </div>
               ) : null}
+            </div>
+            <Stack direction={"row"} alignItems={"center"} gap={1}>
+              <Button
+                onClick={showModal}
+                style={{
+                  color: "white",
+                  marginLeft: "10px",
+                }}
+                type="primary"
+              >
+                <ReplyIcon style={{ fontSize: "15px", margin: "auto" }} /> Share
+              </Button>
+              {isAdmin && (
+                <Button
+                  className="delete-board-btn"
+                  onClick={() => handleDeleteBoard()}
+                >
+                  <Stack direction={"row"} alignItems={"center"}>
+                    <DeleteOutlineOutlinedIcon fontSize="14px" />
+                    Delete
+                  </Stack>
+                </Button>
+              )}
             </Stack>
-            <Button
-              onClick={showModal}
-              style={{
-                backgroundColor: "#FFFFFF",
-                color: "black",
-                maxWidth: "80px",
-                margin: "auto",
-              }}
-            >
-              <ReplyIcon style={{ fontSize: "15px", margin: "auto" }} /> Share
-            </Button>
+          </Stack>
+          <Stack direction={"column"} height={"100%"}>
             <Modal
               open={isModalOpen}
               onCancel={handleCancel}
@@ -305,36 +408,49 @@ const BoardDetail = () => {
               width={700}
             >
               <h5 className="title-modal">Share Board</h5>
-              <Row>
-                <Col span={14} className="col-modal">
-                  <SearchUser
-                    action="addToBoard"
-                    userId={userId}
-                    setUserId={setUserId}
-                  />
-                </Col>
-                <Col span={6} className="col-modal">
-                  <Select
-                    style={{ marginLeft: "10%" }}
-                    defaultValue="member"
-                    onChange={(value) => choseRollUser(value)}
-                    options={[
-                      {
-                        value: "admin",
-                        label: "Admin",
-                      },
-                      {
-                        value: "member",
-                        label: "Member",
-                      },
-                    ]}
-                  />
-                </Col>
-                <Col span={3}>
-                  <Button type="primary" onClick={() => handlerAddUser()}>
-                    Share
-                  </Button>
-                </Col>
+              <Row className="add-member-board-detail">
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  style={{ width: "100%" }}
+                  justifyContent={"space-between"}
+                >
+                  <Col span={14} style={{ flexGrow: 1 }} className="col-modal">
+                    <SearchUser
+                      action="addToBoard"
+                      userId={userId}
+                      setUserId={setUserId}
+                    />
+                  </Col>
+                  <Col
+                    span={6}
+                    className="col-modal"
+                    style={{ display: "flex", justifyContent: "flex-end" }}
+                  >
+                    <Select
+                      style={{ marginLeft: "10px" }}
+                      defaultValue="member"
+                      onChange={(value) => choseRollUser(value)}
+                      options={[
+                        {
+                          value: "admin",
+                          label: "Admin",
+                        },
+                        {
+                          value: "member",
+                          label: "Member",
+                        },
+                      ]}
+                    />
+                    <Button
+                      style={{ marginLeft: "10px" }}
+                      type="primary"
+                      onClick={() => handlerAddUser()}
+                    >
+                      Share
+                    </Button>
+                  </Col>
+                </Stack>
               </Row>
               {board.users && board.users
                 ? board.users.map((item, index) => (
@@ -342,9 +458,8 @@ const BoardDetail = () => {
                       <Col span={6} offset={0}>
                         <div className="avatar">
                           <Row>
-                            {console.log(item)}
                             <Avatar
-                              //   {...stringAvatar(`${item.idUser.fullName}`)}
+                              {...stringAvatar(`${item.idUser.fullName}`)}
                               sx={{
                                 width: 30,
                                 height: 30,
@@ -353,7 +468,7 @@ const BoardDetail = () => {
                               }}
                             />
                             <div style={{ paddingLeft: "12px" }}>
-                              <p style={{ color: "black" }}>
+                              <p style={{ color: "white" }}>
                                 {item.idUser && item.idUser.fullName}
                               </p>
                               <Stack
@@ -361,7 +476,7 @@ const BoardDetail = () => {
                                 gap={1}
                                 alignItems={"center"}
                               >
-                                <p style={{ fontSize: "14px", color: "black" }}>
+                                <p style={{ fontSize: "14px", color: "white" }}>
                                   @{item.idUser && item.idUser.userName}
                                 </p>
                               </Stack>
@@ -369,24 +484,52 @@ const BoardDetail = () => {
                           </Row>
                         </div>
                       </Col>
-                      <Col span={4} offset={12} style={{ marginTop: "auto" }}>
-                        <Select
-                          defaultValue={item.role || "member"}
-                          style={{
-                            width: 100,
-                          }}
-                          onChange=""
-                          options={[
-                            {
-                              value: "admin",
-                              label: "admin",
-                            },
-                            {
-                              value: "member",
-                              label: "member",
-                            },
-                          ]}
-                        />
+                      <Col
+                        span={4}
+                        offset={12}
+                        style={{
+                          marginTop: "auto",
+                          display: "flex",
+                          gap: "10px",
+                          flexDirection: "row",
+                        }}
+                      >
+                        {isAdmin && currentUserId !== item.idUser._id ? (
+                          <Select
+                            defaultValue={item.role || "member"}
+                            style={{
+                              minWidth: "100px",
+                            }}
+                            onChange={(value) =>
+                              changeRoleUser(value, item.idUser._id)
+                            }
+                            options={[
+                              {
+                                value: "admin",
+                                label: "admin",
+                              },
+                              {
+                                value: "member",
+                                label: "member",
+                              },
+                            ]}
+                          />
+                        ) : (
+                          <Button style={{ minWidth: "100px" }}>
+                            {item.role || "member"}
+                          </Button>
+                        )}
+                        {isAdmin && currentUserId !== item.idUser._id ? (
+                          <Button
+                            type="primary"
+                            danger
+                            onClick={() => handlerDeleteUser(item.idUser._id)}
+                          >
+                            Delete
+                          </Button>
+                        ) : (
+                          ""
+                        )}
                       </Col>
                     </Row>
                   ))
@@ -411,7 +554,7 @@ const BoardDetail = () => {
                             key={item._id}
                             index={index}
                             data={{ column, setColumn }}
-                            board={{ boardId, boardTitle }}
+                            board={{ board, isAdmin, boardId, boardTitle }}
                           />
                         ))
                       : null}

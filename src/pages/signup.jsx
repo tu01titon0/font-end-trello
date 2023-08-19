@@ -177,7 +177,7 @@ const SignUp = () => {
             {errMessage}
           </Alert>
         )}
-        <p style={{ textAlign: "left", marginTop: "20px" }}>
+        <p style={{ textAlign: "left", marginTop: "20px", color: 'black' }}>
           Bạn đã có tài khoản? <Link to={"/login"}>Đăng nhập</Link> ngay!
         </p>
       </Box>

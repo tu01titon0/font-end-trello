@@ -238,8 +238,8 @@ const CreatBoard = ({ open, anchorEl, handleClose }) => {
                   defaultValue="Public"
                   style={{ width: 250 }}
                   options={[
-                    { value: "Public", label: "Public" },
-                    { value: "Private", label: "Private" },
+                    { value: "public", label: "Public" },
+                    { value: "private", label: "Private" },
                   ]}
                   name="visibility"
                   onChange={(value) =>

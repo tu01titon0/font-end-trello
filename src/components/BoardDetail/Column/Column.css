@@ -24,24 +24,53 @@
 }
 
 .column-display {
+  /* overflow-y: scroll; */
   display: flex;
   flex-direction: column;
   gap: 30px;
   min-width: 300px;
+  max-width: 300px;
   height: fit-content;
   padding: 10px 8px;
   background-color: #101204;
   border-radius: 10px;
-
   background: rgba(16, 18, 4, 0.651);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(16, 18, 4, 0.3);
+}
+
+.content-scroll-bar {
+  max-height: 68vh;
+  overflow-y: scroll;
+}
+
+.content-scroll-bar::-webkit-scrollbar {
+  width: 3px;
+  /* color: white; */
+}
+
+.content-scroll-bar::-webkit-scrollbar-thumb {
+  color: white !important;
+  width: 10px;
+  padding: 4px;
+}
+
+.content-scroll-bar::-webkit-scrollbar-track {
+  /* color: white; */
+}
+
+.content-scroll-bar::-webkit-scrollbar-thumb:hover {
+  margin-left: 4px;
+  background: #b9b9b9;
 }
 
 .column-title {
   padding: 8px;
   color: white;
   flex-grow: 1;
+  inline-size: 200px;
+  overflow-wrap: break-word;
+  font-size: 14px;
 }
 
 .add-task-btn {
@@ -60,11 +89,12 @@
 
 .task-title {
   color: white;
+  font-size: 14px;
 }
 
 .edit-col-title {
   all: unset;
-  padding: 4px;
+  padding: 8px;
   border-radius: 10px;
 }
 
@@ -98,4 +128,32 @@
 .column-settings-btn:active,
 .column-settings-btn:focus {
   background-color: rgba(255, 255, 255, 0.308);
+}
+
+.column-title-edit {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  all: unset;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  width: 100%;
+}
+
+.column-title-edit::placeholder {
+  color: white;
+}
+
+.edit-col-title-icon {
+  all: unset;
+  padding: 4px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.check-col-icon:hover {
+  background-color: rgba(0, 128, 0, 0.4);
+}
+
+.cancel-col-icon:hover {
+  background-color: rgba(220, 20, 60, 0.4);
 }
