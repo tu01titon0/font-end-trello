@@ -13,6 +13,7 @@ import useColumn from "../../../store/useColumn";
 import BoardService from "../../../services/board.service";
 import ClearIcon from "@mui/icons-material/Clear";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
+import { socket } from "../../../miscs/socket";
 
 const Column = ({ props, index, data, board }) => {
   const [popup, setPopup] = useState();
@@ -38,6 +39,7 @@ const Column = ({ props, index, data, board }) => {
           setBoard(res.data.board);
           setColumn(res.data.board.columns);
           setShowEdit({ status: false });
+          socket.emit('drag', { board: res.data.board })
         })
         .catch((err) => console.log(err));
       // Xử lý logic update tên cột ở đây
@@ -80,6 +82,7 @@ const Column = ({ props, index, data, board }) => {
       .then((res) => {
         setBoard(res.data.board);
         setColumn(res.data.board.columns);
+        socket.emit('drag', { board: res.data.board })
       })
       .catch((err) => console.log(err));
   };
