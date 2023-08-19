@@ -32,6 +32,15 @@ const ListBoards = () => {
         console.log(err);
       });
   }, [id]);
+
+  const updateStatus = (event) => {
+    const newStatus = event.target.value;
+    WorkspaceService.changeUserStatus(id,newStatus)
+      .then((res) => {
+        setWorkspace(res.data.workspace);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <Stack direction={"column"} className="ws-settings-main">
       <NavBar />
@@ -65,9 +74,10 @@ const ListBoards = () => {
                           borderRadius: "5px",
                         }}
                         id="roleSelect"
-                        value={"private"}
+                        defaultValue={"public"}
+                        value={workspace.status}
                         onChange={(event) => {
-                          // updateUserPermisstion(row.idUser._id, event);
+                            updateStatus(event)
                         }}
                       >
                         <option value="private">Private</option>
