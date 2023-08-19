@@ -28,6 +28,7 @@ import BoardService from "../../../services/board.service";
 import useBoard from "../../../store/useBoard";
 import useColumn from "../../../store/useColumn";
 import DeleteTaskModal from "./DeleteTaskModal/DeleteTaskModal";
+import { socket } from "../../../miscs/socket";
 
 const style = {
   position: "absolute",
@@ -115,6 +116,7 @@ export default function TaskDetail({ props }) {
               .then((res) => {
                 setBoard(res.data.board);
                 setColumn(res.data.board.columns);
+                socket.emit("drag", { board: res.data.board });
               })
               .catch((err) => console.log(err));
             setMessage({ success: "Uploaded succesfully!", progress: false });
@@ -141,6 +143,7 @@ export default function TaskDetail({ props }) {
         .then((res) => {
           setBoard(res.data.board);
           setColumn(res.data.board.columns);
+          socket.emit("drag", { board: res.data.board });
         })
         .catch((err) => console.log(err));
     }
@@ -163,6 +166,7 @@ export default function TaskDetail({ props }) {
         setBoard(res.data.board);
         setColumn(res.data.board.columns);
         setAttachmentsIcon(false);
+        socket.emit("drag", { board: res.data.board });
       })
       .catch((err) => console.log(err));
   };

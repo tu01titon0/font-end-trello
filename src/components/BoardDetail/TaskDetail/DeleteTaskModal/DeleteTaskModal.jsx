@@ -10,6 +10,7 @@ import "./DeleteTaskModal.css";
 import BoardService from "../../../../services/board.service";
 import useBoard from "../../../../store/useBoard";
 import useColumn from "../../../../store/useColumn";
+import { socket } from "../../../../miscs/socket";
 
 export default function DeleteTaskModal({ props, taskId, boardId }) {
   const { setBoard } = useBoard();
@@ -28,6 +29,7 @@ export default function DeleteTaskModal({ props, taskId, boardId }) {
       .then((res) => {
         setBoard(res.data.board);
         setColumn(res.data.board.columns);
+        socket.emit("drag", { board: res.data.board });
       })
       .catch((err) => console.log(err));
   };

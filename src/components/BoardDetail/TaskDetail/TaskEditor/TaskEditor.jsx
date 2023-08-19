@@ -5,6 +5,7 @@ import { Stack } from "@mui/material";
 import BoardService from "../../../../services/board.service";
 import useBoard from "../../../../store/useBoard";
 import useColumn from "../../../../store/useColumn";
+import { socket } from "../../../../miscs/socket";
 
 export default function TaskEditor({ setDisplayEditor, taskId, boardId }) {
   const [task, setTask] = React.useState();
@@ -40,6 +41,7 @@ export default function TaskEditor({ setDisplayEditor, taskId, boardId }) {
           setBoard(res.data.board);
           setColumn(res.data.board.columns);
           setDisplayEditor(false);
+          socket.emit("drag", { board: res.data.board });
         })
         .catch((err) => console.log(err));
     }
