@@ -25,15 +25,22 @@ export default function UserNotification() {
 
   useEffect(() => {
     socket.on("noti", (payload) => {
-      setUserNotifications(payload.notifications.reverse());
+      function timeSort(a, b) {
+        return b.time - a.time;
+      }
+      const arrayToSet = payload.notifications.sort(timeSort);
+      setUserNotifications(arrayToSet);
     });
   });
 
   useEffect(() => {
     UpdateService.getUserDetail(userId)
       .then((res) => {
-        // console.log(res.data.user.notification);
-        setUserNotifications(res.data.user.notification.reverse());
+        function timeSort(a, b) {
+          return b.time - a.time;
+        }
+        const arrayToSet = res.data.user.notification.sort(timeSort);
+        setUserNotifications(arrayToSet);
       })
       .catch((err) => console.log(err));
   }, []);
