@@ -7,6 +7,7 @@ import BoardService from "../../../services/board.service";
 import useBoard from "../../../store/useBoard";
 import useColumn from "../../../store/useColumn";
 import { socket } from "../../../miscs/socket";
+import UpdateService from "../../../services/user.sevice";
 
 const inputStyle = (state) => ({
   display: state ? "block" : "none",
@@ -40,10 +41,20 @@ const AddTaskInput = ({ props }) => {
       const columnArray = data.findIndex(
         (item) => item._id === props.props._id
       );
+
+      const user = JSON.parse(localStorage.getItem("user"));
+      const message = `User ${user.userName} just added task ${input} to column ${data[columnArray].title}`;
+
       const taskContent = {
         taskTitle: input,
         columnId: data[columnArray]._id,
         boardId: props.board.boardId,
+        notification: {
+          message: message,
+          time: Date.now().toString(),
+          board: props.board.boardId,
+          status: false,
+        },
       };
 
       BoardService.addTaskToCol(taskContent)
@@ -52,6 +63,14 @@ const AddTaskInput = ({ props }) => {
           setColumn(res.data.board.columns);
           setBoard(res.data.board);
           socket.emit("drag", { board: res.data.board });
+
+          UpdateService.getUserDetail(user._id)
+            .then((res) => {
+              socket.emit("noti", {
+                notifications: res.data.user.notification,
+              });
+            })
+            .catch((err) => console.log(err));
         })
         .catch((err) => {
           console.log(err);

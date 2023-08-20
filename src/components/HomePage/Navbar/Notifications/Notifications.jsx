@@ -1,14 +1,18 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import "./Notifications.css";
-
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import { socket } from "../../../../miscs/socket";
+import UpdateService from "../../../../services/user.sevice";
+import { Link } from "react-router-dom";
+import { Stack } from "@mui/material";
 
 export default function UserNotification() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [userNotifications, setUserNotifications] = useState([]);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -17,11 +21,24 @@ export default function UserNotification() {
     setAnchorEl(null);
   };
 
-  React.useEffect(() => {
-    socket.on("chat", (payload) => {
-      console.log(payload);
+  const userId = JSON.parse(localStorage.getItem("user"))._id;
+
+  useEffect(() => {
+    socket.on("noti", (payload) => {
+      setUserNotifications(payload.notifications.reverse());
     });
   });
+
+  useEffect(() => {
+    UpdateService.getUserDetail(userId)
+      .then((res) => {
+        // console.log(res.data.user.notification);
+        setUserNotifications(res.data.user.notification.reverse());
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  // console.log(userNotifications);
 
   return (
     <div>
@@ -33,7 +50,7 @@ export default function UserNotification() {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <div className="noti-count-display">11</div>
+        <div className="noti-count-display">{userNotifications.length}</div>
         <NotificationsIcon style={{ color: "#c7cfd8", fontSize: "18px" }} />
       </Button>
       <Menu
@@ -52,15 +69,21 @@ export default function UserNotification() {
           horizontal: "right",
         }}
       >
-        <MenuItem className="open-user-notify" onClick={handleClose}>
-          Profile
-        </MenuItem>
-        <MenuItem className="open-user-notify" onClick={handleClose}>
-          My account
-        </MenuItem>
-        <MenuItem className="open-user-notify" onClick={handleClose}>
-          Logout
-        </MenuItem>
+        <div className="noti-container">
+          {userNotifications.map((noti, index) => (
+            <Stack
+              className="open-user-notify"
+              key={index}
+              direction={"row"}
+              gap={1}
+            >
+              <NotificationsNoneOutlinedIcon fontSize="8px" />
+              <Link to={`/b/${noti.board}`}>
+                <p className="noti-navigate-link">{noti.message}</p>
+              </Link>
+            </Stack>
+          ))}
+        </div>
       </Menu>
     </div>
   );

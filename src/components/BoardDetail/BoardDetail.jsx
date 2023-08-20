@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Column from "./Column/Column";
 import data2 from "./MockData";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import "./BoardDetail.css";
 import AddColumnBtn from "./AddColumnInput/AddColumnInput";
 import NavBar from "../HomePage/Navbar/NavBar";
@@ -22,6 +22,7 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import { useNavigate } from "react-router-dom";
 import DeleteBoardModal from "./DeleteBoardModal/DeleteBoardModal";
 import { socket } from "../../miscs/socket";
+import UpdateService from "../../services/user.sevice";
 
 const BoardDetail = () => {
   const navigate = useNavigate();
@@ -98,17 +99,34 @@ const BoardDetail = () => {
     );
   }
   const handleTitleChange = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const message = `User ${user.userName} has changed column ${board.title} name to ${title}`;
+    if (!title || title === board.title) return;
     const data = {
       boardId: boardId,
       title: title,
+      notification: {
+        message: message,
+        time: Date.now().toString(),
+        board: boardId,
+        status: false,
+      },
     };
+
     BoardService.updateBoardTitle(data)
       .then((res) => {
         setBoard(res.data.board);
         setColumn(res.data.board.columns);
         socket.emit("drag", { board: res.data.board });
+
+        UpdateService.getUserDetail(user._id)
+          .then((res) => {
+            socket.emit("noti", { notifications: res.data.user.notification });
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
+
     setDisplayIcon(false);
   };
 
@@ -131,19 +149,47 @@ const BoardDetail = () => {
     setLoading(false);
     if (typeOfItem === "column") {
       const boardColData = [...board.columns];
+
+      // Create notification
+
+      const user = JSON.parse(localStorage.getItem("user"));
+      const message = `User ${user.userName} just moved column ${
+        boardColData[startingIndex].title
+      } to position ${endingIndex + 1}`;
+
+      // Ended creating notification
+
       const [removedCol] = boardColData.splice(startingIndex, 1);
       boardColData.splice(endingIndex, 0, removedCol);
       setColumn(boardColData);
       const dataToBe = [...boardColData.map((item) => item._id)];
+
+      // Sending noti to BE
+
       const dataToSend = {
         board: board._id,
         array: dataToBe,
+        notification: {
+          message: message,
+          time: Date.now().toString(),
+          board: boardId,
+          status: false,
+        },
       };
+
       BoardService.updateDragDrop(dataToSend)
         .then((res) => {
           setBoard(res.data.board);
           setColumn(res.data.board.columns);
           socket.emit("drag", { board: res.data.board });
+
+          UpdateService.getUserDetail(user._id)
+            .then((res) => {
+              socket.emit("noti", {
+                notifications: res.data.user.notification,
+              });
+            })
+            .catch((err) => console.log(err));
         })
         .catch((err) => {
           console.log(err);
@@ -158,6 +204,12 @@ const BoardDetail = () => {
       const endedColIndex = boardColData.findIndex(
         (item) => item._id === endingCol
       );
+
+      // Create notification
+      const user = JSON.parse(localStorage.getItem("user"));
+      const message = `User ${user.userName} just moved task ${boardColData[startedColIndex].tasks[startingIndex].content} from ${boardColData[startedColIndex].title} to ${boardColData[endedColIndex].title}`;
+
+      // Ended creating notification
 
       const [removedTask] = boardColData[startedColIndex].tasks.splice(
         startingIndex,
@@ -177,6 +229,12 @@ const BoardDetail = () => {
         startedIndex: startingIndex,
         endedIndex: endingIndex,
         boardId: boardId,
+        notification: {
+          message: message,
+          time: Date.now().toString(),
+          board: boardId,
+          status: false,
+        },
       };
       setColumn(boardColData);
       BoardService.updateDragDropTask(dataToBE)
@@ -184,6 +242,14 @@ const BoardDetail = () => {
           setBoard(res.data.board);
           setColumn(res.data.board.columns);
           socket.emit("drag", { board: res.data.board });
+
+          UpdateService.getUserDetail(user._id)
+            .then((res) => {
+              socket.emit("noti", {
+                notifications: res.data.user.notification,
+              });
+            })
+            .catch((err) => console.log(err));
         })
         .catch((err) => {
           console.log(err);
