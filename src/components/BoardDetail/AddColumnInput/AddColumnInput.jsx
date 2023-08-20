@@ -15,6 +15,7 @@ import {
 import useColumn from "../../../store/useColumn";
 import useBoard from "../../../store/useBoard";
 import { socket } from "../../../miscs/socket";
+import UpdateService from "../../../services/user.sevice";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -56,16 +57,25 @@ export default function AddColumnBtn({ column }) {
   const [expanded, setExpanded] = React.useState("panel1");
   const [columnName, setColumnName] = React.useState();
   const { setColumn } = useColumn();
-  const { setBoard } = useBoard();
+  const { board, setBoard } = useBoard();
 
   if (column & column.column) {
     const columnToAdd = [...column.column];
   }
 
   const addColumnToBoard = () => {
+    if (!columnName) return;
+    const user = JSON.parse(localStorage.getItem("user"));
+    const message = `User ${user.userName} just added column ${columnName} to board ${board.title}`;
     const dataToBe = {
       board: column.boardId,
       column: columnName,
+      notification: {
+        message: message,
+        time: Date.now().toString(),
+        board: board._id,
+        status: false,
+      },
     };
 
     BoardService.addColumnToBoard(dataToBe)
@@ -73,6 +83,14 @@ export default function AddColumnBtn({ column }) {
         setBoard(res.data.data);
         setColumn(res.data.data.columns);
         socket.emit("drag", { board: res.data.data });
+
+        UpdateService.getUserDetail(user._id)
+          .then((res) => {
+            socket.emit("noti", {
+              notifications: res.data.user.notification,
+            });
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => {
         console.log(err);
