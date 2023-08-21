@@ -18,11 +18,18 @@ const Tasks = ({ props }) => {
   const id = useId();
   const boardUrl = `/b/${props.board.boardId}`;
 
+  // User check
+  const localUser = JSON.parse(localStorage.getItem("user"))._id;
+  const isUser = props.board.board.users.find(
+    (item) => item.idUser._id === localUser
+  );
+
   return (
     <>
       <Draggable
         draggableId={props && props.item ? props.item._id : id}
         index={props.index}
+        isDragDisabled={isUser ? null : true}
       >
         {(provided, snapshot) => (
           <section
@@ -33,7 +40,7 @@ const Tasks = ({ props }) => {
             <div isDragging={snapshot.isDragging} style={{ flexGrow: 1 }}>
               <div
                 className="task-title"
-                onClick={() => setOpenModal(true)}
+                onClick={() => isUser && setOpenModal(true)}
                 isDragging={snapshot.isDragging}
                 {...provided.dragHandleProps}
                 style={dragStyle(

@@ -23,6 +23,12 @@ const Column = ({ props, index, data, board }) => {
   const [userRole, setUserRole] = useState();
   const [showEdit, setShowEdit] = useState({ status: false });
 
+  // User check
+  const localUser = JSON.parse(localStorage.getItem("user"))._id;
+  const isUser = board.board.users.find(
+    (item) => item.idUser._id === localUser
+  );
+
   const handleColTitleChange = (val) => {
     setShowEdit({ message: val, status: true });
   };
@@ -39,7 +45,7 @@ const Column = ({ props, index, data, board }) => {
           setBoard(res.data.board);
           setColumn(res.data.board.columns);
           setShowEdit({ status: false });
-          socket.emit('drag', { board: res.data.board })
+          socket.emit("drag", { board: res.data.board });
         })
         .catch((err) => console.log(err));
       // Xử lý logic update tên cột ở đây
@@ -55,6 +61,7 @@ const Column = ({ props, index, data, board }) => {
         const currentUser = res.data.board.users.find(
           (item) => item.idUser._id === localUser._id
         );
+        if (!currentUser) return;
         setUserRole(currentUser.role);
       })
       .catch((err) => console.log(err));
@@ -82,7 +89,7 @@ const Column = ({ props, index, data, board }) => {
       .then((res) => {
         setBoard(res.data.board);
         setColumn(res.data.board.columns);
-        socket.emit('drag', { board: res.data.board })
+        socket.emit("drag", { board: res.data.board });
       })
       .catch((err) => console.log(err));
   };
@@ -93,6 +100,7 @@ const Column = ({ props, index, data, board }) => {
       draggableId={props._id}
       index={index}
       key={props._id}
+      isDragDisabled={isUser ? null : true}
     >
       {(provided, snapshot) => (
         <div

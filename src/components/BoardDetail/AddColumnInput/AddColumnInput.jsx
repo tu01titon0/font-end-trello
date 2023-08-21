@@ -63,7 +63,12 @@ export default function AddColumnBtn({ column }) {
     const columnToAdd = [...column.column];
   }
 
+  // User check
+
   const addColumnToBoard = () => {
+    const localUser = JSON.parse(localStorage.getItem("user"))._id;
+    const isUser = board.users.find((item) => item.idUser._id === localUser);
+    if (!isUser) return;
     if (!columnName) return;
     const user = JSON.parse(localStorage.getItem("user"));
     const message = `User ${user.userName} just added column ${columnName} to board ${board.title}`;

@@ -36,6 +36,9 @@ const AddTaskInput = ({ props }) => {
   };
 
   const addNewTaskToColumn = () => {
+    const localUser = JSON.parse(localStorage.getItem("user"))._id;
+    const isUser = board.users.find((item) => item.idUser._id === localUser);
+    if (!isUser) return;
     if (input) {
       const data = [...props.data.column];
       const columnArray = data.findIndex(
