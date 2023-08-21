@@ -303,10 +303,19 @@ const BoardDetail = () => {
     setOpen(true);
   };
   function handlerAddUser() {
+    const localUser = JSON.parse(localStorage.getItem("user")).userName;
+    const message = `User ${localUser} has added you to the board ${board.title}`;
+
     let dataAdd = {
       userId: userId,
       boardId: boardId,
       roll: roll,
+      notification: {
+        message: message,
+        time: Date.now().toString(),
+        board: boardId,
+        status: false,
+      },
     };
     BoardService.addUserToBoard(dataAdd)
       .then((res) => {
@@ -314,6 +323,14 @@ const BoardDetail = () => {
           setBoard(res.data.board);
           setMessage(res.data.message);
           handleClick();
+
+          UpdateService.getUserDetail(userId)
+            .then((res) => {
+              socket.emit("noti", {
+                notifications: res.data.user.notification,
+              });
+            })
+            .catch((err) => console.log(err));
         } else if (res.data.error) {
           setErrMessage(res.data.error);
           handleErrClick();
