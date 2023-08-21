@@ -9,6 +9,8 @@ import { socket } from "../../../../miscs/socket";
 import UpdateService from "../../../../services/user.sevice";
 import { Link } from "react-router-dom";
 import { Stack } from "@mui/material";
+import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
+import BoardService from "../../../../services/board.service";
 
 export default function UserNotification() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -42,10 +44,26 @@ export default function UserNotification() {
         const arrayToSet = res.data.user.notification.sort(timeSort);
         setUserNotifications(arrayToSet);
       })
+      .then(() => {
+        const falseCount = userNotifications.filter(
+          (item) => item.status === "false"
+        ).length;
+      })
       .catch((err) => console.log(err));
   }, []);
 
-  // console.log(userNotifications);
+  const handleUserNotiSeen = (noti) => {
+    const data = {
+      message: noti.message,
+      time: noti.time,
+      userId: userId,
+    };
+    BoardService.updateNotificationStatus(data)
+      .then((res) => {
+        socket.emit("noti", { notifications: res.data.data.notification });
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div>
@@ -57,7 +75,9 @@ export default function UserNotification() {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <div className="noti-count-display">{userNotifications.length}</div>
+        <div className="noti-count-display">
+          {userNotifications.filter((item) => item.status === "false").length}
+        </div>
         <NotificationsIcon style={{ color: "#c7cfd8", fontSize: "18px" }} />
       </Button>
       <Menu
@@ -77,19 +97,35 @@ export default function UserNotification() {
         }}
       >
         <div className="noti-container">
-          {userNotifications.map((noti, index) => (
+          {userNotifications.length >= 1 ? userNotifications.map((noti, index) => (
             <Stack
               className="open-user-notify"
               key={index}
               direction={"row"}
               gap={1}
+              onClick={() => handleUserNotiSeen(noti)}
             >
-              <NotificationsNoneOutlinedIcon fontSize="8px" />
+              {noti.status === "false" ? (
+                <NotificationsActiveOutlinedIcon
+                  style={{ color: "#fd879d" }}
+                  fontSize="8px"
+                />
+              ) : (
+                <NotificationsNoneOutlinedIcon fontSize="8px" />
+              )}
               <Link to={`/b/${noti.board}`}>
-                <p className="noti-navigate-link">{noti.message}</p>
+                <p
+                  className="noti-navigate-link"
+                  style={{
+                    fontWeight: noti.status === "false" ? "bold" : null,
+                    color: noti.status === "false" ? "#fd879d" : "white",
+                  }}
+                >
+                  {noti.message}
+                </p>
               </Link>
             </Stack>
-          ))}
+          )) : <p>You haven't got any notification yet!</p> }
         </div>
       </Menu>
     </div>

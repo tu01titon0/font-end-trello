@@ -46,6 +46,7 @@ const BoardDetail = () => {
 
   const [open, setOpen] = React.useState(false);
   const [openErr, setOpenErr] = React.useState(false);
+  const [userCheck, setUserCheck] = useState();
 
   useEffect(() => {
     socket.on("drag", (payload) => {
@@ -67,6 +68,7 @@ const BoardDetail = () => {
           isIdUser = res.data.board.users.some(
             (user) => user.idUser._id.toString() === currentUserId
           );
+          setUserCheck(isIdUser);
         }
         const isPrivateBoard = res.data.board.visibility === "private";
         if (!isIdUser && isPrivateBoard) {
@@ -98,6 +100,7 @@ const BoardDetail = () => {
         user.role === "admin"
     );
   }
+
   const handleTitleChange = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     const message = `User ${user.userName} has changed column ${board.title} name to ${title}`;
@@ -467,6 +470,7 @@ const BoardDetail = () => {
               <Button
                 onClick={showModal}
                 style={{
+                  display: userCheck ? null : "none",
                   color: "white",
                   marginLeft: "10px",
                 }}

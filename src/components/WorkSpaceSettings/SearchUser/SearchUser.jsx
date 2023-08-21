@@ -88,7 +88,7 @@ const SearchUser = (props) => {
             setInput(val);
             fetchUserData(val);
         } else {
-            setInput(undefined);
+            setInput(null);
         }
     };
 
