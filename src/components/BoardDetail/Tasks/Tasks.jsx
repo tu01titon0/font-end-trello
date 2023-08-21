@@ -28,6 +28,9 @@ const Tasks = ({ props }) => {
     setUserCheck(isUser);
   }, []);
 
+  // {console.log(props.item.files)}
+  const image = props.item.files.find((item) => item.type === "image/jpeg" || item.type === "image/png");
+
   return (
     <>
       <Draggable
@@ -52,6 +55,11 @@ const Tasks = ({ props }) => {
                   provided.draggableProps.style
                 )}
               >
+                <img
+                  src={image && image.url}
+                  alt=""
+                  style={{ maxWidth: "100%", borderRadius: '4px 4px 0 0' }}
+                />
                 {props.item.content}
                 <Stack
                   direction={"row"}

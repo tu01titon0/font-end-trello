@@ -97,36 +97,44 @@ export default function UserNotification() {
         }}
       >
         <div className="noti-container">
-          {userNotifications.length >= 1 ? userNotifications.map((noti, index) => (
-            <Stack
-              className="open-user-notify"
-              key={index}
-              direction={"row"}
-              gap={1}
-              onClick={() => handleUserNotiSeen(noti)}
-            >
-              {noti.status === "false" ? (
-                <NotificationsActiveOutlinedIcon
-                  style={{ color: "white" }}
-                  fontSize="8px"
-                />
-              ) : (
-                <NotificationsNoneOutlinedIcon fontSize="8px" />
-              )}
-              <Link to={`/b/${noti.board}`}>
-                <p
-                  className="noti-navigate-link"
-                  style={{
-                    fontWeight: noti.status === "false" ? "bold" : null,
-                    color: noti.status === "false" ? "white" : "white",
-                    textDecoration: noti.status === "false" ? "underline" : "none",
-                  }}
-                >
-                  {noti.message}
-                </p>
-              </Link>
-            </Stack>
-          )) : <p>You haven't got any notification yet!</p> }
+          {userNotifications.length >= 1 ? (
+            userNotifications.map((noti, index) => (
+              <Stack
+                className="open-user-notify"
+                key={index}
+                direction={"row"}
+                gap={1}
+                onClick={() => handleUserNotiSeen(noti)}
+              >
+                {noti.status === "false" ? (
+                  <NotificationsActiveOutlinedIcon
+                    style={{ color: "#a78f37" }}
+                    fontSize="8px"
+                  />
+                ) : (
+                  <NotificationsNoneOutlinedIcon
+                    style={{ color: "white" }}
+                    fontSize="8px"
+                  />
+                )}
+                <Link to={`/b/${noti.board}`}>
+                  <p
+                    className="noti-navigate-link"
+                    style={{
+                      fontWeight: noti.status === "false" ? "bold" : null,
+                      color: noti.status === "false" ? "#a78f37" : "white",
+                      textDecoration:
+                        noti.status === "false" ? "underline" : "none",
+                    }}
+                  >
+                    {noti.message}
+                  </p>
+                </Link>
+              </Stack>
+            ))
+          ) : (
+            <p>You haven't got any notification yet!</p>
+          )}
         </div>
       </Menu>
     </div>
