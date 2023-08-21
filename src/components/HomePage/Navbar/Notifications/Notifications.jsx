@@ -107,7 +107,7 @@ export default function UserNotification() {
             >
               {noti.status === "false" ? (
                 <NotificationsActiveOutlinedIcon
-                  style={{ color: "#fd879d" }}
+                  style={{ color: "white" }}
                   fontSize="8px"
                 />
               ) : (
@@ -118,7 +118,8 @@ export default function UserNotification() {
                   className="noti-navigate-link"
                   style={{
                     fontWeight: noti.status === "false" ? "bold" : null,
-                    color: noti.status === "false" ? "#fd879d" : "white",
+                    color: noti.status === "false" ? "white" : "white",
+                    textDecoration: noti.status === "false" ? "underline" : "none",
                   }}
                 >
                   {noti.message}
