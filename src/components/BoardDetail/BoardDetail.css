@@ -56,11 +56,12 @@
 .list-user {
   margin-top: 16px;
 }
-.avatar {
-  /*display: flex;*/
-  /*align-items: center;*/
-  /*justify-content: center;*/
-}
+
+/* .avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
 
 .board-title-input {
   font-size: 40px;
