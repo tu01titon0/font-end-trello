@@ -331,7 +331,7 @@ export default function TaskDetail({ props }) {
                               Delete Attachment
                             </button>
                             <CheckOutlinedIcon
-                              className="dlt-attch-btn"
+                              className="dlt-attch-btn attch-btn-dlt"
                               style={{
                                 display:
                                   attachmentsIcon.url === item.url
@@ -342,7 +342,7 @@ export default function TaskDetail({ props }) {
                               onClick={() => deleteAttachment(item.url)}
                             />
                             <ClearOutlinedIcon
-                              className="dlt-attch-btn"
+                              className="dlt-attch-btn attch-btn-cancel"
                               style={{
                                 display:
                                   attachmentsIcon.url === item.url
