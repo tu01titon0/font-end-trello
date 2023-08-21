@@ -100,7 +100,7 @@ const Column = ({ props, index, data, board }) => {
       draggableId={props._id}
       index={index}
       key={props._id}
-      isDragDisabled={isUser ? null : true}
+      isDragDisabled={userRole ? null : true}
     >
       {(provided, snapshot) => (
         <div

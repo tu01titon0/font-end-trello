@@ -55,9 +55,9 @@
   padding: 4px;
 }
 
-.content-scroll-bar::-webkit-scrollbar-track {
-  /* color: white; */
-}
+/* .content-scroll-bar::-webkit-scrollbar-track {
+  color: white;
+} */
 
 .content-scroll-bar::-webkit-scrollbar-thumb:hover {
   margin-left: 4px;
