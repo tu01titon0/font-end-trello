@@ -4,10 +4,10 @@
 
 .ant-modal-content {
   padding: 20px 10px;
-  background: rgba(26, 26, 26, 0.274) !important;
+  background: rgba(26, 26, 26, 0.692) !important;
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(6.9px);
+  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(6.9px);
   border: 1px solid rgba(26, 26, 26, 0.2);
 }

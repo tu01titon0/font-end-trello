@@ -261,4 +261,18 @@ export default class BoardService {
       }
     );
   }
+
+  static async taskComment(data) {
+    const authKey = cookieParse()._auth;
+    return await axios.post(
+      `${import.meta.env.VITE_ROOT_DOMAIN}/t/taskComment`,
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: authKey,
+        },
+      }
+    );
+  }
 }

@@ -28,6 +28,7 @@ import BoardService from "../../../services/board.service";
 import useBoard from "../../../store/useBoard";
 import useColumn from "../../../store/useColumn";
 import DeleteTaskModal from "./DeleteTaskModal/DeleteTaskModal";
+import SendIcon from "@mui/icons-material/Send";
 import { socket } from "../../../miscs/socket";
 
 const style = {
@@ -37,7 +38,7 @@ const style = {
   transform: "translate(-50%, 0)",
   width: "40%",
   minWidth: "700px",
-  bgcolor: "rgb(36 40 47 / 50%)",
+  bgcolor: "rgb(36 40 47 / 70%)",
   boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",
   backdropFilter: "blur(6px)",
   border: "1px solid rgba(9, 30, 66, 0.2)",
@@ -84,6 +85,7 @@ export default function TaskDetail({ props }) {
   const [attachmentsIcon, setAttachmentsIcon] = React.useState(false);
   const [message, setMessage] = React.useState({ progress: false });
   const [openModal, setOpenModal] = React.useState(false);
+  const [comment, setComment] = React.useState("");
   const { setBoard } = useBoard();
   const { setColumn } = useColumn();
 
@@ -95,6 +97,19 @@ export default function TaskDetail({ props }) {
     const file = e.target.files[0];
     setFileUpload(file);
     uploadFile(file);
+  };
+
+  const handleComment = (val) => {
+    const localUser = JSON.parse(localStorage.getItem("user"));
+    const data = {
+      user: localUser,
+      task: val,
+      boardId: props.props.board.boardId,
+      comment: comment,
+    };
+    BoardService.taskComment(data).then((res) => {
+      console.log(res);
+    }).catch(err => console.log(err));
   };
 
   const uploadFile = (file) => {
@@ -385,7 +400,9 @@ export default function TaskDetail({ props }) {
                   className="task-description-box comment-input"
                   type="text"
                   placeholder="Write a comment..."
+                  onChange={(e) => setComment(e.target.value)}
                 />
+                <SendIcon onClick={() => handleComment(props.props.item)} />
               </Stack>
             </Stack>
             <Stack dirrection="column" gap={2}>

@@ -26,7 +26,7 @@ const Tasks = ({ props }) => {
       (item) => item.idUser._id === localUser
     );
     setUserCheck(isUser);
-  }, []);
+  });
 
   // {console.log(props.item.files)}
   const image = props.item.files.find((item) => item.type === "image/jpeg" || item.type === "image/png");
