@@ -5,6 +5,7 @@ import TaskDetail from "../TaskDetail/TaskDetail";
 import StackedBarChartOutlinedIcon from "@mui/icons-material/StackedBarChartOutlined";
 import { Stack } from "@mui/material";
 import AttachmentIcon from "@mui/icons-material/Attachment";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
 const dragStyle = (isDragging, draggableStyle) => ({
   transform: isDragging ? "rotate(3deg)" : null,
@@ -26,10 +27,12 @@ const Tasks = ({ props }) => {
       (item) => item.idUser._id === localUser
     );
     setUserCheck(isUser);
-  }, []);
+  });
 
   // {console.log(props.item.files)}
-  const image = props.item.files.find((item) => item.type === "image/jpeg" || item.type === "image/png");
+  const image = props.item.files.find(
+    (item) => item.type === "image/jpeg" || item.type === "image/png"
+  );
 
   return (
     <>
@@ -58,7 +61,7 @@ const Tasks = ({ props }) => {
                 <img
                   src={image && image.url}
                   alt=""
-                  style={{ maxWidth: "100%", borderRadius: '4px 4px 0 0' }}
+                  style={{ maxWidth: "100%", borderRadius: "4px 4px 0 0" }}
                 />
                 {props.item.content}
                 <Stack
@@ -83,6 +86,19 @@ const Tasks = ({ props }) => {
                     >
                       <AttachmentIcon sx={{ fontSize: "18px" }} />
                       <p>{props.item.files.length}</p>
+                    </div>
+                  ) : null}
+                  {props.item.comments && props.item.comments.length > 0 ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: "4px",
+                      }}
+                    >
+                      <ChatBubbleOutlineIcon sx={{ fontSize: "18px" }} />
+                      <p>{props.item.comments.length}</p>
                     </div>
                   ) : null}
                 </Stack>
