@@ -33,7 +33,7 @@ const YourWorkSpace = () => {
       </Stack>
       {workspaces &&
         workspaces.map((workspace, index) => (
-          <>
+          <div key={index}>
             <Row
               style={{
                 paddingBottom: "15px",
@@ -121,7 +121,7 @@ const YourWorkSpace = () => {
                 </p>
               </button>
             </Stack>
-          </>
+          </div>
         ))}
       <CreatBoard open={open} anchorEl={anchorEl} handleClose={handleClose} />
     </div>
