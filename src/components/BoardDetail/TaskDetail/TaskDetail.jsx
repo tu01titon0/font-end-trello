@@ -107,9 +107,12 @@ export default function TaskDetail({ props }) {
       boardId: props.props.board.boardId,
       comment: comment,
     };
-    BoardService.taskComment(data).then((res) => {
-      console.log(res);
-    }).catch(err => console.log(err));
+    BoardService.taskComment(data)
+      .then((res) => {
+        setBoard(res.data.board);
+        setColumn(res.data.board.columns);
+      })
+      .catch((err) => console.log(err));
   };
 
   const uploadFile = (file) => {
@@ -403,6 +406,26 @@ export default function TaskDetail({ props }) {
                   onChange={(e) => setComment(e.target.value)}
                 />
                 <SendIcon onClick={() => handleComment(props.props.item)} />
+              </Stack>
+              <Stack>
+                {props.props.item && props.props.item.comments
+                  ? props.props.item.comments.map((item, index) => (
+                      <Stack
+                        direction={"row"}
+                        gap={2}
+                        alignItems={"start"}
+                        mb={2}
+                      >
+                        <Avatar {...stringAvatar(item.postedBy)} />
+                        <Stack direction={"column"} key={index}>
+                          <p style={{ fontWeight: "bold" }}>
+                            {item.postedBy.userName}
+                          </p>
+                          <p>{item.comment}</p>
+                        </Stack>
+                      </Stack>
+                    ))
+                  : null}
               </Stack>
             </Stack>
             <Stack dirrection="column" gap={2}>
