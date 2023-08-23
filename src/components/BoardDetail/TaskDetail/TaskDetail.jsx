@@ -30,6 +30,7 @@ import useColumn from "../../../store/useColumn";
 import DeleteTaskModal from "./DeleteTaskModal/DeleteTaskModal";
 import SendIcon from "@mui/icons-material/Send";
 import { socket } from "../../../miscs/socket";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const style = {
   position: "absolute",
@@ -413,15 +414,19 @@ export default function TaskDetail({ props }) {
                       <Stack
                         direction={"row"}
                         gap={2}
+                        key={index}
                         alignItems={"start"}
                         mb={2}
                       >
-                        <Avatar {...stringAvatar(item.postedBy)} />
+                        <AccountCircleIcon style={{ fontSize: "40px" }} />
+                        {/* <Avatar {...stringAvatar(item.postedBy)} /> */}
                         <Stack direction={"column"} key={index}>
                           <p style={{ fontWeight: "bold" }}>
                             {item.postedBy.userName}
                           </p>
-                          <p>{item.comment}</p>
+                          <p>
+                            <em>{item.comment}</em>
+                          </p>
                         </Stack>
                       </Stack>
                     ))

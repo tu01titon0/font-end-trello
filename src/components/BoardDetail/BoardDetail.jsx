@@ -473,6 +473,7 @@ const BoardDetail = () => {
                   display: userCheck ? null : "none",
                   color: "white",
                   marginLeft: "10px",
+                  backgroundColor: 'green'
                 }}
                 type="primary"
               >
